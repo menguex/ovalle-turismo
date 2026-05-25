@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ovalle Turismo — Rediseño Premium
 
-## Getting Started
+Sitio turístico moderno para **Ovalle Turismo**, construido con Next.js 14, Tailwind CSS y Framer Motion. Utiliza textos e imágenes del sitio oficial [ovalleturismo.cl](https://www.ovalleturismo.cl).
 
-First, run the development server:
+## Inicio rápido
 
 ```bash
+cd /Users/osvaldovega/Documents/ovalle-turismo
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Páginas incluidas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Ruta | Contenido |
+|------|-----------|
+| `/` | Homepage cinematográfica |
+| `/descubre` | Hub de experiencias |
+| `/descubre/naturaleza` | Fray Jorge, Encanto, Peñones, Limarí |
+| `/descubre/astroturismo` | Cielos del norte + alojamientos astro |
+| `/descubre/gastronomia` | Restaurantes locales |
+| `/descubre/enoturismo` | Viñas y pisquerías |
+| `/descubre/cultura` | Barraza, museo, feria |
+| `/descubre/wellness` | Ruta enoturística y bienestar |
+| `/valles-del-limari` | Comunas y productores |
+| `/eventos` | Agenda estival y vendimia |
+| `/servicios` | Alojamientos, gastronomía, tours |
+| `/noticias` | Blog con artículos reales |
+| `/datos-utiles` | Clima, terminal, oficina turismo |
+| `/nosotros` | Sobre Ovalle Turismo |
+| `/contacto` | Formulario + datos |
+| `/tour-360` | Tours virtuales |
+| `/planifica` | Trip planner interactivo |
 
-## Learn More
+## Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Lucide Icons
+- Imágenes remotas desde ovalleturismo.cl
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Producción
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+## Próximos pasos sugeridos
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Conectar dominio y reemplazar WordPress
+- Mapbox GL para mapa interactivo real
+- CMS (Sanity) para editar contenido
+- Integrar tours 360° embebidos
+- Formularios conectados a CRM/email
