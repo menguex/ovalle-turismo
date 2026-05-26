@@ -204,6 +204,24 @@ export const MAP_POINTS = [
     lng: -71.205,
   },
   {
+    id: "vina-tabali",
+    name: "Viña Tabali",
+    category: "Enoturismo" as MapCategory,
+    description: "Viña de referencia del Valle del Limarí con vinos de terroir y visitas enológicas.",
+    href: "/descubre/enoturismo",
+    lat: -30.52,
+    lng: -71.28,
+  },
+  {
+    id: "vina-ochotierras",
+    name: "Viña Ochotierras",
+    category: "Enoturismo" as MapCategory,
+    description: "Viña boutique con catas y visitas en viñedos semiáridos del norte chico.",
+    href: "/descubre/enoturismo",
+    lat: -30.535,
+    lng: -71.265,
+  },
+  {
     id: "museo",
     name: "Museo del Limarí",
     category: "Cultura" as MapCategory,
@@ -297,9 +315,125 @@ export const NEWS = [
     category: "Turismo",
     readTime: 3,
   },
+  {
+    slug: "calendario-vendimias-2026",
+    title:
+      "Chile lanza Calendario de Vendimias y presenta innovador Mapa Interactivo que moderniza experiencia enoturística",
+    excerpt:
+      "Chile impulsa el enoturismo con el Calendario de Vendimias 2026 y un mapa interactivo que moderniza la experiencia en los valles vitivinícolas.",
+    date: "2025-12-18",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/12/noticia.png",
+    body: "Chile dio un nuevo impulso al enoturismo con el lanzamiento del Calendario de Vendimias 2026, una de las agendas culturales y turísticas más esperadas del año. La actividad, realizada en la Casa del Turismo, reunió a autoridades, representantes de los valles vitivinícolas y actores del sector para presentar un mapa interactivo que moderniza la forma de descubrir fiestas, rutas y experiencias enoturísticas en el país.",
+    category: "Enoturismo",
+    readTime: 4,
+  },
+  {
+    slug: "diplomado-gestion-turistica-amtc",
+    title: "AMTC y UTEM lanzan diplomado para fortalecer la gestión turística municipal en Chile",
+    excerpt:
+      "La Asociación de Municipalidades Turísticas de Chile y la UTEM abren postulaciones a un diplomado para fortalecer equipos municipales de turismo.",
+    date: "2025-12-17",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/12/noticia2.png",
+    body: "Con el objetivo de fortalecer las capacidades técnicas, estratégicas y colaborativas de los equipos municipales de turismo a lo largo del país, la Asociación de Municipalidades Turísticas de Chile (AMTC), en conjunto con la Universidad Tecnológica Metropolitana (UTEM), lanzó oficialmente el Diplomado en Gestión Turística Municipal.",
+    category: "Turismo",
+    readTime: 3,
+  },
+  {
+    slug: "marca-turistica-coquimbo",
+    title: "Región de Coquimbo actualiza marca turística con proceso participativo",
+    excerpt:
+      "Tras meses de trabajo técnico y participación ciudadana, Sernatur Coquimbo presentó la actualización de la marca turística regional.",
+    date: "2025-12-01",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/12/noticia-3.png",
+    body: "Tras meses de trabajo técnico y participación ciudadana, se presentó la actualización de la marca turística de la Región de Coquimbo, un proyecto impulsado por la dirección regional de Sernatur Coquimbo, financiado por el Gobierno Regional y aprobado por el CORE, a través del Fondo Nacional de Desarrollo Regional.",
+    category: "Turismo",
+    readTime: 3,
+  },
+  {
+    slug: "yasna-molina-world-cheese-awards",
+    title:
+      "Productora caprina de Ovalle Yasna Molina obtiene medalla de bronce en el World Cheese Awards",
+    excerpt:
+      "Por primera vez un queso chileno obtiene reconocimiento mundial: Yasna Molina, de Caprinos Villaseca en Ovalle, logra medalla de bronce entre 5 mil participantes.",
+    date: "2025-11-20",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/6917ddcba9ee8_1200x719.jpg",
+    body: "La productora de queso de cabra de Ovalle, Yasna Molina, logró que por primera vez un queso chileno obtenga un reconocimiento a nivel mundial en el World Cheese Awards. “Mi gran sueño siempre fue lograr algún premio en un torneo mundial y hoy me siento muy feliz y orgullosa de haberlo logrado”, señaló la artesana detrás de Caprinos Villaseca.",
+    category: "Gastronomía",
+    readTime: 3,
+  },
+  {
+    slug: "premios-enoturismo-2025",
+    title: "Premios Enoturismo Chile 2025 anuncian a sus ganadores regionales",
+    excerpt:
+      "El certamen que celebra las mejores experiencias en torno al vino y el turismo amplía su alcance territorial y marca récord de participación.",
+    date: "2025-11-20",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/nota-web.jpg",
+    body: "Los Premios Enoturismo Chile 2025 ya tienen a sus ganadores regionales. En su cuarta edición, el certamen que celebra las mejores experiencias en torno al vino y el turismo amplía su alcance territorial con la incorporación de la Región de Atacama y marca un récord histórico de participación, con 96 postulaciones.",
+    category: "Enoturismo",
+    readTime: 3,
+  },
+  {
+    slug: "ovallino-mejor-carta-vinos",
+    title: "Restaurante Ovallino es elegido nuevamente como la mejor carta de vinos de Chile",
+    excerpt:
+      "Por segundo año consecutivo, Fuente Toscana en Ovalle lidera el ranking de La CAV con una curatoría basada en el concepto del Norte Verde.",
+    date: "2025-11-05",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/toscana.jpeg",
+    body: "Por segundo año consecutivo, el negocio Ovallino lidera el ranking de La CAV. Con una curatoría única basada en el concepto del Norte Verde, Fuente Toscana —ubicado en el centro de Ovalle— reafirma que la excelencia también se escribe desde regiones.",
+    category: "Gastronomía",
+    readTime: 3,
+  },
+  {
+    slug: "turismo-internacional-chile-2040",
+    title: "Chile duplicará su turismo internacional para 2040, según estudio de Google",
+    excerpt:
+      "Un informe global proyecta que Chile alcanzará 10 millones de visitantes extranjeros en 2040, posicionándose en el puesto 48 del ranking mundial.",
+    date: "2025-08-19",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Torres-del-Paine-turismo-Chile.webp",
+    body: "Un informe global proyecta que el país alcanzará los 10 millones de visitantes extranjeros en 2040, posicionándose en el puesto 48 del ranking mundial de destinos turísticos. La industria turística de Chile experimentará un crecimiento significativo en las próximas dos décadas, según el estudio impulsado por Google.",
+    category: "Turismo",
+    readTime: 4,
+  },
+  {
+    slug: "mas-valor-turistico-2025",
+    title: "Sernatur premiará los productos más innovadores del país con su concurso Más Valor Turístico 2025",
+    excerpt:
+      "El Servicio Nacional de Turismo abrió postulaciones para una nueva edición del concurso que destaca experiencias turísticas innovadoras y sustentables.",
+    date: "2025-07-22",
+    image:
+      "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/07/Cerreando-Outdoor-ganador-del-concurso-Mas-Valor-Turistico-2024-1.png",
+    body: "El Servicio Nacional de Turismo anunció la apertura de postulaciones para una nueva edición del concurso Más Valor Turístico, una iniciativa que por más de una década ha destacado experiencias turísticas innovadoras que aportan al desarrollo sostenible del sector en Chile.",
+    category: "Turismo",
+    readTime: 3,
+  },
+  {
+    slug: "sellos-vendimia-2025",
+    title: "Ocho Fiestas de la Vendimia reciben Sello de Buenas Prácticas de Enoturismo Chile",
+    excerpt:
+      "En el Palacio Pereira, Enoturismo Chile de Corfo entregó los Sellos Fiestas de la Vendimia 2025 a organizaciones que destacan por su gestión.",
+    date: "2025-07-22",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/07/Foto-notas-para-web-2025-07-15T105418.016.png",
+    body: "Con una emotiva ceremonia realizada en el Palacio Pereira y la presencia de destacadas autoridades nacionales y regionales, se desarrolló la entrega de los Sellos Fiestas de la Vendimia 2025, evento organizado por Enoturismo Chile de Corfo. Esta iniciativa reconoce a las organizaciones que han demostrado buenas prácticas en la gestión de fiestas de la vendimia.",
+    category: "Enoturismo",
+    readTime: 3,
+  },
 ] as const;
 
 export type NewsItem = (typeof NEWS)[number];
+
+/** Reseña histórica — enoturismo (ovalleturismo.cl/servicios-turisticos/enoturismo) */
+export const ENOTURISMO_HISTORY = [
+  "Descubre el enoturismo en Ovalle y sus viñas, donde la tradición vitivinícola se combina con paisajes de valle y una cocina local de sabor único.",
+  "La región de Coquimbo, donde se ubica la provincia de Limarí, empezó a desarrollar viñedos en la colonia española. En las últimas décadas, Limarí emergió como potencia para Chardonnay, aprovechando su clima fresco y suelos calcareos bajo la influencia marina y la camanchaca.",
+  "El Valle del Limarí ofrece vinos con acidez marcada y mineralidad. Ovalle te invita a vivir una experiencia enoturística única: visita viñas, degustaciones y tradición vitivinícola en el corazón del norte chico.",
+] as const;
+
+/** Reseña histórica — pisquerías (ovalleturismo.cl/servicios-turisticos/pisqueras) */
+export const PISQUERAS_HISTORY = [
+  "La Provincia del Limarí es una importante zona pisquera en Chile, conocida por sus vinos y piscos de alta calidad, elaborados artesanalmente con uvas de cepas como la Moscatel de Alejandría.",
+  "La producción de pisco en Chile data del siglo XVI; fue durante los siglos XVIII y XIX cuando las haciendas y factorías de la zona sur de la actual provincia consolidaron una tradición que hoy se expresa en pisquerías, cooperativas y destilerías de referencia nacional.",
+  "Ovalle y el valle son cuna de la Fiesta de la Vendimia y de la Cooperativa Agrícola Control Pisquero —la cooperativa pisquera más antigua del mundo—, símbolos de la identidad pisquera limarina.",
+] as const;
 
 export const HOME_COPY = {
   intro: [

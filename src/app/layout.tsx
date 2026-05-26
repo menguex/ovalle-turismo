@@ -8,6 +8,7 @@ import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { FichaProvider } from "@/components/providers/FichaProvider";
 import { NewsProvider } from "@/components/providers/NewsProvider";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { PageTransition } from "@/components/ui/PageTransition";
 import { ThemeScript } from "@/components/ThemeScript";
 import { LogoPreloader } from "@/components/ui/LogoPreloader";
 import { IMAGES, SITE } from "@/lib/data/site";
@@ -71,7 +72,9 @@ export default function RootLayout({
                 <ScrollProgress />
                 <TopBar />
                 <Header />
-                <main>{children}</main>
+                <main>
+                  <PageTransition>{children}</PageTransition>
+                </main>
                 <Footer />
               </FichaProvider>
             </NewsProvider>

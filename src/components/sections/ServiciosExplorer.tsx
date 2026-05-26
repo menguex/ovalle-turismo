@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Bed, ChefHat, Compass, Search, Sparkles } from "lucide-react";
-import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
+import { ServiceListingGrid } from "@/components/ui/ServiceListingGrid";
 import { IconBadge } from "@/components/ui/IconBadge";
 import { PagePanel } from "@/components/ui/PagePanel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -194,7 +194,7 @@ export function ServiciosExplorer() {
                     </span>
                     <span
                       className={cn(
-                        "rounded-full px-2.5 py-1 font-accent text-[10px] font-bold uppercase tracking-wider",
+                        "rounded-full px-2.5 py-1 font-accent text-label-sm font-bold uppercase tracking-wider",
                         selected ? styles.countSelected : "bg-border/80 text-muted"
                       )}
                     >
@@ -212,7 +212,7 @@ export function ServiciosExplorer() {
                   </span>
                   <span
                     className={cn(
-                      "relative z-[1] mt-1 font-accent text-[10px] uppercase tracking-[0.12em]",
+                      "relative z-[1] mt-1 font-accent text-label-sm uppercase tracking-[0.12em]",
                       selected
                         ? tab.accent === "gradient"
                           ? "text-night/70"
@@ -224,7 +224,7 @@ export function ServiciosExplorer() {
                   </span>
                   <span
                     className={cn(
-                      "relative z-[1] mt-2 line-clamp-2 text-xs leading-relaxed",
+                      "relative z-[1] mt-2 line-clamp-2 text-body-sm leading-relaxed",
                       selected
                         ? tab.accent === "gradient"
                           ? "text-night/75"
@@ -242,7 +242,7 @@ export function ServiciosExplorer() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={reduced ? false : { opacity: 0, y: 8 }}
+              initial={reduced ? false : { opacity: 1, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reduced ? undefined : { opacity: 0, y: -6 }}
               transition={{ duration: reduced ? 0 : 0.25 }}
@@ -259,7 +259,7 @@ export function ServiciosExplorer() {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={`Buscar en ${activeMeta.label.toLowerCase()}…`}
                   aria-label={`Buscar en ${activeMeta.label}`}
-                  className="glass-tech w-full rounded-2xl border border-border py-3.5 pl-12 pr-4 text-sm text-fg outline-none transition focus:border-brand-orange/40 focus:shadow-glow sm:max-w-md"
+                  className="glass-tech w-full rounded-2xl border border-border py-3.5 pl-12 pr-4 text-body-sm text-fg outline-none transition focus:border-brand-orange/40 focus:shadow-glow sm:max-w-md"
                 />
               </div>
             </motion.div>
@@ -274,9 +274,7 @@ export function ServiciosExplorer() {
               <IconBadge icon={activeMeta.icon} size="lg" variant="brand" />
               <div className="min-w-0 flex-1">
                 <p className="eyebrow mb-1">{activeMeta.label}</p>
-                <p className="max-w-2xl text-lg leading-relaxed text-muted-fg">
-                  {activeMeta.description}
-                </p>
+                <p className="section-lead max-w-2xl">{activeMeta.description}</p>
               </div>
               <span className="pill-badge-warm shrink-0 self-start">
                 <Sparkles size={12} />
@@ -294,11 +292,11 @@ export function ServiciosExplorer() {
             id="alojamiento"
             role="tabpanel"
             aria-labelledby="tab-alojamiento"
-            initial={reduced ? false : { opacity: 0, y: 16 }}
+            initial={reduced ? false : { opacity: 1, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: -12 }}
             transition={panelTransition}
-            className="pb-20 lg:pb-28"
+            className="scroll-mt-36 pb-20 lg:pb-28"
           >
             <div className="container-wide mb-8">
               <SectionHeading
@@ -309,7 +307,7 @@ export function ServiciosExplorer() {
               />
             </div>
             {filteredLodging.length > 0 ? (
-              <InteractiveCardGrid items={filteredLodging} />
+              <ServiceListingGrid items={filteredLodging} pageSize={9} />
             ) : (
               <EmptySearchState query={query} label={activeMeta.label} />
             )}
@@ -322,11 +320,11 @@ export function ServiciosExplorer() {
             id="gastronomia"
             role="tabpanel"
             aria-labelledby="tab-gastronomia"
-            initial={reduced ? false : { opacity: 0, y: 16 }}
+            initial={reduced ? false : { opacity: 1, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: -12 }}
             transition={panelTransition}
-            className="section-alt pb-20 lg:pb-28"
+            className="section-alt scroll-mt-36 pb-20 lg:pb-28"
           >
             <div className="container-wide mb-8 pt-4">
               <SectionHeading
@@ -337,7 +335,7 @@ export function ServiciosExplorer() {
               />
             </div>
             {filteredRestaurants.length > 0 ? (
-              <InteractiveCardGrid items={filteredRestaurants} />
+              <ServiceListingGrid items={filteredRestaurants} pageSize={9} />
             ) : (
               <EmptySearchState query={query} label={activeMeta.label} />
             )}
@@ -349,7 +347,7 @@ export function ServiciosExplorer() {
             key="tours"
             role="tabpanel"
             aria-labelledby="tab-tours"
-            initial={reduced ? false : { opacity: 0, y: 16 }}
+            initial={reduced ? false : { opacity: 1, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: -12 }}
             transition={panelTransition}

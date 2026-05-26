@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   MAP_CATEGORIES,
   MAP_POINTS,
+  type MapCategory,
 } from "@/lib/data/site";
 import { cn } from "@/lib/utils";
 import { BrandShapes } from "@/components/brand/BrandShapes";
@@ -31,9 +32,26 @@ function coordsToPercent(lat: number, lng: number) {
 
 const ALL_CATEGORIES = ["Todos", ...Object.keys(MAP_CATEGORIES)] as const;
 
-export function MapExplorer() {
-  const [activeCategory, setActiveCategory] = useState<string>("Todos");
-  const [selectedId, setSelectedId] = useState<string | null>(MAP_POINTS[0]?.id ?? null);
+type MapExplorerProps = {
+  defaultCategory?: string;
+  lockCategory?: boolean;
+  defaultSelectedId?: string;
+};
+
+export function MapExplorer({
+  defaultCategory = "Todos",
+  lockCategory = false,
+  defaultSelectedId,
+}: MapExplorerProps = {}) {
+  const [activeCategory, setActiveCategory] = useState<string>(defaultCategory);
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    if (defaultSelectedId) return defaultSelectedId;
+    const initial =
+      defaultCategory === "Todos"
+        ? MAP_POINTS[0]?.id
+        : MAP_POINTS.find((p) => p.category === defaultCategory)?.id;
+    return initial ?? MAP_POINTS[0]?.id ?? null;
+  });
 
   const points = useMemo(() => {
     return MAP_POINTS.map((point) => ({
@@ -254,23 +272,30 @@ export function MapExplorer() {
       {/* Sidebar panel */}
       <div className="flex flex-col gap-5">
         {/* Category filters */}
-        <div className="flex flex-wrap gap-2">
-          {ALL_CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setActiveCategory(cat)}
-              className={cn(
-                "rounded-full border px-3.5 py-1.5 font-accent text-[10px] uppercase tracking-wider transition-all duration-300",
-                activeCategory === cat
-                  ? "border-copper/50 bg-copper/15 text-copper"
-                  : "border-border bg-surface text-muted hover:border-copper/30 hover:text-fg"
-              )}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {!lockCategory && (
+          <div className="flex flex-wrap gap-2">
+            {ALL_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "rounded-full border px-3.5 py-1.5 font-accent text-[10px] uppercase tracking-wider transition-all duration-300",
+                  activeCategory === cat
+                    ? "border-copper/50 bg-copper/15 text-copper"
+                    : "border-border bg-surface text-muted hover:border-copper/30 hover:text-fg"
+                )}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+        {lockCategory && (
+          <p className="font-accent text-[10px] uppercase tracking-wider text-copper">
+            {MAP_CATEGORIES[activeCategory as MapCategory]?.label ?? activeCategory}
+          </p>
+        )}
 
         {/* Selected detail card */}
         <AnimatePresence mode="wait">

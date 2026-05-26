@@ -46,7 +46,7 @@ export function SectionHeading({
           )}
         </div>
       )}
-      <h2 className={cn("heading-lg", dark && "text-mist")}>{title}</h2>
+      <h2 className={cn("heading-lg text-balance", dark && "text-mist")}>{title}</h2>
       <div
         className={cn(
           "section-heading-accent",
@@ -57,8 +57,8 @@ export function SectionHeading({
       {description && (
         <p
           className={cn(
-            "mt-4 text-pretty font-sans text-body-lg",
-            dark ? "text-sand" : "text-muted-fg"
+            "section-lead",
+            dark ? "text-sand/90" : "text-muted-fg"
           )}
         >
           {description}

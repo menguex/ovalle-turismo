@@ -12,6 +12,7 @@ import { PlannerCTA } from "@/components/sections/PageHero";
 import { PartnersSection } from "@/components/sections/PartnersSection";
 import { TourOperatorsPreview } from "@/components/sections/TourOperatorsPreview";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { ScrollVelocityText } from "@/components/ui/ScrollVelocityText";
 
 export default function HomePage() {
   return (
@@ -21,13 +22,21 @@ export default function HomePage() {
       <QuickLinks />
       <SectionDivider />
       <StorySection />
-      <SectionDivider />
+      <ScrollVelocityText
+        text="OVALLE · LIMARÍ · ASTROTURISMO · NATURALEZA · CULTURA · ENOTURISMO"
+        baseVelocity={-1.5}
+        className="border-y border-border bg-surface opacity-40"
+      />
       <Pillars />
       <SectionDivider />
       <AstroSection />
       <SectionDivider />
       <ExperiencesGrid />
-      <SectionDivider />
+      <ScrollVelocityText
+        text="VALLE DEL ENCANTO · FRAY JORGE · VENDIMIA · CIELOS LIMPIOS · PISCO"
+        baseVelocity={1.5}
+        className="border-y border-border bg-surface opacity-40"
+      />
       <MapSection />
       <SectionDivider />
       <Tour360Showcase variant="home" />

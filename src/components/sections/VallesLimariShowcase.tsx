@@ -21,7 +21,7 @@ import { PagePanel } from "@/components/ui/PagePanel";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useFichaOptional } from "@/components/providers/FichaProvider";
-import { LIMARI_COMMUNITIES, LIMARI_EXPERIENCES } from "@/lib/data/fichas";
+import { LIMARI_COMMUNITIES, VALLES_EXPERIENCES } from "@/lib/data/fichas";
 import { fichaLabel } from "@/lib/types/ficha";
 import { IMAGES } from "@/lib/data/site";
 import { PAGE_ICONS } from "@/lib/icons/page-icons";
@@ -330,6 +330,8 @@ function VallesComunasExplorer() {
 }
 
 function VallesEssence() {
+  const reduced = useReducedMotion();
+
   return (
     <section className="section-surface py-20 lg:py-28">
       <div className="container-wide">
@@ -346,6 +348,12 @@ function VallesEssence() {
         <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" stagger={0.08}>
           {ESSENCE.map((item) => (
             <StaggerItem key={item.title}>
+              <motion.div
+                whileHover={reduced ? undefined : { y: -5 }}
+                whileTap={reduced ? undefined : { scale: 0.99 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full"
+              >
               <Link
                 href={item.href}
                 className="tech-card-frame group pillar-card-shine flex h-full flex-col p-6 transition duration-500 hover:border-brand-orange/30 hover:shadow-glow card-hover"
@@ -359,6 +367,7 @@ function VallesEssence() {
                   Explorar <ArrowUpRight size={12} />
                 </span>
               </Link>
+              </motion.div>
             </StaggerItem>
           ))}
         </Stagger>
@@ -384,11 +393,12 @@ function VallesExperiences() {
       </div>
 
       <div className="container-wide grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {LIMARI_EXPERIENCES.map((item, i) => (
+        {VALLES_EXPERIENCES.map((item, i) => (
           <Reveal key={item.id} delay={0.05 * i}>
             <motion.button
               type="button"
               whileHover={reduced ? undefined : { y: -4 }}
+              whileTap={reduced ? undefined : { scale: 0.99 }}
               onClick={() => fichaCtx?.openFicha(item.id)}
               className={cn(
                 "group tech-card-frame w-full overflow-hidden text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40",

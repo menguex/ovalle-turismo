@@ -15,6 +15,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   Vendimia: "bg-copper/15 text-copper border-copper/25",
   Agenda: "bg-river/15 text-river border-river/25",
   Turismo: "bg-olive/15 text-olive border-olive/25",
+  Enoturismo: "bg-gold/15 text-gold border-gold/25",
+  Gastronomía: "bg-copper/10 text-copper border-copper/20",
 };
 
 export function NewsShowcase({ fullPage = false }: { fullPage?: boolean }) {

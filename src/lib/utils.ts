@@ -32,3 +32,7 @@ export function telHref(phone: string) {
   const digits = first.replace(/[^\d+]/g, "");
   return digits ? `tel:${digits}` : undefined;
 }
+
+export function mapsEmbedUrl(query: string) {
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=13&output=embed`;
+}

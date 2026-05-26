@@ -1,19 +1,14 @@
 import { Moon } from "lucide-react";
 import { PageHero, PlannerCTA } from "@/components/sections/PageHero";
+import { AstroturismoShowcase } from "@/components/sections/descubre/AstroturismoShowcase";
 import { OpenFichaButton } from "@/components/ui/OpenFichaButton";
-import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
 import { IconBadge } from "@/components/ui/IconBadge";
-import { PagePanel } from "@/components/ui/PagePanel";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { PAGE_ICONS } from "@/lib/icons/page-icons";
-import { LODGING } from "@/lib/data/fichas";
+import { PageIntro, PagePanel } from "@/components/ui/PagePanel";
 import { IMAGES } from "@/lib/data/site";
 
 export const metadata = {
   title: "Astroturismo",
 };
-
-const astroLodging = LODGING.filter((l) => l.type?.includes("Astroturismo"));
 
 export default function AstroturismoPage() {
   return (
@@ -22,51 +17,62 @@ export default function AstroturismoPage() {
         icon="astroturismo"
         eyebrow="Astroturismo"
         title="Cuando cae el sol, Ovalle despierta otro paisaje"
-        subtitle="Contempla cielos únicos para el astroturismo. Desde el Valle del Encanto hasta alojamientos especializados como Viento Sur Astroturismo."
+        subtitle="Contempla cielos únicos en el Valle del Limarí: reservas Starlight, patrimonio nocturno y alojamientos especializados en observación astronómica."
         image={IMAGES.encanto}
       />
-      <section className="bg-night py-20 text-white lg:py-28">
+      <section className="bg-night py-16 text-white lg:py-24">
         <div className="container-wide grid gap-8 lg:grid-cols-2">
           <PagePanel variant="dark" className="p-8 lg:p-10">
             <IconBadge icon={Moon} size="sm" variant="hero" className="mb-4" />
-            <h2 className="font-display text-4xl text-white">Cielos del norte</h2>
-            <p className="text-on-dark-muted mt-6 leading-relaxed">
-              Desde el turismo, Ovalle invita a descubrir el Valle del Limarí a
-              través de experiencias auténticas: contemplar cielos únicos para el
-              astroturismo y vivir panoramas familiares que rescatan lo simple,
-              local y propio.
+            <h2 className="font-display text-display-sm text-white text-balance">
+              Cielos del norte
+            </h2>
+            <p className="text-on-dark-muted mt-5 text-body-md leading-relaxed">
+              El clima semiárido del Limarí ofrece noches despejadas, horizontes abiertos y baja
+              contaminación lumínica — condiciones ideales para astroturismo entre abril y
+              septiembre.
             </p>
-            <ul className="text-on-dark-muted mt-8 space-y-4 text-sm">
-              <li>· Clima semiárido con noches despejadas</li>
-              <li>· Valle del Encanto como escenario nocturno</li>
-              <li>· Mejor época: abril a septiembre</li>
-              <li>· Alojamientos especializados en observación</li>
+            <ul className="text-on-dark-muted mt-8 space-y-3 text-body-sm">
+              <li className="flex gap-2">
+                <span className="text-brand-yellow">·</span>
+                Reserva Starlight en Fray Jorge (UNESCO)
+              </li>
+              <li className="flex gap-2">
+                <span className="text-brand-yellow">·</span>
+                Valle del Encanto como escenario nocturno
+              </li>
+              <li className="flex gap-2">
+                <span className="text-brand-yellow">·</span>
+                Tours con guías y telescopio en el valle
+              </li>
+              <li className="flex gap-2">
+                <span className="text-brand-yellow">·</span>
+                Alojamientos astro con experiencias incluidas
+              </li>
             </ul>
           </PagePanel>
           <PagePanel variant="dark" className="p-8 lg:p-10">
             <OpenFichaButton fichaId="viento-sur" tone="dark" embedded>
-              <p className="eyebrow-on-dark">Recomendación</p>
-              <h3 className="mt-3 font-display text-2xl text-white">
+              <p className="eyebrow-on-dark">Referencia del valle</p>
+              <h3 className="mt-3 font-display text-2xl text-white text-balance">
                 Viento Sur Astroturismo
               </h3>
-              <p className="text-on-dark-muted mt-3 text-sm">
-                Astrocamping en la Reserva Starlight Fray Jorge: cabañas, camping y
-                tours astronómicos bajo cielos certificados UNESCO.
+              <p className="text-on-dark-muted mt-3 text-body-sm leading-relaxed">
+                Astrocamping en la Reserva Starlight Fray Jorge: cabañas, camping y tours
+                astronómicos bajo cielos certificados UNESCO.
               </p>
             </OpenFichaButton>
           </PagePanel>
         </div>
       </section>
-      <section className="py-20 lg:py-28">
-        <div className="container-wide mb-10">
-          <SectionHeading
-            icon={PAGE_ICONS.astroturismo}
-            title="Alojamientos astro"
-            description="Haz clic para abrir la ficha de cada alojamiento."
-          />
-        </div>
-        <InteractiveCardGrid items={astroLodging} />
-      </section>
+      <PageIntro className="!py-12 lg:!py-16">
+        <p className="lead">
+          Ovalle invita a descubrir el valle también de noche: observación con operadores locales,
+          patrimonio bajo las estrellas y alojamientos pensados para quienes viajan siguiendo el
+          cielo.
+        </p>
+      </PageIntro>
+      <AstroturismoShowcase />
       <PlannerCTA />
     </>
   );

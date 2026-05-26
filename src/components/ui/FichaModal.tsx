@@ -3,20 +3,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
+  Calendar,
   Clock,
   ExternalLink,
   Mail,
   MapPin,
   Navigation,
   Phone,
+  Rotate3D,
+  Timer,
   X,
 } from "lucide-react";
 import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
-import { cn, telHref } from "@/lib/utils";
+import { cn, mapsEmbedUrl, telHref } from "@/lib/utils";
 
 type FichaModalProps = {
   ficha: Ficha | null;
@@ -24,6 +27,8 @@ type FichaModalProps = {
 };
 
 export function FichaModal({ ficha, onClose }: FichaModalProps) {
+  const reduced = useReducedMotion();
+
   useEffect(() => {
     if (!ficha) return;
     const prev = document.body.style.overflow;
@@ -58,11 +63,11 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="ficha-title"
-            className="relative z-10 flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-t-[2rem] border border-border bg-surface shadow-2xl sm:rounded-[2rem]"
-            initial={{ opacity: 0, y: 40 }}
+            className="relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[2rem] border border-border bg-surface shadow-2xl sm:rounded-[2rem]"
+            initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 24 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            exit={reduced ? undefined : { opacity: 0, y: 24 }}
+            transition={{ duration: reduced ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative aspect-[16/9] shrink-0">
               <Image src={ficha.image} alt={label} fill className="object-cover" priority />
@@ -76,11 +81,18 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
                 <X size={18} />
               </button>
               <div className="absolute bottom-4 left-5 right-5">
-                {ficha.type && (
-                  <span className="mb-2 inline-block rounded-full bg-white/15 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-sm">
-                    {ficha.type}
-                  </span>
-                )}
+                <div className="mb-2 flex flex-wrap gap-2">
+                  {ficha.badge && (
+                    <span className="inline-block rounded-full bg-gold/90 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-night">
+                      {ficha.badge}
+                    </span>
+                  )}
+                  {ficha.type && (
+                    <span className="inline-block rounded-full bg-white/15 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-sm">
+                      {ficha.type}
+                    </span>
+                  )}
+                </div>
                 <h2 id="ficha-title" className="font-display text-2xl font-bold text-white sm:text-3xl">
                   {label}
                 </h2>
@@ -99,6 +111,35 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
                     </li>
                   ))}
                 </ul>
+              )}
+
+              {(ficha.distanceFromOvalle || ficha.visitDuration || ficha.bestSeason) && (
+                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                  {ficha.distanceFromOvalle && (
+                    <MetaTile icon={MapPin} label="Distancia" value={ficha.distanceFromOvalle} />
+                  )}
+                  {ficha.visitDuration && (
+                    <MetaTile icon={Timer} label="Duración" value={ficha.visitDuration} />
+                  )}
+                  {ficha.bestSeason && (
+                    <MetaTile icon={Calendar} label="Mejor época" value={ficha.bestSeason} />
+                  )}
+                </div>
+              )}
+
+              {ficha.details && ficha.details.length > 0 && (
+                <div className="mt-6 rounded-2xl border border-border bg-surface-elevated p-4">
+                  <p className="mb-3 font-accent text-[10px] uppercase tracking-wider text-muted">
+                    Información útil
+                  </p>
+                  <ul className="space-y-2">
+                    {ficha.details.map((item) => (
+                      <li key={item} className="text-sm leading-relaxed text-muted-fg">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
               <div className="mt-6 space-y-3 rounded-2xl border border-border bg-surface-elevated p-4">
@@ -155,13 +196,45 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
                 )}
               </div>
 
+              {(ficha.address || ficha.lat) && (
+                <div className="mt-6 overflow-hidden rounded-2xl border border-border">
+                  <iframe
+                    title={`Mapa de ${label}`}
+                    src={
+                      ficha.lat && ficha.lng
+                        ? mapsEmbedUrl(`${ficha.lat},${ficha.lng}`)
+                        : mapsEmbedUrl(ficha.address ?? label)
+                    }
+                    className="h-48 w-full border-0 sm:h-56"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              )}
+
               <div className="mt-6 flex flex-wrap gap-3">
+                {ficha.embedUrl && (
+                  <a
+                    href={ficha.embedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-5 py-2.5 font-sans text-sm font-semibold text-night transition hover:brightness-105"
+                  >
+                    Tour 360°
+                    <Rotate3D size={14} />
+                  </a>
+                )}
                 {ficha.website && (
                   <a
                     href={ficha.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-copper px-5 py-2.5 font-sans text-sm font-medium text-white transition hover:bg-copper/90"
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 font-sans text-sm font-medium transition",
+                      ficha.embedUrl
+                        ? "border border-border text-fg hover:bg-surface-elevated"
+                        : "bg-copper text-white hover:bg-copper/90"
+                    )}
                   >
                     {ficha.type?.includes("360") ? "Ver tour" : "Sitio web"}
                     <ExternalLink size={14} />
@@ -199,5 +272,25 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
         </div>
       )}
     </AnimatePresence>
+  );
+}
+
+function MetaTile({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof MapPin;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-surface-elevated p-3">
+      <p className="flex items-center gap-1.5 font-accent text-[10px] uppercase tracking-wider text-muted">
+        <Icon size={12} className="text-copper" />
+        {label}
+      </p>
+      <p className="mt-1.5 text-sm font-medium leading-snug text-fg">{value}</p>
+    </div>
   );
 }

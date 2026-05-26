@@ -1,7 +1,6 @@
 import { PageHero, PlannerCTA } from "@/components/sections/PageHero";
-import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
+import { GastronomiaShowcase } from "@/components/sections/descubre/GastronomiaShowcase";
 import { PageIntro } from "@/components/ui/PagePanel";
-import { RESTAURANTS } from "@/lib/data/fichas";
 import { IMAGES } from "@/lib/data/site";
 
 export const metadata = {
@@ -18,16 +17,13 @@ export default function GastronomiaPage() {
         subtitle="Tradición local y propuestas modernas que combinan lo típico del Valle del Limarí con cocina de calidad."
         image={IMAGES.gastronomia}
       />
-      <PageIntro>
-        <p>
-          Descubre los mejores restaurantes de Ovalle y disfruta de una variada
-          oferta gastronómica para todos los gustos: desde lo típico del valle
-          hasta propuestas contemporáneas.
+      <PageIntro className="!py-12 lg:!py-16">
+        <p className="lead">
+          Descubre restaurantes, cafés y propuestas gastronómicas de Ovalle. Cada ficha incluye
+          contacto, ubicación y mapa para que planifiques tu ruta con facilidad.
         </p>
       </PageIntro>
-      <section className="pb-20 lg:pb-28">
-        <InteractiveCardGrid items={RESTAURANTS} />
-      </section>
+      <GastronomiaShowcase />
       <PlannerCTA />
     </>
   );

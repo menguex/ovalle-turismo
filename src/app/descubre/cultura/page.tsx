@@ -1,7 +1,6 @@
 import { PageHero, PlannerCTA } from "@/components/sections/PageHero";
-import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
+import { CulturaShowcase } from "@/components/sections/descubre/CulturaShowcase";
 import { PageIntro } from "@/components/ui/PagePanel";
-import { CULTURAL_ATTRACTIONS } from "@/lib/data/fichas";
 import { IMAGES } from "@/lib/data/site";
 
 export const metadata = {
@@ -20,14 +19,13 @@ export default function CulturaPage() {
       />
       <PageIntro>
         <p>
-          Ovalle es un territorio lleno de historia, identidad y conocimiento.
-          Ideal para quienes buscan aprender y conectarse con la riqueza
-          cultural del valle.
+          Ovalle es un territorio lleno de historia, identidad y conocimiento. Museos,
+          iglesias patrimoniales, pueblos tradicionales y ferias campesinas te invitan a
+          conectar con la riqueza cultural del valle — ideal para quienes buscan aprender,
+          recorrer y vivir las tradiciones limarinas.
         </p>
       </PageIntro>
-      <section className="pb-20 lg:pb-28">
-        <InteractiveCardGrid items={CULTURAL_ATTRACTIONS} />
-      </section>
+      <CulturaShowcase />
       <PlannerCTA />
     </>
   );

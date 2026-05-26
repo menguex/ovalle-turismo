@@ -93,6 +93,10 @@ const config: Config = {
         orbit: "orbit 16s linear infinite",
         "ken-burns": "kenBurns 20s ease-out forwards",
         "pin-pulse": "pinPulse 2s ease-in-out infinite",
+        "gradient-flow": "gradientFlow 8s ease infinite",
+        breathe: "breathe 4s ease-in-out infinite",
+        "slide-up": "slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "glow-pulse": "glowPulse 3s ease-in-out infinite",
       },
       keyframes: {
         fadeUp: {
@@ -126,6 +130,23 @@ const config: Config = {
         pinPulse: {
           "0%, 100%": { transform: "translate(-50%, -50%) scale(1)", opacity: "0.6" },
           "50%": { transform: "translate(-50%, -50%) scale(1.6)", opacity: "0" },
+        },
+        gradientFlow: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
+        breathe: {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.6" },
+          "50%": { transform: "scale(1.05)", opacity: "0.9" },
+        },
+        slideUp: {
+          from: { transform: "translateY(100%)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
+        glowPulse: {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(255,203,5,0.15)" },
+          "50%": { boxShadow: "0 0 40px rgba(255,203,5,0.3), 0 0 60px rgba(61,143,217,0.15)" },
         },
       },
     },

@@ -1,26 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { motion, useScroll, useSpring, useTransform, useReducedMotion } from "framer-motion";
 
 export function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const spring = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const width = useTransform(spring, [0, 1], ["0%", "100%"]);
+  const glowOpacity = useTransform(spring, [0, 0.1, 1], [0, 1, 1]);
 
-  useEffect(() => {
-    const onScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? scrollTop / docHeight : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  if (reduced) {
+    return null;
+  }
 
   return (
-    <div
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-brand-accent"
-      style={{ transform: `scaleX(${progress})` }}
-      aria-hidden
-    />
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px]" aria-hidden>
+      <motion.div
+        className="h-full origin-left bg-brand-accent"
+        style={{ width }}
+      />
+      <motion.div
+        className="absolute right-0 top-0 h-full w-8 blur-sm"
+        style={{
+          opacity: glowOpacity,
+          background: "linear-gradient(90deg, transparent, var(--brand-blue), var(--brand-yellow))",
+        }}
+      />
+    </div>
   );
 }

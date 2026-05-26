@@ -23,6 +23,14 @@ export type Ficha = {
   badge?: string;
   audience?: string;
   details?: readonly string[];
+  /** Distancia aproximada desde Ovalle centro */
+  distanceFromOvalle?: string;
+  /** Tiempo sugerido de visita */
+  visitDuration?: string;
+  /** Mejor época para visitar */
+  bestSeason?: string;
+  lat?: number;
+  lng?: number;
 };
 
 export function fichaLabel(item: Pick<Ficha, "name" | "title">) {

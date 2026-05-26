@@ -1,7 +1,6 @@
 import { PageHero, PlannerCTA } from "@/components/sections/PageHero";
-import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
+import { NaturalezaShowcase } from "@/components/sections/descubre/NaturalezaShowcase";
 import { PageIntro } from "@/components/ui/PagePanel";
-import { NATURAL_ATTRACTIONS } from "@/lib/data/fichas";
 import { IMAGES } from "@/lib/data/site";
 
 export const metadata = {
@@ -20,15 +19,13 @@ export default function NaturalezaPage() {
       />
       <PageIntro>
         <p>
-          Desde el majestuoso Valle del Encanto hasta las imponentes formaciones
-          del Parque Nacional Bosque Fray Jorge, cada rincón ofrece paisajes
-          únicos, biodiversidad sorprendente y una conexión profunda con la
-          naturaleza. Vive la magia natural de la Región de Coquimbo.
+          Desde el majestuoso Valle del Encanto hasta las imponentes formaciones del Parque
+          Nacional Bosque Fray Jorge, cada rincón ofrece paisajes únicos, biodiversidad
+          sorprendente y una conexión profunda con la naturaleza. Humedales costeros, parques
+          familiares y bosques valdivianos en pleno desierto te esperan en la Región de Coquimbo.
         </p>
       </PageIntro>
-      <section className="pb-20 lg:pb-28">
-        <InteractiveCardGrid items={NATURAL_ATTRACTIONS} />
-      </section>
+      <NaturalezaShowcase />
       <PlannerCTA />
     </>
   );
