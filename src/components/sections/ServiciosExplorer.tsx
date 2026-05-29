@@ -176,10 +176,26 @@ export function ServiciosExplorer() {
       <section aria-label="Categorías de servicios" className="relative border-b border-border bg-surface section-tech-glow">
         <div className="pointer-events-none absolute inset-0 mesh-bg opacity-60" aria-hidden />
         <div className="container-wide relative py-8 lg:py-10">
-          <p className="eyebrow mb-4">Elige una categoría</p>
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <p className="eyebrow">Elige una categoría</p>
+            <div className="relative w-full sm:max-w-sm sm:shrink-0">
+              <Search
+                size={16}
+                className="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-brand-orange"
+              />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={`Buscar en ${activeMeta.label.toLowerCase()}…`}
+                aria-label={`Buscar en ${activeMeta.label}`}
+                className="glass-tech w-full rounded-full border border-border py-2.5 pl-10 pr-4 text-body-sm text-fg outline-none transition focus:border-brand-orange/40 focus:shadow-glow"
+              />
+            </div>
+          </div>
 
           <div
-            role="group"
+            role="tablist"
             aria-label="Seleccionar categoría de servicios"
             className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4"
           >
@@ -192,6 +208,10 @@ export function ServiciosExplorer() {
                 <motion.button
                   key={tab.id}
                   type="button"
+                  role="tab"
+                  id={`tab-${tab.id}`}
+                  aria-selected={selected}
+                  aria-controls={tab.id}
                   aria-pressed={selected}
                   aria-label={`${tab.label}, ${tab.count} opciones`}
                   initial={reduced ? false : { opacity: 0, y: 12 }}
@@ -272,76 +292,9 @@ export function ServiciosExplorer() {
         </div>
       </section>
 
-      <nav
-        aria-label="Navegación rápida de servicios"
-        className="sticky top-[var(--header-h)] z-40 border-b border-border bg-surface/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-surface/90 md:top-[calc(var(--topbar-h)+var(--header-h))]"
-      >
-        <div className="container-wide flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-3.5">
-          <div
-            role="tablist"
-            aria-label="Cambiar categoría"
-            className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {TABS.map((tab) => {
-              const Icon = tab.icon;
-              const selected = tab.id === activeTab;
-              const styles = TAB_STYLES[tab.accent];
-
-              return (
-                <button
-                  key={`sticky-${tab.id}`}
-                  type="button"
-                  role="tab"
-                  id={`tab-${tab.id}`}
-                  aria-selected={selected}
-                  aria-controls={tab.id}
-                  onClick={() => setTab(tab.id)}
-                  className={cn(
-                    "inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 font-sans text-sm font-semibold transition duration-300 sm:px-4",
-                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50",
-                    selected
-                      ? cn(
-                          styles.selected,
-                          tab.accent === "gradient" ? "text-night" : "text-fg"
-                        )
-                      : "border-border bg-surface-elevated text-muted-fg hover:border-brand-orange/30 hover:text-fg"
-                  )}
-                >
-                  <Icon size={16} strokeWidth={2} className="shrink-0" />
-                  <span className="whitespace-nowrap">{tab.label}</span>
-                  <span
-                    className={cn(
-                      "rounded-full px-1.5 py-0.5 font-accent text-[0.65rem] font-bold uppercase tracking-wider",
-                      selected ? styles.countSelected : "bg-border/80 text-muted"
-                    )}
-                  >
-                    {tab.count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="relative min-w-0 sm:max-w-xs sm:shrink-0">
-            <Search
-              size={16}
-              className="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-brand-orange"
-            />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={`Buscar…`}
-              aria-label={`Buscar en ${activeMeta.label}`}
-              className="glass-tech w-full rounded-full border border-border py-2.5 pl-10 pr-4 text-body-sm text-fg outline-none transition focus:border-brand-orange/40 focus:shadow-glow"
-            />
-          </div>
-        </div>
-      </nav>
-
       <div
         id="servicios-contenido"
-        className="scroll-mt-[calc(var(--header-h)+4.5rem)] md:scroll-mt-[calc(var(--topbar-h)+var(--header-h)+4.5rem)]"
+        className="scroll-mt-[var(--header-h)] md:scroll-mt-[calc(var(--topbar-h)+var(--header-h))]"
       >
         <Reveal>
           <div className="container-wide py-8 lg:py-10">
