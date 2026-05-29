@@ -525,10 +525,7 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
 
   .brochure-crisp {
     image-rendering: auto;
-    -webkit-font-smoothing: subpixel-antialiased;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
   }
 
   .brochure-zoom-scroll {
@@ -547,7 +544,7 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
   }
 
   .brochure-zoom-inner {
-    transform: translateZ(0);
+    contain: layout style;
   }
 
   .section-tech-glow {

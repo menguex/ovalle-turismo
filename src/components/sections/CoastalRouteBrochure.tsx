@@ -17,8 +17,10 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const BROCHURE_W = 1024;
-const BROCHURE_H = 667;
+const BROCHURE_DIMS = {
+  tiro: { width: 1024, height: 667 },
+  retiro: { width: 1247, height: 816 },
+} as const;
 
 const BROCHURE = {
   title: "Ruta Costera de Ovalle",
@@ -38,6 +40,10 @@ const BROCHURE = {
     hint: "Cara interior: 6 caletas artesanales del borde costero de Ovalle",
   },
 } as const;
+
+function brochureDims(side: BrochureSide) {
+  return BROCHURE_DIMS[side];
+}
 
 type BrochureSide = "tiro" | "retiro";
 
@@ -71,10 +77,11 @@ const ZOOM_MAX_FULL = 2;
 const ZOOM_MAX_SECTION = 2;
 const ZOOM_STEP = 0.25;
 
-function sectionNativeSize(section: BrochureSection) {
+function sectionNativeSize(section: BrochureSection, side: BrochureSide) {
+  const { width, height } = brochureDims(side);
   return {
-    width: BROCHURE_W / section.cols,
-    height: BROCHURE_H / section.rows,
+    width: width / section.cols,
+    height: height / section.rows,
   };
 }
 
@@ -135,13 +142,15 @@ function printBrochure(which: "both" | BrochureSide) {
     <p>Ovalle Turismo · Imprime en hoja tamaño carta u oficio, orientación horizontal</p>
   </header>
   ${pages
-    .map(
-      (p) => `
+    .map((p) => {
+      const side = p.src.includes("tiro") ? "tiro" : "retiro";
+      const { width, height } = BROCHURE_DIMS[side as BrochureSide];
+      return `
   <section class="sheet">
     <h2>${p.label}</h2>
-    <img src="${origin}${p.src}" alt="${p.label}" width="${BROCHURE_W}" height="${BROCHURE_H}" />
-  </section>`
-    )
+    <img src="${origin}${p.src}" alt="${p.label}" width="${width}" height="${height}" />
+  </section>`;
+    })
     .join("")}
   <script>
     window.onload = function() {
@@ -174,8 +183,9 @@ function BrochureFullPliego({
   const sections = side === "tiro" ? TIRO_SECTIONS : RETIRO_SECTIONS;
   const gridCols = 3;
   const gridRows = side === "tiro" ? 1 : 2;
-  const renderWidth = displayWidth > 0 ? displayWidth : BROCHURE_W;
-  const renderHeight = Math.round((renderWidth * BROCHURE_H) / BROCHURE_W);
+  const { width: sheetW, height: sheetH } = brochureDims(side);
+  const renderWidth = displayWidth > 0 ? displayWidth : sheetW;
+  const renderHeight = Math.floor((renderWidth * sheetH) / sheetW);
 
   return (
     <div
@@ -186,13 +196,14 @@ function BrochureFullPliego({
       <img
         src={src}
         alt={alt}
-        width={BROCHURE_W}
-        height={BROCHURE_H}
+        width={sheetW}
+        height={sheetH}
         draggable={false}
         decoding="sync"
         loading="eager"
+        fetchPriority="high"
         onLoad={onLoad}
-        className="brochure-crisp block h-full w-full select-none"
+        className="brochure-crisp block max-w-none select-none"
         style={{ width: renderWidth, height: renderHeight }}
       />
 
@@ -230,34 +241,43 @@ function BrochureFullPliego({
   );
 }
 
-function sectionCropMetrics(section: BrochureSection, displayWidth: number) {
-  const srcPanelW = BROCHURE_W / section.cols;
-  const srcPanelH = BROCHURE_H / section.rows;
+function sectionCropMetrics(
+  section: BrochureSection,
+  displayWidth: number,
+  sheetW: number,
+  sheetH: number
+) {
+  const srcPanelW = sheetW / section.cols;
+  const srcPanelH = sheetH / section.rows;
   const scale = displayWidth / srcPanelW;
   return {
-    displayHeight: Math.round((displayWidth * srcPanelH) / srcPanelW),
-    imgW: Math.round(BROCHURE_W * scale),
-    imgH: Math.round(BROCHURE_H * scale),
-    left: Math.round(-section.col * srcPanelW * scale),
-    top: Math.round(-section.row * srcPanelH * scale),
+    displayHeight: Math.floor((displayWidth * srcPanelH) / srcPanelW),
+    imgW: Math.floor(sheetW * scale),
+    imgH: Math.floor(sheetH * scale),
+    left: Math.floor(-section.col * srcPanelW * scale),
+    top: Math.floor(-section.row * srcPanelH * scale),
   };
 }
 
 function BrochureSectionZoom({
   src,
   alt,
+  side,
   section,
   displayWidth,
   onLoad,
 }: {
   src: string;
   alt: string;
+  side: BrochureSide;
   section: BrochureSection;
   displayWidth: number;
   onLoad?: () => void;
 }) {
-  const { width: panelW, height: panelH } = sectionNativeSize(section);
-  const crop = displayWidth > 0 ? sectionCropMetrics(section, displayWidth) : null;
+  const { width: sheetW, height: sheetH } = brochureDims(side);
+  const { width: panelW, height: panelH } = sectionNativeSize(section, side);
+  const crop =
+    displayWidth > 0 ? sectionCropMetrics(section, displayWidth, sheetW, sheetH) : null;
 
   return (
     <div
@@ -272,11 +292,12 @@ function BrochureSectionZoom({
       <img
         src={src}
         alt={`${alt} — ${section.label}`}
-        width={BROCHURE_W}
-        height={BROCHURE_H}
+        width={sheetW}
+        height={sheetH}
         draggable={false}
         decoding="sync"
         loading="eager"
+        fetchPriority="high"
         onLoad={onLoad}
         className="brochure-crisp absolute max-w-none select-none"
         style={
@@ -330,7 +351,7 @@ function BrochureZoomViewport({
   return (
     <div ref={scrollRef} className="brochure-zoom-scroll overflow-x-auto overflow-y-visible pb-2">
       <div
-        className="brochure-zoom-inner mx-auto transition-[width] duration-200"
+        className="brochure-zoom-inner mx-auto"
         style={{
           width: displayWidth,
           maxWidth: nativeWidth,
@@ -360,12 +381,13 @@ function BrochureModal({
   const sections = side === "tiro" ? TIRO_SECTIONS : RETIRO_SECTIONS;
   const focusSection = sections.find((s) => s.id === focusSectionId) ?? null;
   const isPliego = focusSection === null;
+  const sheetDims = brochureDims(side);
   const zoomMax = isPliego ? ZOOM_MAX_FULL : ZOOM_MAX_SECTION;
   const nativeViewWidth = isPliego
-    ? BROCHURE_W
+    ? sheetDims.width
     : focusSection
-      ? sectionNativeSize(focusSection).width
-      : BROCHURE_W;
+      ? sectionNativeSize(focusSection, side).width
+      : sheetDims.width;
 
   const goTo = useCallback((next: BrochureSide) => {
     setSide(next);
@@ -469,7 +491,7 @@ function BrochureModal({
             role="dialog"
             aria-modal="true"
             aria-label={BROCHURE.title}
-            className="relative z-10 flex max-h-[96vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
+            className="relative z-10 flex max-h-[96vh] w-full max-w-[82rem] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
             initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
@@ -635,6 +657,7 @@ function BrochureModal({
                         <BrochureSectionZoom
                           src={current.src}
                           alt={current.alt}
+                          side={side}
                           section={focusSection}
                           displayWidth={displayWidth}
                           onLoad={() => setLoading(false)}
@@ -647,7 +670,7 @@ function BrochureModal({
 
               <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
                 {isPliego
-                  ? "Haz clic en cualquier panel del pliego para ampliarlo. El zoom llega hasta la resolución nativa del archivo (1024 px) sin pixelar."
+                  ? `Haz clic en cualquier panel del pliego para ampliarlo. Zoom hasta resolución nativa (${sheetDims.width} px) sin ampliar más allá del archivo.`
                   : `Vista ampliada: ${focusSection?.label}. Zoom hasta resolución nativa del panel (~${Math.round(nativeViewWidth)} px). Esc para volver al pliego.`}
               </p>
               {isPliego && (
@@ -763,15 +786,15 @@ export function CoastalRouteBrochure() {
               whileHover={reduced ? undefined : { scale: 1.01 }}
               transition={{ duration: 0.35, ease: PANEL_EASE }}
               className="relative h-full min-h-[180px] overflow-hidden rounded-xl border border-white/15 bg-[#0a1628] shadow-inner"
-              style={{ aspectRatio: `${BROCHURE_W} / ${BROCHURE_H}` }}
+              style={{ aspectRatio: `${BROCHURE_DIMS.tiro.width} / ${BROCHURE_DIMS.tiro.height}` }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={BROCHURE.tiro.src}
                 alt="Vista previa del tríptico Ruta Costera de Ovalle"
-                width={BROCHURE_W}
-                height={BROCHURE_H}
-                className="brochure-crisp block h-auto w-full"
+                width={BROCHURE_DIMS.tiro.width}
+                height={BROCHURE_DIMS.tiro.height}
+                className="brochure-crisp block h-auto w-full max-w-none"
                 draggable={false}
               />
               <TriptychFoldOverlay />
