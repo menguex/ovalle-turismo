@@ -18,8 +18,8 @@ import {
 import { cn } from "@/lib/utils";
 
 const BROCHURE_DIMS = {
-  tiro: { width: 3840, height: 2501 },
-  retiro: { width: 3840, height: 2513 },
+  tiro: { width: 3897, height: 2540 },
+  retiro: { width: 3897, height: 2540 },
 } as const;
 
 const BROCHURE = {
@@ -491,7 +491,7 @@ function BrochureModal({
             role="dialog"
             aria-modal="true"
             aria-label={BROCHURE.title}
-            className="relative z-10 flex max-h-[96vh] w-full max-w-[min(96vw,3840px)] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
+            className="relative z-10 flex max-h-[96vh] w-full max-w-[min(96vw,3897px)] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
             initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
