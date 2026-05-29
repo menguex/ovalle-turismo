@@ -3,7 +3,7 @@
 import type { Ficha } from "@/lib/types/ficha";
 import { Compass } from "lucide-react";
 import { TOUR_OPERATORS } from "@/lib/data/fichas";
-import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
+import { ServiceListingGrid } from "@/components/ui/ServiceListingGrid";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function TourOperatorsSection({
@@ -18,10 +18,10 @@ export function TourOperatorsSection({
           icon={Compass}
           eyebrow="Tour operadores"
           title="Operadores locales"
-          description="Conoce a los tour operadores locales que harán de tu visita a Ovalle una experiencia inolvidable: guías del valle, patrimonio diaguita, naturaleza y astroturismo cultural."
+          description="Guías y operadores del Valle del Limarí para armar tu ruta de mar a cordillera. Haz clic en cada ficha para ver contacto, servicios y cómo reservar."
         />
       </div>
-      <InteractiveCardGrid items={items} />
+      <ServiceListingGrid items={items} pageSize={9} showTypeFilters={false} />
     </section>
   );
 }

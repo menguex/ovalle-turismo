@@ -11,7 +11,7 @@ import { MagneticWrapper } from "@/components/ui/MagneticWrapper";
 
 export function TourOperatorsPreview() {
   const reduced = useReducedMotion();
-  const operators = TOUR_OPERATORS.filter((op) => op.id !== "oficina-turismo").slice(0, 4);
+  const operators = TOUR_OPERATORS.filter((op) => op.id !== "oficina-turismo");
 
   return (
     <section className="section-surface py-20 lg:py-28">
@@ -34,25 +34,31 @@ export function TourOperatorsPreview() {
           </MagneticWrapper>
         </div>
 
-        <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.07}>
+        <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.07}>
           {operators.map((op) => (
             <StaggerItem key={op.id}>
-              <motion.div
-                className="tech-card-frame flex h-full flex-col p-5 card-spotlight"
-                whileHover={reduced ? undefined : { y: -6, scale: 1.01 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <p className="font-accent text-[10px] uppercase tracking-wider text-copper">
-                  {op.type}
-                </p>
-                <h3 className="mt-2 font-display text-lg font-semibold text-fg">{op.name}</h3>
-                <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-fg">
-                  {op.description}
-                </p>
-                {op.phone && (
-                  <p className="mt-4 text-xs text-muted">{op.phone.split(" · ")[0]}</p>
-                )}
-              </motion.div>
+              <Link href="/servicios#tours" className="block h-full">
+                <motion.div
+                  className="tech-card-frame flex h-full flex-col p-5 card-spotlight transition hover:border-brand-orange/30"
+                  whileHover={reduced ? undefined : { y: -6, scale: 1.01 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <p className="font-accent text-label-sm uppercase tracking-wider text-copper">
+                    {op.type}
+                  </p>
+                  <h3 className="mt-2 font-display text-lg font-semibold text-fg">{op.name}</h3>
+                  <p className="mt-2 line-clamp-3 flex-1 text-body-sm leading-relaxed text-muted-fg">
+                    {op.description}
+                  </p>
+                  {op.phone && (
+                    <p className="mt-4 text-body-sm text-muted">{op.phone.split(" · ")[0]}</p>
+                  )}
+                  <span className="mt-4 inline-flex items-center gap-1 font-accent text-label-sm uppercase tracking-wider text-copper">
+                    Ver en servicios
+                    <ArrowUpRight size={12} />
+                  </span>
+                </motion.div>
+              </Link>
             </StaggerItem>
           ))}
         </Stagger>

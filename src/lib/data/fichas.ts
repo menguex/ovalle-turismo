@@ -214,9 +214,14 @@ export const LODGING: readonly Ficha[] = [
       "Jacuzzis, tinajas, sauna y masajes",
       "Restaurante y piscina",
     ],
+    distanceFromOvalle: "~45 km · borde costero",
+    details: [
+      "Restaurante y pensión sujetos a temporada — confirma disponibilidad antes de viajar.",
+      "Sector costero de Socos, camino al borde costero desde Ovalle.",
+    ],
     email: "reservas@termasdesocos.cl",
     amenities: ["Termas", "Spa", "Restaurante", "Piscina"],
-    href: "/servicios#alojamiento",
+    href: "/servicios#costa",
   },
   {
     id: "ovalle-suite",

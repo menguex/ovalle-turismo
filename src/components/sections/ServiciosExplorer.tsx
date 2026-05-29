@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Bed, ChefHat, Compass, Search, Sparkles } from "lucide-react";
+import { Bed, ChefHat, Compass, Search, Sparkles, Waves } from "lucide-react";
 import { ServiceListingGrid } from "@/components/ui/ServiceListingGrid";
 import { IconBadge } from "@/components/ui/IconBadge";
 import { PagePanel } from "@/components/ui/PagePanel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { CoastalBorderSection } from "@/components/sections/CoastalBorderSection";
+import { CoastalGastronomyAlert } from "@/components/sections/CoastalGastronomyAlert";
 import { TourOperatorsSection } from "@/components/sections/TourOperatorsSection";
 import { LODGING, RESTAURANTS, TOUR_OPERATORS } from "@/lib/data/fichas";
 import { Reveal } from "@/components/ui/Reveal";
@@ -36,6 +38,18 @@ const TABS = [
     accent: "orange" as const,
   },
   {
+    id: "costa",
+    label: "Borde costero",
+    shortLabel: "Costa",
+    icon: Waves,
+    count: 4,
+    description: "Tongoy, Puerto Velero y el encuentro del valle con el Pacífico.",
+    sectionTitle: "Planifica tu visita a la costa",
+    sectionDescription:
+      "Servicios limitados en la costa: lleva comida, confirma horarios y contáctanos antes de viajar.",
+    accent: "sea" as const,
+  },
+  {
     id: "tours",
     label: "Tour operadores",
     shortLabel: "Guiarte",
@@ -63,6 +77,12 @@ const TAB_STYLES = {
       "gradient-border border-brand-orange/45 bg-brand-yellow/10 shadow-glow ring-1 ring-brand-orange/20",
     iconSelected: "bg-brand-orange/20 text-brand-orange ring-brand-orange/35",
     countSelected: "bg-brand-orange/15 text-brand-orange",
+  },
+  sea: {
+    selected:
+      "gradient-border border-brand-blue/45 bg-brand-blue/10 shadow-glow-blue ring-1 ring-brand-blue/20",
+    iconSelected: "bg-brand-blue/20 text-brand-blue ring-brand-blue/35",
+    countSelected: "bg-brand-blue/15 text-brand-blue",
   },
   gradient: {
     selected:
@@ -106,11 +126,27 @@ export function ServiciosExplorer() {
     return () => window.removeEventListener("hashchange", syncHash);
   }, []);
 
-  const setTab = (id: TabId) => {
+  useEffect(() => {
+    if (!window.location.hash) return;
+    const timer = window.setTimeout(() => {
+      document.getElementById("servicios-contenido")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const setTab = (id: TabId, scrollToContent = false) => {
     setActiveTab(id);
     setQuery("");
     window.history.replaceState(null, "", `#${id}`);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (scrollToContent) {
+      document.getElementById("servicios-contenido")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   const filterItems = <T extends { name: string; type?: string; description: string }>(
@@ -137,18 +173,15 @@ export function ServiciosExplorer() {
 
   return (
     <>
-      <section
-        aria-label="Categorías de servicios"
-        className="relative border-b border-border bg-surface section-tech-glow lg:sticky lg:top-[calc(var(--topbar-h)+var(--header-h))] lg:z-30"
-      >
+      <section aria-label="Categorías de servicios" className="relative border-b border-border bg-surface section-tech-glow">
         <div className="pointer-events-none absolute inset-0 mesh-bg opacity-60" aria-hidden />
         <div className="container-wide relative py-8 lg:py-10">
           <p className="eyebrow mb-4">Elige una categoría</p>
 
           <div
-            role="tablist"
-            aria-label="Servicios turísticos"
-            className="grid gap-3 sm:grid-cols-3 sm:gap-4"
+            role="group"
+            aria-label="Seleccionar categoría de servicios"
+            className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4"
           >
             {TABS.map((tab, i) => {
               const Icon = tab.icon;
@@ -159,14 +192,12 @@ export function ServiciosExplorer() {
                 <motion.button
                   key={tab.id}
                   type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  aria-controls={tab.id}
-                  id={`tab-${tab.id}`}
+                  aria-pressed={selected}
+                  aria-label={`${tab.label}, ${tab.count} opciones`}
                   initial={reduced ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: reduced ? 0 : i * 0.06, duration: 0.4 }}
-                  onClick={() => setTab(tab.id)}
+                  onClick={() => setTab(tab.id, true)}
                   className={cn(
                     "tech-card-frame group relative flex flex-col items-start rounded-2xl border p-4 text-left transition-all duration-300 sm:p-5",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50",
@@ -238,54 +269,99 @@ export function ServiciosExplorer() {
               );
             })}
           </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={reduced ? false : { opacity: 1, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduced ? undefined : { opacity: 0, y: -6 }}
-              transition={{ duration: reduced ? 0 : 0.25 }}
-              className="mt-6"
-            >
-              <div className="relative">
-                <Search
-                  size={18}
-                  className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-brand-orange"
-                />
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder={`Buscar en ${activeMeta.label.toLowerCase()}…`}
-                  aria-label={`Buscar en ${activeMeta.label}`}
-                  className="glass-tech w-full rounded-2xl border border-border py-3.5 pl-12 pr-4 text-body-sm text-fg outline-none transition focus:border-brand-orange/40 focus:shadow-glow sm:max-w-md"
-                />
-              </div>
-            </motion.div>
-          </AnimatePresence>
         </div>
       </section>
 
-      <Reveal>
-        <div className="container-wide py-8 lg:py-10">
-          <PagePanel animated className="p-6 lg:p-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
-              <IconBadge icon={activeMeta.icon} size="lg" variant="brand" />
-              <div className="min-w-0 flex-1">
-                <p className="eyebrow mb-1">{activeMeta.label}</p>
-                <p className="section-lead max-w-2xl">{activeMeta.description}</p>
-              </div>
-              <span className="pill-badge-warm shrink-0 self-start">
-                <Sparkles size={12} />
-                {activeMeta.count} opciones
-              </span>
-            </div>
-          </PagePanel>
-        </div>
-      </Reveal>
+      <nav
+        aria-label="Navegación rápida de servicios"
+        className="sticky top-[var(--header-h)] z-40 border-b border-border bg-surface/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-surface/90 md:top-[calc(var(--topbar-h)+var(--header-h))]"
+      >
+        <div className="container-wide flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-3.5">
+          <div
+            role="tablist"
+            aria-label="Cambiar categoría"
+            className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {TABS.map((tab) => {
+              const Icon = tab.icon;
+              const selected = tab.id === activeTab;
+              const styles = TAB_STYLES[tab.accent];
 
-      <AnimatePresence mode="wait">
+              return (
+                <button
+                  key={`sticky-${tab.id}`}
+                  type="button"
+                  role="tab"
+                  id={`tab-${tab.id}`}
+                  aria-selected={selected}
+                  aria-controls={tab.id}
+                  onClick={() => setTab(tab.id)}
+                  className={cn(
+                    "inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 font-sans text-sm font-semibold transition duration-300 sm:px-4",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50",
+                    selected
+                      ? cn(
+                          styles.selected,
+                          tab.accent === "gradient" ? "text-night" : "text-fg"
+                        )
+                      : "border-border bg-surface-elevated text-muted-fg hover:border-brand-orange/30 hover:text-fg"
+                  )}
+                >
+                  <Icon size={16} strokeWidth={2} className="shrink-0" />
+                  <span className="whitespace-nowrap">{tab.label}</span>
+                  <span
+                    className={cn(
+                      "rounded-full px-1.5 py-0.5 font-accent text-[0.65rem] font-bold uppercase tracking-wider",
+                      selected ? styles.countSelected : "bg-border/80 text-muted"
+                    )}
+                  >
+                    {tab.count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="relative min-w-0 sm:max-w-xs sm:shrink-0">
+            <Search
+              size={16}
+              className="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-brand-orange"
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={`Buscar…`}
+              aria-label={`Buscar en ${activeMeta.label}`}
+              className="glass-tech w-full rounded-full border border-border py-2.5 pl-10 pr-4 text-body-sm text-fg outline-none transition focus:border-brand-orange/40 focus:shadow-glow"
+            />
+          </div>
+        </div>
+      </nav>
+
+      <div
+        id="servicios-contenido"
+        className="scroll-mt-[calc(var(--header-h)+4.5rem)] md:scroll-mt-[calc(var(--topbar-h)+var(--header-h)+4.5rem)]"
+      >
+        <Reveal>
+          <div className="container-wide py-8 lg:py-10">
+            <PagePanel animated className="p-6 lg:p-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+                <IconBadge icon={activeMeta.icon} size="lg" variant="brand" />
+                <div className="min-w-0 flex-1">
+                  <p className="eyebrow mb-1">{activeMeta.label}</p>
+                  <p className="section-lead max-w-2xl">{activeMeta.description}</p>
+                </div>
+                <span className="pill-badge-warm shrink-0 self-start">
+                  <Sparkles size={12} />
+                  {activeMeta.count} opciones
+                </span>
+              </div>
+            </PagePanel>
+          </div>
+        </Reveal>
+
+        <AnimatePresence mode="wait">
         {activeTab === "alojamiento" && (
           <motion.section
             key="alojamiento"
@@ -296,7 +372,7 @@ export function ServiciosExplorer() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: -12 }}
             transition={panelTransition}
-            className="scroll-mt-36 pb-20 lg:pb-28"
+            className="pb-20 lg:pb-28"
           >
             <div className="container-wide mb-8">
               <SectionHeading
@@ -324,9 +400,12 @@ export function ServiciosExplorer() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: -12 }}
             transition={panelTransition}
-            className="section-alt scroll-mt-36 pb-20 lg:pb-28"
+            className="section-alt pb-20 lg:pb-28"
           >
-            <div className="container-wide mb-8 pt-4">
+            <div className="container-wide mb-6 pt-4">
+              <CoastalGastronomyAlert onViewCoast={() => setTab("costa", true)} />
+            </div>
+            <div className="container-wide mb-8">
               <SectionHeading
                 icon={ChefHat}
                 eyebrow="Gastronomía"
@@ -342,6 +421,20 @@ export function ServiciosExplorer() {
           </motion.section>
         )}
 
+        {activeTab === "costa" && (
+          <motion.div
+            key="costa"
+            role="tabpanel"
+            aria-labelledby="tab-costa"
+            initial={reduced ? false : { opacity: 1, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduced ? undefined : { opacity: 0, y: -12 }}
+            transition={panelTransition}
+          >
+            <CoastalBorderSection />
+          </motion.div>
+        )}
+
         {activeTab === "tours" && (
           <motion.div
             key="tours"
@@ -355,21 +448,22 @@ export function ServiciosExplorer() {
             {filteredTours.length > 0 ? (
               <TourOperatorsSection items={filteredTours} />
             ) : (
-              <>
+              <div className="section-alt pb-20 lg:pb-28">
                 <div className="container-wide mb-8 pt-4">
                   <SectionHeading
                     icon={Compass}
                     eyebrow="Tour operadores"
-                    title={TABS[2].sectionTitle}
-                    description={TABS[2].sectionDescription}
+                    title={TABS[3].sectionTitle}
+                    description={TABS[3].sectionDescription}
                   />
                 </div>
                 <EmptySearchState query={query} label={activeMeta.label} />
-              </>
+              </div>
             )}
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </>
   );
 }

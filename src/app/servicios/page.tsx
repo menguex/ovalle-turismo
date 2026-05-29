@@ -13,7 +13,7 @@ export default function ServiciosPage() {
         icon="servicios"
         eyebrow="Servicios"
         title="Arma tu viaje"
-        subtitle="Todo lo que necesitas para disfrutar de Ovalle: dónde comer, dónde dormir y tour operadores locales."
+        subtitle="Todo lo que necesitas para disfrutar de Ovalle: dónde comer, dónde dormir, borde costero y tour operadores locales."
         image={IMAGES.alameda}
       />
       <ServiciosExplorer />
