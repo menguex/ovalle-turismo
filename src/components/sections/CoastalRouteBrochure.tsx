@@ -88,7 +88,10 @@ function nativeDisplayWidth(
   const fitWidth = Math.min(containerWidth, nativeWidth);
   if (nativeWidth <= fitWidth || zoomMax <= ZOOM_MIN) return nativeWidth;
   const t = (zoom - ZOOM_MIN) / (zoomMax - ZOOM_MIN);
-  return Math.round(fitWidth + t * (nativeWidth - fitWidth));
+  return Math.min(
+    nativeWidth,
+    Math.round(fitWidth + t * (nativeWidth - fitWidth))
+  );
 }
 
 function printBrochure(which: "both" | BrochureSide) {
@@ -218,23 +221,43 @@ function BrochureFullPliego({
   );
 }
 
+function sectionCropMetrics(section: BrochureSection, displayWidth: number) {
+  const srcPanelW = BROCHURE_W / section.cols;
+  const srcPanelH = BROCHURE_H / section.rows;
+  const scale = displayWidth / srcPanelW;
+  return {
+    displayHeight: Math.round((displayWidth * srcPanelH) / srcPanelW),
+    imgW: Math.round(BROCHURE_W * scale),
+    imgH: Math.round(BROCHURE_H * scale),
+    left: Math.round(-section.col * srcPanelW * scale),
+    top: Math.round(-section.row * srcPanelH * scale),
+  };
+}
+
 function BrochureSectionZoom({
   src,
   alt,
   section,
+  displayWidth,
   onLoad,
 }: {
   src: string;
   alt: string;
   section: BrochureSection;
+  displayWidth: number;
   onLoad?: () => void;
 }) {
   const { width: panelW, height: panelH } = sectionNativeSize(section);
+  const crop = displayWidth > 0 ? sectionCropMetrics(section, displayWidth) : null;
 
   return (
     <div
       className="relative overflow-hidden rounded-xl border border-brand-yellow/30 bg-white shadow-2xl ring-1 ring-brand-yellow/20"
-      style={{ aspectRatio: `${panelW} / ${panelH}` }}
+      style={
+        crop
+          ? { width: displayWidth, height: crop.displayHeight }
+          : { aspectRatio: `${panelW} / ${panelH}` }
+      }
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -247,12 +270,21 @@ function BrochureSectionZoom({
         loading="eager"
         onLoad={onLoad}
         className="brochure-crisp absolute max-w-none select-none"
-        style={{
-          width: `${section.cols * 100}%`,
-          height: `${section.rows * 100}%`,
-          left: `${-(section.col / section.cols) * 100}%`,
-          top: `${-(section.row / section.rows) * 100}%`,
-        }}
+        style={
+          crop
+            ? {
+                width: crop.imgW,
+                height: crop.imgH,
+                left: crop.left,
+                top: crop.top,
+              }
+            : {
+                width: `${section.cols * 100}%`,
+                height: `${section.rows * 100}%`,
+                left: `${-section.col * 100}%`,
+                top: `${-section.row * 100}%`,
+              }
+        }
       />
     </div>
   );
@@ -267,7 +299,7 @@ function BrochureZoomViewport({
   nativeWidth: number;
   zoom: number;
   zoomMax: number;
-  children: React.ReactNode;
+  children: (displayWidth: number) => React.ReactNode;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -295,7 +327,7 @@ function BrochureZoomViewport({
           maxWidth: nativeWidth,
         }}
       >
-        {children}
+        {children(displayWidth)}
       </div>
     </div>
   );
@@ -550,32 +582,35 @@ function BrochureModal({
                 zoom={zoom}
                 zoomMax={zoomMax}
               >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`${side}-${focusSectionId ?? "pliego"}`}
-                    initial={reduced ? false : { opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduced ? undefined : { opacity: 0, y: -8 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    {isPliego ? (
-                      <BrochureFullPliego
-                        src={current.src}
-                        alt={current.alt}
-                        side={side}
-                        onSectionClick={selectSection}
-                        onLoad={() => setLoading(false)}
-                      />
-                    ) : focusSection ? (
-                      <BrochureSectionZoom
-                        src={current.src}
-                        alt={current.alt}
-                        section={focusSection}
-                        onLoad={() => setLoading(false)}
-                      />
-                    ) : null}
-                  </motion.div>
-                </AnimatePresence>
+                {(displayWidth) => (
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`${side}-${focusSectionId ?? "pliego"}`}
+                      initial={reduced ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduced ? undefined : { opacity: 0, y: -8 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      {isPliego ? (
+                        <BrochureFullPliego
+                          src={current.src}
+                          alt={current.alt}
+                          side={side}
+                          onSectionClick={selectSection}
+                          onLoad={() => setLoading(false)}
+                        />
+                      ) : focusSection ? (
+                        <BrochureSectionZoom
+                          src={current.src}
+                          alt={current.alt}
+                          section={focusSection}
+                          displayWidth={displayWidth}
+                          onLoad={() => setLoading(false)}
+                        />
+                      ) : null}
+                    </motion.div>
+                  </AnimatePresence>
+                )}
               </BrochureZoomViewport>
 
               <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
