@@ -257,9 +257,9 @@ function VallesComunasExplorer() {
           />
         </Reveal>
 
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,260px)_1fr] lg:gap-12">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,220px)_1fr] lg:gap-12">
           <Stagger
-            className="flex snap-x snap-mandatory flex-row gap-3 overflow-x-auto pb-2 lg:flex-col lg:gap-4 lg:overflow-visible lg:pb-0"
+            className="flex snap-x snap-mandatory flex-row gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-2 lg:overflow-visible lg:pb-0"
             stagger={0.06}
           >
             {LIMARI_COMMUNITIES.map((comuna) => {
@@ -270,38 +270,28 @@ function VallesComunasExplorer() {
                     type="button"
                     onClick={() => setActiveId(comuna.id)}
                     className={cn(
-                      "group flex w-[9.5rem] shrink-0 flex-col overflow-hidden rounded-2xl border text-left transition duration-300 sm:w-[10.5rem] lg:w-full",
+                      "group w-full min-w-[8.5rem] shrink-0 rounded-xl border px-4 py-3 text-left transition duration-300 lg:min-w-0 lg:px-5 lg:py-3.5",
                       selected
-                        ? "gradient-border border-brand-blue/40 bg-brand-blue/10 shadow-glow-blue"
-                        : "tech-card-frame hover:border-brand-orange/25"
+                        ? "border-brand-blue/50 bg-brand-blue/10 shadow-glow-blue"
+                        : "border-border/80 bg-surface/50 hover:border-brand-orange/30 hover:bg-surface-elevated"
                     )}
                   >
-                    <div className="relative aspect-[3/4] w-full overflow-hidden">
-                      <Image
-                        src={comuna.image}
-                        alt={comuna.name}
-                        fill
-                        className={cn(
-                          "object-cover transition duration-500",
-                          selected ? "scale-105" : "group-hover:scale-105"
-                        )}
-                        sizes="(max-width:1024px) 168px, 260px"
-                      />
-                      <div
-                        className={cn(
-                          "absolute inset-0 bg-gradient-to-t from-night/70 via-night/10 to-transparent transition duration-300",
-                          selected ? "from-night/50" : "group-hover:from-night/60"
-                        )}
-                      />
-                      <div className="absolute inset-x-0 bottom-0 p-3 lg:p-4">
-                        <p className="font-accent text-[9px] uppercase tracking-wider text-sand/80 lg:text-[10px]">
-                          {comuna.type}
-                        </p>
-                        <p className="font-display text-base font-bold text-white lg:text-lg">
-                          {comuna.name}
-                        </p>
-                      </div>
-                    </div>
+                    <p
+                      className={cn(
+                        "font-accent text-[9px] uppercase tracking-wider transition lg:text-[10px]",
+                        selected ? "text-brand-blue" : "text-muted"
+                      )}
+                    >
+                      {comuna.type}
+                    </p>
+                    <p
+                      className={cn(
+                        "mt-0.5 font-display text-base font-bold transition lg:text-lg",
+                        selected ? "text-fg" : "text-fg/90 group-hover:text-fg"
+                      )}
+                    >
+                      {comuna.name}
+                    </p>
                   </button>
                 </StaggerItem>
               );
