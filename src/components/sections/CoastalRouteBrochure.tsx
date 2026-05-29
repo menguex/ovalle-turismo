@@ -29,12 +29,14 @@ const BROCHURE = {
     "Material desplegable de 3 paneles con las caletas artesanales de la comuna. Puedes verlo aquí, descargarlo o imprimirlo tal como lo entrega la Oficina de Turismo.",
   tiro: {
     src: "/brochures/ruta-costera-tiro.png",
+    thumbSrc: "/brochures/ruta-costera-tiro-thumb.jpg",
     alt: "Tríptico Ruta Costera de Ovalle — tiro (exterior)",
     label: "Tiro",
     hint: "Cara exterior: Sierra y Talca, centro con QR y portada",
   },
   retiro: {
     src: "/brochures/ruta-costera-retiro.png",
+    thumbSrc: "/brochures/ruta-costera-retiro-thumb.jpg",
     alt: "Tríptico Ruta Costera de Ovalle — retiro (interior)",
     label: "Retiro",
     hint: "Cara interior: 6 caletas artesanales del borde costero de Ovalle",
@@ -83,6 +85,20 @@ function sectionNativeSize(section: BrochureSection, side: BrochureSide) {
     width: width / section.cols,
     height: height / section.rows,
   };
+}
+
+function isImageCached(src: string) {
+  if (typeof window === "undefined") return false;
+  const img = new window.Image();
+  img.src = src;
+  return img.complete && img.naturalWidth > 0;
+}
+
+function preloadBrochureImages() {
+  (["tiro", "retiro"] as const).forEach((key) => {
+    const img = new window.Image();
+    img.src = BROCHURE[key].src;
+  });
 }
 
 function nativeDisplayWidth(
@@ -324,11 +340,13 @@ function BrochureZoomViewport({
   nativeWidth,
   zoom,
   zoomMax,
+  resetKey,
   children,
 }: {
   nativeWidth: number;
   zoom: number;
   zoomMax: number;
+  resetKey: string;
   children: (displayWidth: number) => React.ReactNode;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -346,12 +364,21 @@ function BrochureZoomViewport({
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollLeft = 0;
+  }, [resetKey, zoom]);
+
   const displayWidth = nativeDisplayWidth(containerWidth, nativeWidth, zoom, zoomMax);
 
   return (
-    <div ref={scrollRef} className="brochure-zoom-scroll overflow-x-auto overflow-y-visible pb-2">
+    <div
+      ref={scrollRef}
+      className="brochure-zoom-scroll flex justify-center overflow-x-auto overflow-y-visible pb-2"
+    >
       <div
-        className="brochure-zoom-inner mx-auto"
+        className="brochure-zoom-inner shrink-0"
         style={{
           width: displayWidth,
           maxWidth: nativeWidth,
@@ -377,6 +404,8 @@ function BrochureModal({
   const [focusSectionId, setFocusSectionId] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
   const [loading, setLoading] = useState(true);
+  const contentScrollRef = useRef<HTMLDivElement>(null);
+  const sectionNavRef = useRef<HTMLDivElement>(null);
 
   const sections = side === "tiro" ? TIRO_SECTIONS : RETIRO_SECTIONS;
   const focusSection = sections.find((s) => s.id === focusSectionId) ?? null;
@@ -393,14 +422,17 @@ function BrochureModal({
     setSide(next);
     setFocusSectionId(null);
     setZoom(1);
-    setLoading(true);
+    setLoading(!isImageCached(BROCHURE[next].src));
   }, []);
 
-  const selectSection = useCallback((id: string | null) => {
-    setFocusSectionId(id);
-    setZoom(1);
-    setLoading(true);
-  }, []);
+  const selectSection = useCallback(
+    (id: string | null) => {
+      setFocusSectionId(id);
+      setZoom(1);
+      setLoading(!isImageCached(BROCHURE[side].src));
+    },
+    [side]
+  );
 
   const stepSection = useCallback(
     (delta: -1 | 1) => {
@@ -418,13 +450,22 @@ function BrochureModal({
     setSide(initialSide);
     setFocusSectionId(null);
     setZoom(1);
-    setLoading(true);
-
-    [BROCHURE.tiro.src, BROCHURE.retiro.src].forEach((src) => {
-      const img = new window.Image();
-      img.src = src;
-    });
+    setLoading(!isImageCached(BROCHURE[initialSide].src));
+    preloadBrochureImages();
   }, [open, initialSide]);
+
+  useEffect(() => {
+    if (!open) return;
+    contentScrollRef.current?.scrollTo({ top: 0, left: 0 });
+  }, [open, side, focusSectionId, zoom]);
+
+  useEffect(() => {
+    if (!open || !focusSectionId || !sectionNavRef.current) return;
+    const active = sectionNavRef.current.querySelector<HTMLElement>(
+      `[data-section-id="${focusSectionId}"]`
+    );
+    active?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [open, focusSectionId]);
 
   useEffect(() => {
     if (!open) return;
@@ -455,16 +496,17 @@ function BrochureModal({
 
   useEffect(() => {
     if (!open) return;
-    const img = new window.Image();
-    img.src = BROCHURE[side].src;
-    if (img.complete) {
+    const src = BROCHURE[side].src;
+    if (isImageCached(src)) {
       setLoading(false);
       return;
     }
     setLoading(true);
+    const img = new window.Image();
+    img.src = src;
     img.onload = () => setLoading(false);
     img.onerror = () => setLoading(false);
-  }, [open, side, focusSectionId]);
+  }, [open, side]);
 
   const current = BROCHURE[side];
 
@@ -549,12 +591,12 @@ function BrochureModal({
                 )}
               </div>
 
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <div ref={sectionNavRef} className="mt-3 flex flex-wrap gap-1.5 overflow-x-auto pb-0.5">
                 <button
                   type="button"
                   onClick={() => selectSection(null)}
                   className={cn(
-                    "rounded-full px-3 py-1 font-accent text-[9px] uppercase tracking-wider transition sm:text-[10px]",
+                    "shrink-0 rounded-full px-3 py-1 font-accent text-[9px] uppercase tracking-wider transition sm:text-[10px]",
                     isPliego
                       ? "bg-white/15 text-white"
                       : "bg-white/5 text-sand/65 hover:bg-white/10 hover:text-white"
@@ -566,9 +608,10 @@ function BrochureModal({
                   <button
                     key={section.id}
                     type="button"
+                    data-section-id={section.id}
                     onClick={() => selectSection(section.id)}
                     className={cn(
-                      "rounded-full px-3 py-1 font-accent text-[9px] uppercase tracking-wider transition sm:text-[10px]",
+                      "shrink-0 rounded-full px-3 py-1 font-accent text-[9px] uppercase tracking-wider transition sm:text-[10px]",
                       focusSectionId === section.id
                         ? "bg-brand-yellow/20 text-brand-yellow"
                         : "bg-white/5 text-sand/65 hover:bg-white/10 hover:text-white"
@@ -620,29 +663,34 @@ function BrochureModal({
               </div>
             </div>
 
-            <div className="relative min-h-0 flex-1 overflow-auto px-4 py-4 sm:px-6 sm:py-5">
+            <div
+              ref={contentScrollRef}
+              className="relative flex min-h-0 flex-1 flex-col overflow-auto px-4 py-4 sm:px-6 sm:py-5"
+            >
               {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c1524]/85">
                   <div className="flex items-center gap-2 text-sm text-sand/80">
                     <Loader2 size={18} className="animate-spin text-brand-yellow" />
-                    Cargando…
+                    Cargando alta resolución…
                   </div>
                 </div>
               )}
 
+              <div className="flex flex-1 flex-col items-center justify-start">
               <BrochureZoomViewport
                 nativeWidth={nativeViewWidth}
                 zoom={zoom}
                 zoomMax={zoomMax}
+                resetKey={`${side}-${focusSectionId ?? "pliego"}-${zoom}`}
               >
                 {(displayWidth) => (
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={`${side}-${focusSectionId ?? "pliego"}`}
-                      initial={reduced ? false : { opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduced ? undefined : { opacity: 0, y: -8 }}
-                      transition={{ duration: 0.25 }}
+                      initial={reduced ? false : { opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={reduced ? undefined : { opacity: 0 }}
+                      transition={{ duration: 0.2 }}
                     >
                       {isPliego ? (
                         <BrochureFullPliego
@@ -667,6 +715,7 @@ function BrochureModal({
                   </AnimatePresence>
                 )}
               </BrochureZoomViewport>
+              </div>
 
               <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
                 {isPliego
@@ -731,6 +780,15 @@ export function CoastalRouteBrochure() {
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
 
+  const handleOpen = useCallback(() => {
+    preloadBrochureImages();
+    setOpen(true);
+  }, []);
+
+  const handlePreload = useCallback(() => {
+    preloadBrochureImages();
+  }, []);
+
   return (
     <>
       <div className="overflow-hidden rounded-[1.75rem] border border-brand-blue/25 bg-gradient-to-br from-[#0c1a2e]/5 via-surface to-brand-blue/5 shadow-card">
@@ -751,7 +809,9 @@ export function CoastalRouteBrochure() {
             <div className="flex flex-wrap gap-2 pt-1">
               <button
                 type="button"
-                onClick={() => setOpen(true)}
+                onClick={handleOpen}
+                onMouseEnter={handlePreload}
+                onFocus={handlePreload}
                 className="inline-flex items-center gap-2 rounded-full bg-brand-gradient px-5 py-2.5 font-sans text-sm font-semibold text-night shadow-glow transition hover:opacity-95"
               >
                 <Sparkles size={15} />
@@ -778,7 +838,9 @@ export function CoastalRouteBrochure() {
 
           <button
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={handleOpen}
+            onMouseEnter={handlePreload}
+            onFocus={handlePreload}
             className="group relative min-h-[220px] border-t border-brand-blue/10 p-4 text-left lg:border-l lg:border-t-0 lg:p-6"
             aria-label="Abrir tríptico Ruta Costera de Ovalle"
           >
@@ -790,11 +852,14 @@ export function CoastalRouteBrochure() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={BROCHURE.tiro.src}
+                src={BROCHURE.tiro.thumbSrc}
                 alt="Vista previa del tríptico Ruta Costera de Ovalle"
-                width={BROCHURE_DIMS.tiro.width}
-                height={BROCHURE_DIMS.tiro.height}
-                className="brochure-crisp block h-auto w-full max-w-none"
+                width={720}
+                height={470}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+                className="block h-auto w-full max-w-none object-cover"
                 draggable={false}
               />
               <TriptychFoldOverlay />
