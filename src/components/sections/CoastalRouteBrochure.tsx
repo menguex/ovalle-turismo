@@ -113,7 +113,9 @@ function computeDisplayWidth(
 
   let fitWidth = Math.min(containerWidth, nativeWidth);
   if (fitInView && containerHeight > 0 && nativeHeight > 0) {
-    const widthFromHeight = (containerHeight * nativeWidth) / nativeHeight;
+    const inset = 12;
+    const widthFromHeight =
+      (Math.max(1, containerHeight - inset) * nativeWidth) / nativeHeight;
     fitWidth = Math.min(fitWidth, widthFromHeight);
   }
 
@@ -481,7 +483,7 @@ function BrochureZoomViewport({
       <div
         ref={scrollRef}
         className={cn(
-          "brochure-zoom-scroll w-full min-h-[min(52vh,560px)] flex-1 overflow-auto rounded-xl border border-white/10 bg-black/20",
+          "brochure-zoom-scroll w-full min-h-0 flex-1 overflow-auto rounded-xl border border-white/10 bg-black/20",
           canPan && "brochure-zoom-scroll--pan",
           isPanning && "brochure-zoom-scroll--panning"
         )}
@@ -802,7 +804,7 @@ function BrochureModal({
                 nativeHeight={nativeViewHeight}
                 zoom={zoom}
                 zoomMax={zoomMax}
-                fitInView={!isPliego}
+                fitInView
                 resetKey={`${side}-${focusSectionId ?? "pliego"}`}
               >
                 {(displayWidth) => (
@@ -840,7 +842,7 @@ function BrochureModal({
 
               <p className="mt-4 shrink-0 text-center text-xs leading-relaxed text-sand/55">
                 {isPliego
-                  ? `Haz clic en cualquier panel para ampliarlo. Pliego en alta resolución (${sheetDims.width} px) — el zoom llega hasta píxel nativo sin estirar más.`
+                  ? `Pliego completo visible en pantalla (${sheetDims.width} px). Haz clic en un panel para ampliarlo · zoom + para acercar.`
                   : `Vista ampliada: ${focusSection?.label}. Panel completo visible · zoom para acercar hasta ~${Math.round(nativeViewWidth)} px nativos. Esc para volver al pliego.`}
               </p>
               {isPliego && (
