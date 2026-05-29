@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
@@ -17,6 +16,10 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/** Resolución nativa de los PNG del tríptico */
+const BROCHURE_W = 1024;
+const BROCHURE_H = 667;
+
 const BROCHURE = {
   title: "Ruta Costera de Ovalle",
   subtitle: "Tesoros del Litoral de Ovalle",
@@ -25,14 +28,12 @@ const BROCHURE = {
     alt: "Tríptico Ruta Costera de Ovalle — tiro",
     label: "Tiro",
     hint: "Portada · Caletas Sierra y Talca · QR informativo",
-    panels: 3,
   },
   retiro: {
     src: "/brochures/ruta-costera-retiro.png",
     alt: "Tríptico Ruta Costera de Ovalle — retiro",
     label: "Retiro",
     hint: "6 caletas artesanales del litoral de Ovalle",
-    panels: 6,
   },
 } as const;
 
@@ -40,6 +41,36 @@ type BrochureSide = "tiro" | "retiro";
 type ViewMode = "unfold" | "full";
 
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 2.5;
+const ZOOM_STEP = 0.25;
+
+/** Imagen nativa sin optimización de Next — máxima nitidez al hacer zoom */
+function BrochureImg({
+  src,
+  alt,
+  className,
+  style,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      width={BROCHURE_W}
+      height={BROCHURE_H}
+      draggable={false}
+      decoding="async"
+      className={cn("brochure-crisp block max-w-none select-none", className)}
+      style={style}
+    />
+  );
+}
 
 function BrochurePanelSlice({
   src,
@@ -60,6 +91,8 @@ function BrochurePanelSlice({
   index: number;
   reduced: boolean | null;
 }) {
+  const panelW = BROCHURE_W / cols;
+  const panelH = BROCHURE_H / rows;
   const rotateY = cols === 3 && rows === 1 ? (col === 0 ? -78 : col === 2 ? 78 : 0) : 0;
   const rotateX = rows > 1 ? 18 : 0;
 
@@ -68,13 +101,7 @@ function BrochurePanelSlice({
       initial={
         reduced
           ? false
-          : {
-              opacity: 0,
-              rotateY,
-              rotateX,
-              scale: 0.88,
-              y: rows > 1 ? 24 : 0,
-            }
+          : { opacity: 0, rotateY, rotateX, scale: 0.88, y: rows > 1 ? 24 : 0 }
       }
       animate={{ opacity: 1, rotateY: 0, rotateX: 0, scale: 1, y: 0 }}
       transition={{
@@ -86,116 +113,122 @@ function BrochurePanelSlice({
         "brochure-panel relative overflow-hidden rounded-xl border border-white/20 bg-[#0c1a2e] shadow-[0_20px_50px_rgba(0,0,0,0.45)]",
         cols === 3 && rows === 1 && col === 1 && "z-10 shadow-[0_28px_70px_rgba(61,143,217,0.25)]"
       )}
-      style={{ transformStyle: "preserve-3d", transformOrigin: col === 0 ? "right center" : col === cols - 1 ? "left center" : "center center" }}
+      style={{
+        transformStyle: "preserve-3d",
+        transformOrigin:
+          col === 0 ? "right center" : col === cols - 1 ? "left center" : "center center",
+      }}
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden sm:aspect-[2/3]">
-        <div
-          className="absolute inset-0"
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ aspectRatio: `${panelW} / ${panelH}` }}
+      >
+        <BrochureImg
+          src={src}
+          alt={alt}
           style={{
             width: `${cols * 100}%`,
             height: `${rows * 100}%`,
+            maxWidth: "none",
+            objectFit: "fill",
+            position: "absolute",
             left: `${-(col * 100)}%`,
             top: `${-(row * 100)}%`,
           }}
-        >
-          <Image src={src} alt={alt} fill className="object-cover object-left-top" sizes="320px" />
-        </div>
+        />
       </div>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-black/20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-white/10" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-black/10" />
     </motion.div>
   );
 }
 
-function BrochureUnfoldView({
-  side,
-  reduced,
+function ZoomCanvas({
   zoom,
+  children,
 }: {
-  side: BrochureSide;
-  reduced: boolean | null;
   zoom: number;
+  children: React.ReactNode;
 }) {
+  return (
+    <div className="brochure-zoom-scroll overflow-auto overscroll-contain rounded-xl">
+      <div
+        className="brochure-zoom-inner mx-auto min-w-min px-1 py-1 transition-[width] duration-300 ease-out"
+        style={{ width: `${zoom * 100}%` }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function BrochureUnfoldView({ side, reduced, zoom }: { side: BrochureSide; reduced: boolean | null; zoom: number }) {
   const meta = BROCHURE[side];
 
   if (side === "tiro") {
     return (
-      <motion.div
-        className="mx-auto flex w-full max-w-4xl gap-1.5 sm:gap-2 [perspective:1800px]"
-        style={{ scale: zoom }}
-      >
-        {[0, 1, 2].map((col) => (
-          <BrochurePanelSlice
-            key={col}
-            src={meta.src}
-            alt={meta.alt}
-            col={col}
-            cols={3}
-            index={col}
-            reduced={reduced}
-          />
-        ))}
-      </motion.div>
+      <ZoomCanvas zoom={zoom}>
+        <div className="mx-auto flex w-full max-w-5xl gap-1.5 sm:gap-2 [perspective:1800px]">
+          {[0, 1, 2].map((col) => (
+            <BrochurePanelSlice
+              key={col}
+              src={meta.src}
+              alt={meta.alt}
+              col={col}
+              cols={3}
+              index={col}
+              reduced={reduced}
+            />
+          ))}
+        </div>
+      </ZoomCanvas>
     );
   }
 
   return (
-    <motion.div
-      className="mx-auto grid w-full max-w-4xl grid-cols-3 gap-1.5 sm:gap-2 [perspective:1600px]"
-      style={{ scale: zoom }}
-    >
-      {Array.from({ length: 6 }, (_, i) => {
-        const col = i % 3;
-        const row = Math.floor(i / 3);
-        return (
-          <BrochurePanelSlice
-            key={i}
-            src={meta.src}
-            alt={meta.alt}
-            col={col}
-            cols={3}
-            row={row}
-            rows={2}
-            index={i}
-            reduced={reduced}
-          />
-        );
-      })}
-    </motion.div>
+    <ZoomCanvas zoom={zoom}>
+      <div className="mx-auto grid w-full max-w-5xl grid-cols-3 gap-1.5 sm:gap-2 [perspective:1600px]">
+        {Array.from({ length: 6 }, (_, i) => {
+          const col = i % 3;
+          const row = Math.floor(i / 3);
+          return (
+            <BrochurePanelSlice
+              key={i}
+              src={meta.src}
+              alt={meta.alt}
+              col={col}
+              cols={3}
+              row={row}
+              rows={2}
+              index={i}
+              reduced={reduced}
+            />
+          );
+        })}
+      </div>
+    </ZoomCanvas>
   );
 }
 
-function BrochureFullView({
-  side,
-  reduced,
-  zoom,
-}: {
-  side: BrochureSide;
-  reduced: boolean | null;
-  zoom: number;
-}) {
+function BrochureFullView({ side, reduced, zoom }: { side: BrochureSide; reduced: boolean | null; zoom: number }) {
   const meta = BROCHURE[side];
 
   return (
-    <motion.div
-      initial={reduced ? false : { opacity: 0, scale: 0.94 }}
-      animate={{ opacity: 1, scale: zoom }}
-      transition={{ duration: reduced ? 0 : 0.45, ease: PANEL_EASE }}
-      className="relative mx-auto w-full max-w-4xl"
-    >
-      <div className="overflow-hidden rounded-2xl border border-white/15 shadow-[0_32px_90px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
-        <Image
-          src={meta.src}
-          alt={meta.alt}
-          width={1800}
-          height={1200}
-          className="h-auto w-full"
-          priority
-          sizes="(max-width:1024px) 100vw, 896px"
-        />
-      </div>
-      <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-brand-blue/15 blur-3xl" />
-    </motion.div>
+    <ZoomCanvas zoom={zoom}>
+      <motion.div
+        initial={reduced ? false : { opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduced ? 0 : 0.35, ease: PANEL_EASE }}
+        className="relative mx-auto w-full max-w-5xl"
+      >
+        <div
+          className="overflow-hidden rounded-2xl border border-white/15 shadow-[0_32px_90px_rgba(0,0,0,0.5)] ring-1 ring-white/10"
+          style={{ aspectRatio: `${BROCHURE_W} / ${BROCHURE_H}` }}
+        >
+          <BrochureImg src={meta.src} alt={meta.alt} className="h-full w-full" />
+        </div>
+        <div className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-brand-blue/15 blur-3xl" />
+      </motion.div>
+    </ZoomCanvas>
   );
 }
 
@@ -210,7 +243,7 @@ function BrochureModal({
 }) {
   const reduced = useReducedMotion();
   const [side, setSide] = useState<BrochureSide>(initialSide);
-  const [viewMode, setViewMode] = useState<ViewMode>("unfold");
+  const [viewMode, setViewMode] = useState<ViewMode>("full");
   const [zoom, setZoom] = useState(1);
   const [animKey, setAnimKey] = useState(0);
 
@@ -223,9 +256,15 @@ function BrochureModal({
   useEffect(() => {
     if (!open) return;
     setSide(initialSide);
-    setViewMode("unfold");
+    setViewMode("full");
     setZoom(1);
     setAnimKey((k) => k + 1);
+
+    [BROCHURE.tiro.src, BROCHURE.retiro.src].forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
@@ -242,6 +281,7 @@ function BrochureModal({
 
   const toggleView = () => {
     setViewMode((m) => (m === "unfold" ? "full" : "unfold"));
+    setZoom(1);
     setAnimKey((k) => k + 1);
   };
 
@@ -267,11 +307,6 @@ function BrochureModal({
               animate={{ opacity: [0.35, 0.55, 0.35], scale: [1, 1.08, 1] }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             />
-            <motion.div
-              className="absolute -right-24 bottom-1/4 h-80 w-80 rounded-full bg-brand-yellow/10 blur-[100px]"
-              animate={{ opacity: [0.2, 0.4, 0.2], scale: [1.05, 1, 1.05] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            />
           </div>
 
           <motion.div
@@ -290,10 +325,10 @@ function BrochureModal({
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-yellow/15 px-2.5 py-1 font-accent text-[9px] uppercase tracking-wider text-brand-yellow">
                       <Sparkles size={11} />
-                      Material oficial
+                      Alta resolución
                     </span>
                     <span className="rounded-full bg-white/8 px-2.5 py-1 font-accent text-[9px] uppercase tracking-wider text-sand/70">
-                      {viewMode === "unfold" ? "Desplegado" : "Vista completa"}
+                      {viewMode === "unfold" ? "Desplegado" : "Pliego completo"}
                     </span>
                   </div>
                   <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
@@ -347,20 +382,20 @@ function BrochureModal({
                 <div className="ml-auto flex items-center gap-1">
                   <button
                     type="button"
-                    onClick={() => setZoom((z) => Math.max(0.85, z - 0.1))}
-                    disabled={zoom <= 0.85}
+                    onClick={() => setZoom((z) => Math.max(ZOOM_MIN, z - ZOOM_STEP))}
+                    disabled={zoom <= ZOOM_MIN}
                     className="rounded-full p-2 text-sand/75 transition hover:bg-white/10 hover:text-white disabled:opacity-30"
                     aria-label="Alejar"
                   >
                     <ZoomOut size={16} />
                   </button>
-                  <span className="min-w-[3rem] text-center font-mono text-xs text-sand/60">
+                  <span className="min-w-[3.25rem] text-center font-mono text-xs text-sand/60">
                     {Math.round(zoom * 100)}%
                   </span>
                   <button
                     type="button"
-                    onClick={() => setZoom((z) => Math.min(1.35, z + 0.1))}
-                    disabled={zoom >= 1.35}
+                    onClick={() => setZoom((z) => Math.min(ZOOM_MAX, z + ZOOM_STEP))}
+                    disabled={zoom >= ZOOM_MAX}
                     className="rounded-full p-2 text-sand/75 transition hover:bg-white/10 hover:text-white disabled:opacity-30"
                     aria-label="Acercar"
                   >
@@ -378,16 +413,15 @@ function BrochureModal({
               </div>
             </div>
 
-            <div className="relative flex-1 overflow-auto px-3 py-5 sm:px-6 sm:py-8">
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#0f1a2e] to-transparent" />
+            <div className="relative min-h-0 flex-1 px-3 py-4 sm:px-6 sm:py-6">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`${side}-${viewMode}-${animKey}`}
-                  initial={reduced ? false : { opacity: 0, rotateY: side === "tiro" ? -12 : 12 }}
-                  animate={{ opacity: 1, rotateY: 0 }}
-                  exit={reduced ? undefined : { opacity: 0, rotateY: side === "tiro" ? 12 : -12 }}
-                  transition={{ duration: reduced ? 0 : 0.45, ease: PANEL_EASE }}
-                  className="[perspective:2000px]"
+                  initial={reduced ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reduced ? undefined : { opacity: 0 }}
+                  transition={{ duration: reduced ? 0 : 0.3 }}
+                  className="h-full min-h-[50vh] [perspective:2000px] sm:min-h-[55vh]"
                 >
                   {viewMode === "unfold" ? (
                     <BrochureUnfoldView side={side} reduced={reduced} zoom={zoom} />
@@ -396,7 +430,7 @@ function BrochureModal({
                   )}
                 </motion.div>
               </AnimatePresence>
-              <div className="brochure-stage-shadow mx-auto mt-6 h-3 max-w-3xl rounded-[100%] bg-black/40 blur-md" />
+              <div className="brochure-stage-shadow pointer-events-none mx-auto mt-4 h-3 max-w-3xl rounded-[100%] bg-black/40 blur-md" />
             </div>
 
             <div className="flex items-center justify-between gap-3 border-t border-white/10 px-4 py-3 sm:px-6">
@@ -410,9 +444,9 @@ function BrochureModal({
                 Tiro
               </button>
               <p className="hidden text-center font-sans text-xs text-sand/55 sm:block">
-                Despliega el tríptico · Flechas ← → · Esc para cerrar
+                Zoom hasta 250% · Desplázate para explorar · Esc para cerrar
               </p>
-              <p className="text-center font-sans text-xs text-sand/55 sm:hidden">← → · Esc</p>
+              <p className="text-center font-sans text-xs text-sand/55 sm:hidden">Pinch o scroll</p>
               <button
                 type="button"
                 onClick={() => goTo("retiro")}
@@ -435,6 +469,8 @@ export function CoastalRouteBrochure() {
   const reduced = useReducedMotion();
   const openBrochure = useCallback(() => setOpen(true), []);
   const closeBrochure = useCallback(() => setOpen(false), []);
+
+  const panelAspect = `${BROCHURE_W / 3} / ${BROCHURE_H}`;
 
   return (
     <>
@@ -487,22 +523,22 @@ export function CoastalRouteBrochure() {
                   transition={{ duration: 0.4, ease: PANEL_EASE }}
                   style={{
                     transformStyle: "preserve-3d",
-                    transformOrigin: col === 0 ? "right center" : col === 2 ? "left center" : "center",
+                    transformOrigin:
+                      col === 0 ? "right center" : col === 2 ? "left center" : "center",
                   }}
                 >
-                  <div className="relative aspect-[3/4] w-full">
-                    <div
-                      className="absolute inset-0"
-                      style={{ width: "300%", left: `${-col * 100}%` }}
-                    >
-                      <Image
-                        src={BROCHURE.tiro.src}
-                        alt=""
-                        fill
-                        className="object-cover object-left-top"
-                        sizes="120px"
-                      />
-                    </div>
+                  <div className="relative w-full overflow-hidden" style={{ aspectRatio: panelAspect }}>
+                    <BrochureImg
+                      src={BROCHURE.tiro.src}
+                      alt=""
+                      style={{
+                        width: "300%",
+                        maxWidth: "none",
+                        position: "absolute",
+                        left: `${-col * 100}%`,
+                        top: 0,
+                      }}
+                    />
                   </div>
                 </motion.div>
               ))}
