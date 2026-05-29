@@ -18,8 +18,8 @@ import {
 import { cn } from "@/lib/utils";
 
 const BROCHURE_DIMS = {
-  tiro: { width: 1024, height: 667 },
-  retiro: { width: 1247, height: 816 },
+  tiro: { width: 3840, height: 2501 },
+  retiro: { width: 3840, height: 2513 },
 } as const;
 
 const BROCHURE = {
@@ -74,7 +74,7 @@ const RETIRO_SECTIONS: BrochureSection[] = [
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
 const ZOOM_MIN = 1;
 const ZOOM_MAX_FULL = 2;
-const ZOOM_MAX_SECTION = 2;
+const ZOOM_MAX_SECTION = 2.5;
 const ZOOM_STEP = 0.25;
 
 function sectionNativeSize(section: BrochureSection, side: BrochureSide) {
@@ -491,7 +491,7 @@ function BrochureModal({
             role="dialog"
             aria-modal="true"
             aria-label={BROCHURE.title}
-            className="relative z-10 flex max-h-[96vh] w-full max-w-[82rem] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
+            className="relative z-10 flex max-h-[96vh] w-full max-w-[min(96vw,3840px)] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
             initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
@@ -670,8 +670,8 @@ function BrochureModal({
 
               <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
                 {isPliego
-                  ? `Haz clic en cualquier panel del pliego para ampliarlo. Zoom hasta resolución nativa (${sheetDims.width} px) sin ampliar más allá del archivo.`
-                  : `Vista ampliada: ${focusSection?.label}. Zoom hasta resolución nativa del panel (~${Math.round(nativeViewWidth)} px). Esc para volver al pliego.`}
+                  ? `Haz clic en cualquier panel para ampliarlo. Pliego en alta resolución (${sheetDims.width} px) — el zoom llega hasta píxel nativo sin estirar más.`
+                  : `Vista ampliada: ${focusSection?.label}. Panel nativo ~${Math.round(nativeViewWidth)} px · zoom hasta resolución completa. Esc para volver al pliego.`}
               </p>
               {isPliego && (
                 <div className="mt-3 flex justify-center">
