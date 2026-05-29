@@ -525,8 +525,10 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
 
   .brochure-crisp {
     image-rendering: auto;
+    -webkit-font-smoothing: subpixel-antialiased;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   .brochure-zoom-scroll {

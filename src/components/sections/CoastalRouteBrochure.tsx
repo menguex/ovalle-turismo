@@ -29,7 +29,7 @@ const BROCHURE = {
     src: "/brochures/ruta-costera-tiro.png",
     alt: "Tríptico Ruta Costera de Ovalle — tiro (exterior)",
     label: "Tiro",
-    hint: "Cara exterior: portada, caletas Sierra y Talca, QR informativo",
+    hint: "Cara exterior: Sierra y Talca, centro con QR y portada",
   },
   retiro: {
     src: "/brochures/ruta-costera-retiro.png",
@@ -160,23 +160,27 @@ function BrochureFullPliego({
   src,
   alt,
   side,
+  displayWidth,
   onSectionClick,
   onLoad,
 }: {
   src: string;
   alt: string;
   side: BrochureSide;
+  displayWidth: number;
   onSectionClick: (id: string) => void;
   onLoad?: () => void;
 }) {
   const sections = side === "tiro" ? TIRO_SECTIONS : RETIRO_SECTIONS;
-  const gridCols = side === "tiro" ? 3 : 3;
+  const gridCols = 3;
   const gridRows = side === "tiro" ? 1 : 2;
+  const renderWidth = displayWidth > 0 ? displayWidth : BROCHURE_W;
+  const renderHeight = Math.round((renderWidth * BROCHURE_H) / BROCHURE_W);
 
   return (
     <div
       className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-2xl"
-      style={{ aspectRatio: `${BROCHURE_W} / ${BROCHURE_H}` }}
+      style={{ width: renderWidth, height: renderHeight }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -188,12 +192,16 @@ function BrochureFullPliego({
         decoding="sync"
         loading="eager"
         onLoad={onLoad}
-        className="brochure-crisp block h-auto w-full select-none"
+        className="brochure-crisp block h-full w-full select-none"
+        style={{ width: renderWidth, height: renderHeight }}
       />
 
       <div
         className="absolute inset-0 grid"
-        style={{ gridTemplateColumns: `repeat(${gridCols}, 1fr)`, gridTemplateRows: `repeat(${gridRows}, 1fr)` }}
+        style={{
+          gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
+          gridTemplateRows: `repeat(${gridRows}, 1fr)`,
+        }}
       >
         {sections.map((section) => (
           <button
@@ -211,12 +219,13 @@ function BrochureFullPliego({
         ))}
       </div>
 
-      {side === "tiro" && (
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="absolute inset-y-0 left-[33.333%] w-px bg-white/40" />
-          <div className="absolute inset-y-0 left-[66.666%] w-px bg-white/40" />
-        </div>
-      )}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-y-0 left-[33.333%] w-px bg-white/40" />
+        <div className="absolute inset-y-0 left-[66.666%] w-px bg-white/40" />
+        {side === "retiro" && (
+          <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/40" />
+        )}
+      </div>
     </div>
   );
 }
@@ -371,6 +380,17 @@ function BrochureModal({
     setLoading(true);
   }, []);
 
+  const stepSection = useCallback(
+    (delta: -1 | 1) => {
+      if (!focusSectionId) return;
+      const idx = sections.findIndex((s) => s.id === focusSectionId);
+      if (idx < 0) return;
+      const next = sections[idx + delta];
+      if (next) selectSection(next.id);
+    },
+    [focusSectionId, sections, selectSection]
+  );
+
   useEffect(() => {
     if (!open) return;
     setSide(initialSide);
@@ -393,24 +413,35 @@ function BrochureModal({
       if (e.key === "Escape") {
         if (focusSectionId) selectSection(null);
         else onClose();
+        return;
       }
-      if (e.key === "ArrowLeft") goTo("tiro");
-      if (e.key === "ArrowRight") goTo("retiro");
+      if (e.key === "ArrowLeft") {
+        if (focusSectionId) stepSection(-1);
+        else goTo("tiro");
+      }
+      if (e.key === "ArrowRight") {
+        if (focusSectionId) stepSection(1);
+        else goTo("retiro");
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
     };
-  }, [open, onClose, goTo, focusSectionId, selectSection]);
+  }, [open, onClose, goTo, focusSectionId, selectSection, stepSection]);
 
   useEffect(() => {
     if (!open) return;
-    setLoading(true);
     const img = new window.Image();
+    img.src = BROCHURE[side].src;
+    if (img.complete) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
     img.onload = () => setLoading(false);
     img.onerror = () => setLoading(false);
-    img.src = BROCHURE[side].src;
   }, [open, side, focusSectionId]);
 
   const current = BROCHURE[side];
@@ -550,7 +581,7 @@ function BrochureModal({
                 </button>
                 <a
                   href={current.src}
-                  download={`ruta-costera-ovalle-${side}.jpg`}
+                  download={`ruta-costera-ovalle-${side}.png`}
                   className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 font-sans text-xs font-medium text-sand/85 hover:text-white"
                 >
                   <Download size={14} />
@@ -596,6 +627,7 @@ function BrochureModal({
                           src={current.src}
                           alt={current.alt}
                           side={side}
+                          displayWidth={displayWidth}
                           onSectionClick={selectSection}
                           onLoad={() => setLoading(false)}
                         />
@@ -642,7 +674,9 @@ function BrochureModal({
                 <ChevronLeft size={16} />
                 Tiro
               </button>
-              <span className="text-xs text-sand/50">← → cara · Esc pliego/cerrar</span>
+              <span className="text-xs text-sand/50">
+                {isPliego ? "← → cara" : "← → panel"} · Esc pliego/cerrar
+              </span>
               <button
                 type="button"
                 onClick={() => goTo("retiro")}
@@ -702,7 +736,7 @@ export function CoastalRouteBrochure() {
               </button>
               <a
                 href={BROCHURE.tiro.src}
-                download="ruta-costera-ovalle-tiro.jpg"
+                download="ruta-costera-ovalle-tiro.png"
                 className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 font-sans text-sm font-medium text-fg transition hover:border-brand-blue/40"
               >
                 <Download size={15} />
