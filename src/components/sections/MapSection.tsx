@@ -12,7 +12,7 @@ export function MapSection() {
             icon={HOME_SECTION_ICONS.map}
             eyebrow="Mapa interactivo"
             title="Explora el territorio"
-            description="Navega el Valle del Limarí: filtra por categoría, selecciona un punto y planifica tu ruta entre naturaleza, enoturismo, cultura y cielos estrellados."
+            description="Mapa satelital del Valle del Limarí: filtra por categoría, selecciona un punto y planifica tu ruta entre naturaleza, enoturismo, cultura y cielos estrellados."
           />
         </Reveal>
       </div>

@@ -16,6 +16,7 @@ import { IconBadge } from "@/components/ui/IconBadge";
 import { PagePanel } from "@/components/ui/PagePanel";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { CoastalRouteBrochure } from "@/components/sections/CoastalRouteBrochure";
 import { LODGING } from "@/lib/data/fichas";
 import { IMAGES, SITE } from "@/lib/data/site";
 
@@ -137,6 +138,12 @@ export function CoastalBorderSection() {
               </div>
             </div>
           </PagePanel>
+        </Reveal>
+      </div>
+
+      <div className="container-wide mb-10">
+        <Reveal>
+          <CoastalRouteBrochure />
         </Reveal>
       </div>
 
