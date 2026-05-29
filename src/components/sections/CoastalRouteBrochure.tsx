@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   BookOpen,
@@ -8,6 +8,7 @@ import {
   ChevronRight,
   Download,
   Loader2,
+  Maximize2,
   Printer,
   Sparkles,
   X,
@@ -40,10 +41,41 @@ const BROCHURE = {
 
 type BrochureSide = "tiro" | "retiro";
 
+type BrochureSection = {
+  id: string;
+  label: string;
+  col: number;
+  row: number;
+  cols: number;
+  rows: number;
+};
+
+const TIRO_SECTIONS: BrochureSection[] = [
+  { id: "tiro-sierra-talca", label: "Sierra y Talca", col: 0, row: 0, cols: 3, rows: 1 },
+  { id: "tiro-centro", label: "Centro · QR", col: 1, row: 0, cols: 3, rows: 1 },
+  { id: "tiro-portada", label: "Portada", col: 2, row: 0, cols: 3, rows: 1 },
+];
+
+const RETIRO_SECTIONS: BrochureSection[] = [
+  { id: "ret-el-sauce", label: "El Sauce", col: 0, row: 0, cols: 3, rows: 2 },
+  { id: "ret-el-toro", label: "El Toro", col: 1, row: 0, cols: 3, rows: 2 },
+  { id: "ret-totoral", label: "Totoral", col: 2, row: 0, cols: 3, rows: 2 },
+  { id: "ret-talcaruca", label: "Talcaruca", col: 0, row: 1, cols: 3, rows: 2 },
+  { id: "ret-la-cebada", label: "La Cebada", col: 1, row: 1, cols: 3, rows: 2 },
+  { id: "ret-talquilla", label: "Talquilla", col: 2, row: 1, cols: 3, rows: 2 },
+];
+
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
 const ZOOM_MIN = 1;
-const ZOOM_MAX = 2;
-const ZOOM_STEP = 0.2;
+const ZOOM_MAX_FULL = 2;
+const ZOOM_MAX_SECTION = 3;
+const ZOOM_STEP = 0.25;
+
+function bgPosition(col: number, cols: number, row: number, rows: number) {
+  const x = cols <= 1 ? 0 : (col / (cols - 1)) * 100;
+  const y = rows <= 1 ? 0 : (row / (rows - 1)) * 100;
+  return `${x}% ${y}%`;
+}
 
 function printBrochure(which: "both" | BrochureSide) {
   const pages =
@@ -107,46 +139,104 @@ function printBrochure(which: "both" | BrochureSide) {
   win.document.close();
 }
 
-function BrochureSheet({
+function BrochureFullPliego({
   src,
   alt,
-  className,
+  side,
+  onSectionClick,
   onLoad,
 }: {
   src: string;
   alt: string;
-  className?: string;
+  side: BrochureSide;
+  onSectionClick: (id: string) => void;
   onLoad?: () => void;
 }) {
+  const sections = side === "tiro" ? TIRO_SECTIONS : RETIRO_SECTIONS;
+  const gridCols = side === "tiro" ? 3 : 3;
+  const gridRows = side === "tiro" ? 1 : 2;
+
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt}
-      width={BROCHURE_W}
-      height={BROCHURE_H}
-      draggable={false}
-      decoding="sync"
-      loading="eager"
-      fetchPriority="high"
-      onLoad={onLoad}
-      className={cn("brochure-crisp h-auto w-full select-none", className)}
-    />
+    <div
+      className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-2xl"
+      style={{ aspectRatio: `${BROCHURE_W} / ${BROCHURE_H}` }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        width={BROCHURE_W}
+        height={BROCHURE_H}
+        draggable={false}
+        decoding="sync"
+        loading="eager"
+        onLoad={onLoad}
+        className="brochure-crisp h-full w-full select-none object-contain"
+      />
+
+      <div
+        className="absolute inset-0 grid"
+        style={{ gridTemplateColumns: `repeat(${gridCols}, 1fr)`, gridTemplateRows: `repeat(${gridRows}, 1fr)` }}
+      >
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            type="button"
+            onClick={() => onSectionClick(section.id)}
+            className="group relative border border-transparent transition hover:border-brand-yellow/50 hover:bg-brand-yellow/10 focus:outline-none focus-visible:border-brand-yellow/60 focus-visible:bg-brand-yellow/10"
+            aria-label={`Ampliar sección: ${section.label}`}
+            title={section.label}
+          >
+            <span className="pointer-events-none absolute bottom-2 left-2 right-2 rounded-md bg-night/70 px-2 py-1 font-accent text-[8px] uppercase tracking-wider text-sand/90 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 group-focus-visible:opacity-100 sm:text-[9px]">
+              {section.label}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {side === "tiro" && (
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute inset-y-0 left-[33.333%] w-px bg-white/40" />
+          <div className="absolute inset-y-0 left-[66.666%] w-px bg-white/40" />
+        </div>
+      )}
+    </div>
   );
 }
 
-/** Líneas de pliegue sobre la miniatura — sin recortar la imagen */
-function TriptychFoldOverlay({ panels = 3 }: { panels?: number }) {
-  if (panels === 3) {
-    return (
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute inset-y-0 left-[33.333%] w-px bg-white/35 shadow-[1px_0_0_rgba(0,0,0,0.15)]" />
-        <div className="absolute inset-y-0 left-[66.666%] w-px bg-white/35 shadow-[1px_0_0_rgba(0,0,0,0.15)]" />
-        <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10" />
-      </div>
-    );
-  }
-  return null;
+function BrochureSectionZoom({
+  src,
+  alt,
+  section,
+  onLoad,
+}: {
+  src: string;
+  alt: string;
+  section: BrochureSection;
+  onLoad?: () => void;
+}) {
+  const panelW = BROCHURE_W / section.cols;
+  const panelH = BROCHURE_H / section.rows;
+
+  return (
+    <div
+      className="relative overflow-hidden rounded-xl border border-brand-yellow/30 bg-white shadow-2xl ring-1 ring-brand-yellow/20"
+      style={{ aspectRatio: `${panelW} / ${panelH}` }}
+    >
+      <div
+        role="img"
+        aria-label={`${alt} — ${section.label}`}
+        className="brochure-crisp absolute inset-0 bg-no-repeat"
+        style={{
+          backgroundImage: `url(${src})`,
+          backgroundSize: `${section.cols * 100}% ${section.rows * 100}%`,
+          backgroundPosition: bgPosition(section.col, section.cols, section.row, section.rows),
+        }}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" className="sr-only" onLoad={onLoad} aria-hidden />
+    </div>
+  );
 }
 
 function BrochureModal({
@@ -160,11 +250,24 @@ function BrochureModal({
 }) {
   const reduced = useReducedMotion();
   const [side, setSide] = useState<BrochureSide>(initialSide);
+  const [focusSectionId, setFocusSectionId] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  const sections = side === "tiro" ? TIRO_SECTIONS : RETIRO_SECTIONS;
+  const focusSection = sections.find((s) => s.id === focusSectionId) ?? null;
+  const isPliego = focusSection === null;
+  const zoomMax = isPliego ? ZOOM_MAX_FULL : ZOOM_MAX_SECTION;
+
   const goTo = useCallback((next: BrochureSide) => {
     setSide(next);
+    setFocusSectionId(null);
+    setZoom(1);
+    setLoading(true);
+  }, []);
+
+  const selectSection = useCallback((id: string | null) => {
+    setFocusSectionId(id);
     setZoom(1);
     setLoading(true);
   }, []);
@@ -172,6 +275,7 @@ function BrochureModal({
   useEffect(() => {
     if (!open) return;
     setSide(initialSide);
+    setFocusSectionId(null);
     setZoom(1);
     setLoading(true);
 
@@ -179,11 +283,18 @@ function BrochureModal({
       const img = new window.Image();
       img.src = src;
     });
+  }, [open, initialSide]);
+
+  useEffect(() => {
+    if (!open) return;
 
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        if (focusSectionId) selectSection(null);
+        else onClose();
+      }
       if (e.key === "ArrowLeft") goTo("tiro");
       if (e.key === "ArrowRight") goTo("retiro");
     };
@@ -192,9 +303,23 @@ function BrochureModal({
       document.body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
     };
-  }, [open, onClose, initialSide, goTo]);
+  }, [open, onClose, goTo, focusSectionId, selectSection]);
+
+  useEffect(() => {
+    if (!open) return;
+    setLoading(true);
+    const img = new window.Image();
+    img.onload = () => setLoading(false);
+    img.onerror = () => setLoading(false);
+    img.src = BROCHURE[side].src;
+  }, [open, side, focusSectionId]);
 
   const current = BROCHURE[side];
+
+  const viewLabel = useMemo(() => {
+    if (isPliego) return "Pliego completo";
+    return focusSection?.label ?? "Sección";
+  }, [isPliego, focusSection]);
 
   return (
     <AnimatePresence>
@@ -222,9 +347,9 @@ function BrochureModal({
           >
             <div className="border-b border-white/10 px-4 py-4 sm:px-6">
               <div className="flex items-start justify-between gap-4">
-                <div>
+                <div className="min-w-0">
                   <p className="font-accent text-[10px] uppercase tracking-wider text-brand-yellow">
-                    Tríptico imprimible · 3 paneles
+                    Tríptico imprimible · {viewLabel}
                   </p>
                   <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
                     {BROCHURE.title}
@@ -234,14 +359,14 @@ function BrochureModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="rounded-full border border-white/15 p-2.5 text-sand/90 hover:bg-white/10"
+                  className="shrink-0 rounded-full border border-white/15 p-2.5 text-sand/90 hover:bg-white/10"
                   aria-label="Cerrar"
                 >
                   <X size={18} />
                 </button>
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center gap-2">
+              <div className="mt-3 flex flex-wrap items-center gap-2">
                 <div className="inline-flex rounded-full border border-white/12 bg-black/30 p-1">
                   {(["tiro", "retiro"] as const).map((key) => (
                     <button
@@ -260,54 +385,95 @@ function BrochureModal({
                   ))}
                 </div>
 
-                <div className="ml-auto flex flex-wrap items-center gap-1">
+                {!isPliego && (
                   <button
                     type="button"
-                    onClick={() => setZoom((z) => Math.max(ZOOM_MIN, z - ZOOM_STEP))}
-                    disabled={zoom <= ZOOM_MIN}
-                    className="rounded-full p-2 text-sand/75 hover:bg-white/10 disabled:opacity-30"
-                    aria-label="Alejar"
+                    onClick={() => selectSection(null)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-brand-blue/40 bg-brand-blue/10 px-3 py-1.5 font-sans text-xs font-medium text-brand-blue"
                   >
-                    <ZoomOut size={16} />
+                    <Maximize2 size={13} />
+                    Volver al pliego
                   </button>
-                  <span className="min-w-[3rem] text-center font-mono text-xs text-sand/60">
-                    {Math.round(zoom * 100)}%
-                  </span>
+                )}
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => selectSection(null)}
+                  className={cn(
+                    "rounded-full px-3 py-1 font-accent text-[9px] uppercase tracking-wider transition sm:text-[10px]",
+                    isPliego
+                      ? "bg-white/15 text-white"
+                      : "bg-white/5 text-sand/65 hover:bg-white/10 hover:text-white"
+                  )}
+                >
+                  Pliego completo
+                </button>
+                {sections.map((section) => (
                   <button
+                    key={section.id}
                     type="button"
-                    onClick={() => setZoom((z) => Math.min(ZOOM_MAX, z + ZOOM_STEP))}
-                    disabled={zoom >= ZOOM_MAX}
-                    className="rounded-full p-2 text-sand/75 hover:bg-white/10 disabled:opacity-30"
-                    aria-label="Acercar"
+                    onClick={() => selectSection(section.id)}
+                    className={cn(
+                      "rounded-full px-3 py-1 font-accent text-[9px] uppercase tracking-wider transition sm:text-[10px]",
+                      focusSectionId === section.id
+                        ? "bg-brand-yellow/20 text-brand-yellow"
+                        : "bg-white/5 text-sand/65 hover:bg-white/10 hover:text-white"
+                    )}
                   >
-                    <ZoomIn size={16} />
+                    {section.label}
                   </button>
-                  <a
-                    href={current.src}
-                    download={`ruta-costera-ovalle-${side}.jpg`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 font-sans text-xs font-medium text-sand/85 hover:text-white"
-                  >
-                    <Download size={14} />
-                    Descargar
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => printBrochure(side)}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1.5 font-sans text-xs font-semibold text-night"
-                  >
-                    <Printer size={14} />
-                    Imprimir
-                  </button>
-                </div>
+                ))}
+              </div>
+
+              <div className="mt-3 flex flex-wrap items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setZoom((z) => Math.max(ZOOM_MIN, z - ZOOM_STEP))}
+                  disabled={zoom <= ZOOM_MIN}
+                  className="rounded-full p-2 text-sand/75 hover:bg-white/10 disabled:opacity-30"
+                  aria-label="Alejar"
+                >
+                  <ZoomOut size={16} />
+                </button>
+                <span className="min-w-[3rem] text-center font-mono text-xs text-sand/60">
+                  {Math.round(zoom * 100)}%
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setZoom((z) => Math.min(zoomMax, z + ZOOM_STEP))}
+                  disabled={zoom >= zoomMax}
+                  className="rounded-full p-2 text-sand/75 hover:bg-white/10 disabled:opacity-30"
+                  aria-label="Acercar"
+                >
+                  <ZoomIn size={16} />
+                </button>
+                <a
+                  href={current.src}
+                  download={`ruta-costera-ovalle-${side}.jpg`}
+                  className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 font-sans text-xs font-medium text-sand/85 hover:text-white"
+                >
+                  <Download size={14} />
+                  Descargar pliego
+                </a>
+                <button
+                  type="button"
+                  onClick={() => printBrochure(side)}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1.5 font-sans text-xs font-semibold text-night"
+                >
+                  <Printer size={14} />
+                  Imprimir
+                </button>
               </div>
             </div>
 
-            <div className="relative min-h-0 flex-1 overflow-auto px-4 py-5 sm:px-6">
+            <div className="relative min-h-0 flex-1 overflow-auto px-4 py-4 sm:px-6 sm:py-5">
               {loading && (
-                <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c1524]/80">
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c1524]/85">
                   <div className="flex items-center gap-2 text-sm text-sand/80">
                     <Loader2 size={18} className="animate-spin text-brand-yellow" />
-                    Cargando tríptico…
+                    Cargando…
                   </div>
                 </div>
               )}
@@ -317,35 +483,52 @@ function BrochureModal({
                   className="mx-auto transition-[width] duration-200"
                   style={{ width: `${zoom * 100}%`, minWidth: "100%" }}
                 >
-                <div
-                  className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-2xl"
-                  style={{ aspectRatio: `${BROCHURE_W} / ${BROCHURE_H}` }}
-                >
-                  <BrochureSheet
-                    key={side}
-                    src={current.src}
-                    alt={current.alt}
-                    onLoad={() => setLoading(false)}
-                  />
-                  <TriptychFoldOverlay panels={3} />
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`${side}-${focusSectionId ?? "pliego"}`}
+                      initial={reduced ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduced ? undefined : { opacity: 0, y: -8 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      {isPliego ? (
+                        <BrochureFullPliego
+                          src={current.src}
+                          alt={current.alt}
+                          side={side}
+                          onSectionClick={selectSection}
+                          onLoad={() => setLoading(false)}
+                        />
+                      ) : focusSection ? (
+                        <BrochureSectionZoom
+                          src={current.src}
+                          alt={current.alt}
+                          section={focusSection}
+                          onLoad={() => setLoading(false)}
+                        />
+                      ) : null}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
-              </div>
               </div>
 
               <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
-                Pliego completo del tríptico ({current.label}). Para imprimir en casa, usa orientación
-                horizontal y papel carta u oficio. También puedes imprimir tiro y retiro juntos.
+                {isPliego
+                  ? "Haz clic en cualquier panel del pliego para ampliarlo. Usa los botones de sección arriba o el zoom."
+                  : `Vista ampliada: ${focusSection?.label}. Esc para volver al pliego.`}
               </p>
-              <div className="mt-3 flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => printBrochure("both")}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-sans text-xs font-medium text-sand/85 hover:border-brand-yellow/40 hover:text-white"
-                >
-                  <Printer size={14} />
-                  Imprimir tiro y retiro
-                </button>
-              </div>
+              {isPliego && (
+                <div className="mt-3 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => printBrochure("both")}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-sans text-xs font-medium text-sand/85 hover:border-brand-yellow/40 hover:text-white"
+                  >
+                    <Printer size={14} />
+                    Imprimir tiro y retiro
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-between border-t border-white/10 px-4 py-3 sm:px-6">
@@ -358,7 +541,7 @@ function BrochureModal({
                 <ChevronLeft size={16} />
                 Tiro
               </button>
-              <span className="text-xs text-sand/50">← → para cambiar cara</span>
+              <span className="text-xs text-sand/50">← → cara · Esc pliego/cerrar</span>
               <button
                 type="button"
                 onClick={() => goTo("retiro")}
@@ -373,6 +556,16 @@ function BrochureModal({
         </div>
       )}
     </AnimatePresence>
+  );
+}
+
+function TriptychFoldOverlay() {
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden>
+      <div className="absolute inset-y-0 left-[33.333%] w-px bg-white/35" />
+      <div className="absolute inset-y-0 left-[66.666%] w-px bg-white/35" />
+      <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10" />
+    </div>
   );
 }
 
@@ -394,8 +587,8 @@ export function CoastalRouteBrochure() {
               <p className="mt-2 text-sm leading-relaxed text-muted-fg">{BROCHURE.description}</p>
             </div>
             <ul className="space-y-1.5 text-xs text-muted-fg">
-              <li>· 3 paneles desplegables con las caletas del borde costero</li>
-              <li>· Descarga el archivo original o imprímelo desde el navegador</li>
+              <li>· Pliego completo tiro y retiro, con zoom por cada panel</li>
+              <li>· Descarga o imprime desde el navegador</li>
             </ul>
             <div className="flex flex-wrap gap-2 pt-1">
               <button
@@ -437,15 +630,18 @@ export function CoastalRouteBrochure() {
               className="relative h-full min-h-[180px] overflow-hidden rounded-xl border border-white/15 bg-[#0a1628] shadow-inner"
               style={{ aspectRatio: `${BROCHURE_W} / ${BROCHURE_H}` }}
             >
-              <BrochureSheet
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={BROCHURE.tiro.src}
                 alt="Vista previa del tríptico Ruta Costera de Ovalle"
-                className="h-full w-full object-contain"
+                width={BROCHURE_W}
+                height={BROCHURE_H}
+                className="brochure-crisp h-full w-full object-contain"
+                draggable={false}
               />
-              <TriptychFoldOverlay panels={3} />
-              <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+              <TriptychFoldOverlay />
               <span className="absolute bottom-3 left-3 rounded-full bg-night/75 px-3 py-1 font-accent text-[9px] uppercase tracking-wider text-sand/90 backdrop-blur-sm">
-                Clic para abrir
+                Clic para abrir · zoom por panel
               </span>
             </motion.div>
           </button>
