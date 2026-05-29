@@ -130,36 +130,39 @@ function VallesIntro() {
             />
             <div className="prose-valle mt-8 space-y-5">
               <p>
-                Los Valles del Limarí forman uno de los territorios más singulares del país. Entre
-                la cordillera de los Andes y el océano Pacífico se extienden valles transversales
-                donde la camanchaca —neblina oceánica— y los suelos calcáreos crean condiciones
-                excepcionales para la vida y el cultivo.
+                Los Valles del Limarí forman uno de los territorios más singulares de Chile. Entre
+                la cordillera de los Andes y el océano Pacífico nace un paisaje marcado por valles
+                transversales, la frescura de la camanchaca y la riqueza de suelos calcáreos que no
+                se encuentran en ningún otro lugar del país.
               </p>
               <p>
-                La geografía combina desierto y oasis: viñedos que se entrelazan con olivares,
-                papayeras y tradición caprina. Un paisaje donde la naturaleza y la agricultura
-                conviven en armonía desde tiempos ancestrales.
+                El resultado es una geografía excepcional, donde el desierto se mezcla con oasis
+                fértiles, viñedos, olivares, papayeras, huertos y campos caprinos que dan vida a una
+                identidad agrícola única.
+              </p>
+              <h3 className="font-display text-xl font-bold text-fg">Un territorio con historia vitivinícola</h3>
+              <p>
+                El Limarí es cuna de la viticultura chilena: por este valle ingresaron algunas de las
+                primeras parras del país en el siglo XVI. Aquí nacen vinos de alta gama reconocidos
+                por su mineralidad, frescura y pureza, bajo la influencia de la corriente de Humboldt
+                y la niebla costera que modera el clima.
               </p>
               <p>
-                El Limarí es cuna de la viticultura chilena. Aquí se plantaron las primeras parras
-                en el siglo XVI, dando origen a una tradición enológica que perdura hasta hoy.
+                Además, la zona alberga dos Denominaciones de Origen históricas —Pisco y Pajarete—,
+                reflejo del profundo arraigo entre territorio, cultivo y cultura.
               </p>
+              <h3 className="font-display text-xl font-bold text-fg">Sabores que nacen del territorio</h3>
               <p>
-                Hoy el valle produce vinos de alta gama con mineralidad y frescura incomparables,
-                influenciados por la corriente de Humboldt y la niebla costera que modera las
-                temperaturas.
+                La gastronomía del valle es una fusión auténtica entre mar y campo: pescados y
+                mariscos de aguas frías, cabrito y quesos de cabra artesanales, aceitunas y
+                productos del oasis, acompañados de aceites de oliva de clase mundial.
               </p>
+              <h3 className="font-display text-xl font-bold text-fg">Un destino para descubrir</h3>
               <p>
-                Además, el Limarí alberga dos Denominaciones de Origen históricas: Pisco y
-                Pajarete, entre las más antiguas de América.
-              </p>
-              <p>
-                La gastronomía une mar y campo: pescados y mariscos del Pacífico con cabrito,
-                quesos de cabra, aceitunas y aceites premiados del valle.
-              </p>
-              <p>
-                Rutas enoturísticas, biodiversidad única y cielos despejados para la observación
-                astronómica completan una experiencia de viaje irrepetible en el norte chico.
+                Visitar el Valle del Limarí es recorrer rutas enoturísticas, viñedos, antiguas
+                destilerías y pueblos con identidad; conectar con la naturaleza, la biodiversidad y
+                los cielos privilegiados para la observación astronómica — un destino para descubrir
+                con todos los sentidos.
               </p>
             </div>
             <Link
@@ -172,10 +175,10 @@ function VallesIntro() {
           </Reveal>
 
           <Reveal direction="right" className="space-y-4">
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl image-frame-glow">
+            <div className="relative aspect-[2/1] overflow-hidden rounded-2xl image-frame-glow">
               <Image src={IMAGES.desembocadura} alt="Desembocadura Limarí" fill className="object-cover" sizes="340px" />
             </div>
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl image-frame-glow">
+            <div className="relative aspect-[2/1] overflow-hidden rounded-2xl image-frame-glow">
               <Image src={IMAGES.vinedos} alt="Viñedos Limarí" fill className="object-cover" sizes="340px" />
             </div>
           </Reveal>
@@ -254,30 +257,50 @@ function VallesComunasExplorer() {
           />
         </Reveal>
 
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-12">
-          <Stagger className="flex flex-row gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0" stagger={0.06}>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,260px)_1fr] lg:gap-12">
+          <Stagger
+            className="flex snap-x snap-mandatory flex-row gap-3 overflow-x-auto pb-2 lg:flex-col lg:gap-4 lg:overflow-visible lg:pb-0"
+            stagger={0.06}
+          >
             {LIMARI_COMMUNITIES.map((comuna) => {
               const selected = comuna.id === activeId;
               return (
-                <StaggerItem key={comuna.id}>
+                <StaggerItem key={comuna.id} className="snap-start">
                   <button
                     type="button"
                     onClick={() => setActiveId(comuna.id)}
                     className={cn(
-                      "group flex w-full min-w-[200px] shrink-0 items-center gap-4 rounded-2xl border px-4 py-4 text-left transition duration-300 lg:min-w-0",
+                      "group flex w-[9.5rem] shrink-0 flex-col overflow-hidden rounded-2xl border text-left transition duration-300 sm:w-[10.5rem] lg:w-full",
                       selected
                         ? "gradient-border border-brand-blue/40 bg-brand-blue/10 shadow-glow-blue"
                         : "tech-card-frame hover:border-brand-orange/25"
                     )}
                   >
-                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl sm:h-14 sm:w-20 lg:h-14 lg:w-24">
-                      <Image src={comuna.image} alt={comuna.name} fill className="object-cover" sizes="96px" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-accent text-[10px] uppercase tracking-wider text-muted">
-                        {comuna.type}
-                      </p>
-                      <p className="font-display text-lg font-bold text-fg">{comuna.name}</p>
+                    <div className="relative aspect-[3/4] w-full overflow-hidden">
+                      <Image
+                        src={comuna.image}
+                        alt={comuna.name}
+                        fill
+                        className={cn(
+                          "object-cover transition duration-500",
+                          selected ? "scale-105" : "group-hover:scale-105"
+                        )}
+                        sizes="(max-width:1024px) 168px, 260px"
+                      />
+                      <div
+                        className={cn(
+                          "absolute inset-0 bg-gradient-to-t from-night/70 via-night/10 to-transparent transition duration-300",
+                          selected ? "from-night/50" : "group-hover:from-night/60"
+                        )}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 p-3 lg:p-4">
+                        <p className="font-accent text-[9px] uppercase tracking-wider text-sand/80 lg:text-[10px]">
+                          {comuna.type}
+                        </p>
+                        <p className="font-display text-base font-bold text-white lg:text-lg">
+                          {comuna.name}
+                        </p>
+                      </div>
                     </div>
                   </button>
                 </StaggerItem>
@@ -415,16 +438,16 @@ function VallesExperiences() {
               onClick={() => fichaCtx?.openFicha(item.id)}
               className={cn(
                 "group tech-card-frame w-full overflow-hidden text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40",
-                i === 0 && "md:col-span-2 md:row-span-2"
+                i === 0 && "md:col-span-2"
               )}
             >
-              <div className={cn("relative overflow-hidden", i === 0 ? "aspect-[21/9] lg:aspect-[2/1]" : "aspect-[16/9]")}>
+              <div className={cn("relative overflow-hidden", i === 0 ? "aspect-[21/9] sm:aspect-[2/1]" : "aspect-[16/9]")}>
                 <Image
                   src={item.image}
                   alt={fichaLabel(item)}
                   fill
                   className="object-cover transition duration-700 group-hover:scale-105"
-                  sizes={i === 0 ? "66vw" : "33vw"}
+                  sizes={i === 0 ? "(max-width:768px) 100vw, 66vw" : "(max-width:768px) 100vw, 33vw"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/30 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
@@ -463,9 +486,9 @@ function VallesGalleryStrip() {
         {[...GALLERY, ...GALLERY].map((item, i) => (
           <div
             key={`${item.src}-${i}`}
-            className="relative aspect-[16/9] w-[22rem] shrink-0 overflow-hidden rounded-2xl md:w-[28rem] lg:w-[32rem]"
+            className="relative aspect-[21/9] h-52 w-[min(42rem,85vw)] shrink-0 overflow-hidden rounded-2xl sm:h-60 md:h-72 md:w-[36rem]"
           >
-            <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="384px" />
+            <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="576px" />
           </div>
         ))}
       </motion.div>
