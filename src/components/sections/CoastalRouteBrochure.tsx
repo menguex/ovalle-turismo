@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   BookOpen,
@@ -68,13 +68,27 @@ const RETIRO_SECTIONS: BrochureSection[] = [
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
 const ZOOM_MIN = 1;
 const ZOOM_MAX_FULL = 2;
-const ZOOM_MAX_SECTION = 3;
+const ZOOM_MAX_SECTION = 2;
 const ZOOM_STEP = 0.25;
 
-function bgPosition(col: number, cols: number, row: number, rows: number) {
-  const x = cols <= 1 ? 0 : (col / (cols - 1)) * 100;
-  const y = rows <= 1 ? 0 : (row / (rows - 1)) * 100;
-  return `${x}% ${y}%`;
+function sectionNativeSize(section: BrochureSection) {
+  return {
+    width: BROCHURE_W / section.cols,
+    height: BROCHURE_H / section.rows,
+  };
+}
+
+function nativeDisplayWidth(
+  containerWidth: number,
+  nativeWidth: number,
+  zoom: number,
+  zoomMax: number
+) {
+  if (!containerWidth) return nativeWidth;
+  const fitWidth = Math.min(containerWidth, nativeWidth);
+  if (nativeWidth <= fitWidth || zoomMax <= ZOOM_MIN) return nativeWidth;
+  const t = (zoom - ZOOM_MIN) / (zoomMax - ZOOM_MIN);
+  return Math.round(fitWidth + t * (nativeWidth - fitWidth));
 }
 
 function printBrochure(which: "both" | BrochureSide) {
@@ -171,7 +185,7 @@ function BrochureFullPliego({
         decoding="sync"
         loading="eager"
         onLoad={onLoad}
-        className="brochure-crisp h-full w-full select-none object-contain"
+        className="brochure-crisp block h-auto w-full select-none"
       />
 
       <div
@@ -215,26 +229,74 @@ function BrochureSectionZoom({
   section: BrochureSection;
   onLoad?: () => void;
 }) {
-  const panelW = BROCHURE_W / section.cols;
-  const panelH = BROCHURE_H / section.rows;
+  const { width: panelW, height: panelH } = sectionNativeSize(section);
 
   return (
     <div
       className="relative overflow-hidden rounded-xl border border-brand-yellow/30 bg-white shadow-2xl ring-1 ring-brand-yellow/20"
       style={{ aspectRatio: `${panelW} / ${panelH}` }}
     >
-      <div
-        role="img"
-        aria-label={`${alt} — ${section.label}`}
-        className="brochure-crisp absolute inset-0 bg-no-repeat"
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={`${alt} — ${section.label}`}
+        width={BROCHURE_W}
+        height={BROCHURE_H}
+        draggable={false}
+        decoding="sync"
+        loading="eager"
+        onLoad={onLoad}
+        className="brochure-crisp absolute max-w-none select-none"
         style={{
-          backgroundImage: `url(${src})`,
-          backgroundSize: `${section.cols * 100}% ${section.rows * 100}%`,
-          backgroundPosition: bgPosition(section.col, section.cols, section.row, section.rows),
+          width: `${section.cols * 100}%`,
+          height: `${section.rows * 100}%`,
+          left: `${-(section.col / section.cols) * 100}%`,
+          top: `${-(section.row / section.rows) * 100}%`,
         }}
       />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt="" className="sr-only" onLoad={onLoad} aria-hidden />
+    </div>
+  );
+}
+
+function BrochureZoomViewport({
+  nativeWidth,
+  zoom,
+  zoomMax,
+  children,
+}: {
+  nativeWidth: number;
+  zoom: number;
+  zoomMax: number;
+  children: React.ReactNode;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const measure = () => setContainerWidth(el.clientWidth);
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const displayWidth = nativeDisplayWidth(containerWidth, nativeWidth, zoom, zoomMax);
+
+  return (
+    <div ref={scrollRef} className="brochure-zoom-scroll overflow-x-auto overflow-y-visible pb-2">
+      <div
+        className="brochure-zoom-inner mx-auto transition-[width] duration-200"
+        style={{
+          width: displayWidth,
+          maxWidth: nativeWidth,
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -258,6 +320,11 @@ function BrochureModal({
   const focusSection = sections.find((s) => s.id === focusSectionId) ?? null;
   const isPliego = focusSection === null;
   const zoomMax = isPliego ? ZOOM_MAX_FULL : ZOOM_MAX_SECTION;
+  const nativeViewWidth = isPliego
+    ? BROCHURE_W
+    : focusSection
+      ? sectionNativeSize(focusSection).width
+      : BROCHURE_W;
 
   const goTo = useCallback((next: BrochureSide) => {
     setSide(next);
@@ -478,44 +545,43 @@ function BrochureModal({
                 </div>
               )}
 
-              <div className="brochure-zoom-scroll overflow-x-auto overflow-y-visible pb-2">
-                <div
-                  className="mx-auto transition-[width] duration-200"
-                  style={{ width: `${zoom * 100}%`, minWidth: "100%" }}
-                >
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={`${side}-${focusSectionId ?? "pliego"}`}
-                      initial={reduced ? false : { opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduced ? undefined : { opacity: 0, y: -8 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      {isPliego ? (
-                        <BrochureFullPliego
-                          src={current.src}
-                          alt={current.alt}
-                          side={side}
-                          onSectionClick={selectSection}
-                          onLoad={() => setLoading(false)}
-                        />
-                      ) : focusSection ? (
-                        <BrochureSectionZoom
-                          src={current.src}
-                          alt={current.alt}
-                          section={focusSection}
-                          onLoad={() => setLoading(false)}
-                        />
-                      ) : null}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </div>
+              <BrochureZoomViewport
+                nativeWidth={nativeViewWidth}
+                zoom={zoom}
+                zoomMax={zoomMax}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`${side}-${focusSectionId ?? "pliego"}`}
+                    initial={reduced ? false : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduced ? undefined : { opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    {isPliego ? (
+                      <BrochureFullPliego
+                        src={current.src}
+                        alt={current.alt}
+                        side={side}
+                        onSectionClick={selectSection}
+                        onLoad={() => setLoading(false)}
+                      />
+                    ) : focusSection ? (
+                      <BrochureSectionZoom
+                        src={current.src}
+                        alt={current.alt}
+                        section={focusSection}
+                        onLoad={() => setLoading(false)}
+                      />
+                    ) : null}
+                  </motion.div>
+                </AnimatePresence>
+              </BrochureZoomViewport>
 
               <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
                 {isPliego
-                  ? "Haz clic en cualquier panel del pliego para ampliarlo. Usa los botones de sección arriba o el zoom."
-                  : `Vista ampliada: ${focusSection?.label}. Esc para volver al pliego.`}
+                  ? "Haz clic en cualquier panel del pliego para ampliarlo. El zoom llega hasta la resolución nativa del archivo (1024 px) sin pixelar."
+                  : `Vista ampliada: ${focusSection?.label}. Zoom hasta resolución nativa del panel (~${Math.round(nativeViewWidth)} px). Esc para volver al pliego.`}
               </p>
               {isPliego && (
                 <div className="mt-3 flex justify-center">
@@ -636,7 +702,7 @@ export function CoastalRouteBrochure() {
                 alt="Vista previa del tríptico Ruta Costera de Ovalle"
                 width={BROCHURE_W}
                 height={BROCHURE_H}
-                className="brochure-crisp h-full w-full object-contain"
+                className="brochure-crisp block h-auto w-full"
                 draggable={false}
               />
               <TriptychFoldOverlay />
