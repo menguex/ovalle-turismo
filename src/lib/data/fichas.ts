@@ -1,7 +1,9 @@
 import { IMAGES, SITE } from "@/lib/data/site";
+import { enrichLimariFichas } from "@/lib/data/limari-enrichment";
+import { enrichFichas } from "@/lib/data/service-enrichment";
 import type { Ficha } from "@/lib/types/ficha";
 
-export const LODGING: readonly Ficha[] = [
+const LODGING_BASE: readonly Ficha[] = [
   {
     id: "los-pumas-encanto",
     name: "Los Pumas del Encanto",
@@ -419,6 +421,8 @@ export const LODGING: readonly Ficha[] = [
   },
 ];
 
+export const LODGING: readonly Ficha[] = enrichFichas(LODGING_BASE);
+
 /** Alojamientos recomendados para astroturismo (cielos oscuros o cercanía a zonas Starlight) */
 export const ASTRO_LODGING_IDS = [
   "viento-sur",
@@ -495,7 +499,7 @@ export const ASTRO_EXPERIENCES: readonly Ficha[] = [
   },
 ];
 
-export const RESTAURANTS: readonly Ficha[] = [
+const RESTAURANTS_BASE: readonly Ficha[] = [
   {
     id: "cabildo-abierto",
     name: "Cabildo Abierto",
@@ -682,6 +686,8 @@ export const RESTAURANTS: readonly Ficha[] = [
     href: "/descubre/gastronomia",
   },
 ];
+
+export const RESTAURANTS: readonly Ficha[] = enrichFichas(RESTAURANTS_BASE);
 
 export const WINERIES: readonly Ficha[] = [
   {
@@ -992,7 +998,7 @@ export const EVENTS: readonly Ficha[] = [
   },
 ];
 
-export const TOUR_OPERATORS: readonly Ficha[] = [
+const TOUR_OPERATORS_BASE: readonly Ficha[] = [
   {
     id: "limari-aventura",
     name: "Limarí Aventura",
@@ -1126,6 +1132,8 @@ export const TOUR_OPERATORS: readonly Ficha[] = [
     href: "/contacto",
   },
 ];
+
+export const TOUR_OPERATORS: readonly Ficha[] = enrichFichas(TOUR_OPERATORS_BASE);
 
 export const NATURAL_ATTRACTIONS: readonly Ficha[] = [
   {
@@ -1446,7 +1454,7 @@ export const USEFUL_INFO: readonly Ficha[] = [
   },
 ];
 
-export const LIMARI_COMMUNITIES: readonly Ficha[] = [
+const LIMARI_COMMUNITIES_BASE: readonly Ficha[] = [
   {
     id: "comunidad-ovalle",
     name: "Ovalle",
@@ -1504,13 +1512,15 @@ export const LIMARI_COMMUNITIES: readonly Ficha[] = [
   },
 ];
 
-export const LIMARI_EXPERIENCES: readonly Ficha[] = [
+export const LIMARI_COMMUNITIES: readonly Ficha[] = enrichLimariFichas(LIMARI_COMMUNITIES_BASE);
+
+const LIMARI_EXPERIENCES_BASE: readonly Ficha[] = [
   {
     id: "exp-enraizada",
     name: "Terapias Holísticas Enraizada",
     type: "Wellness",
     category: "Experiencia",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/flores1-300x300.jpg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/flores1.jpg",
     description:
       "Terapias holísticas y bienestar en contacto con la naturaleza del valle. Parte de la Ruta Enoturística y de Bienestar Ovalle.",
     highlights: ["Bienestar", "Naturaleza", "Terapias holísticas"],
@@ -1532,7 +1542,7 @@ export const LIMARI_EXPERIENCES: readonly Ficha[] = [
     name: "Caprinos Villaseca",
     type: "Gastronomía",
     category: "Experiencia",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/5-300x300.jpg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/5.jpg",
     description:
       "Quesos de cabra artesanales del valle, parte de la identidad gastronómica mar-campo del Limarí.",
     highlights: ["Quesos artesanales", "Producto local", "Caprinos del valle"],
@@ -1543,7 +1553,7 @@ export const LIMARI_EXPERIENCES: readonly Ficha[] = [
     name: "Qori Aceite de Oliva Extra-Virgen",
     type: "Gastronomía",
     category: "Experiencia",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG-20241220-WA0006-300x300.jpeg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG-20241220-WA0006.jpeg",
     description:
       "Aceite de oliva extra virgen premium del valle, entre los productos de identidad territorial más reconocidos del Limarí.",
     highlights: ["Aceite de oliva", "Extra virgen", "Degustación"],
@@ -1554,7 +1564,7 @@ export const LIMARI_EXPERIENCES: readonly Ficha[] = [
     name: "Pisco Waqar",
     type: "Enoturismo",
     category: "Experiencia",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/slider-3-waqar-300x300.png",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/slider-3-waqar.png",
     description:
       "Pisco artesanal con identidad del Limarí, en una de las zonas pisqueras más reconocidas de Chile.",
     highlights: ["Pisco artesanal", "Tradición", "Degustación"],
@@ -1565,7 +1575,7 @@ export const LIMARI_EXPERIENCES: readonly Ficha[] = [
     name: "Pisquera Tulahuén",
     type: "Enoturismo",
     category: "Experiencia",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/slider-3-balck-heron-300x300.png",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/slider-3-balck-heron.png",
     description:
       "Destilería y pisco del valle con tradición local, vinculada a las Denominaciones de Origen Pisco y Pajarete.",
     highlights: ["Pisco", "Visita enológica", "Tradición"],
@@ -1576,13 +1586,15 @@ export const LIMARI_EXPERIENCES: readonly Ficha[] = [
     name: "Viña Dalbosco",
     type: "Enoturismo",
     category: "Experiencia",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG_6182-1-nvshyokbk7jwlgt6cxjv06r036mx1l69s0w8lo0pms-300x250.png",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG_6182-1-nvshyokbk7jwlgt6cxjv06r036mx1l69s0w8lo0pms.png",
     description:
       "Viña del valle reconocida a nivel nacional, con vinos de mineralidad y frescura propios del terroir limarino.",
     highlights: ["Vinos de autor", "Viñedos", "Catas"],
     href: "/descubre/enoturismo",
   },
 ];
+
+export const LIMARI_EXPERIENCES: readonly Ficha[] = enrichLimariFichas(LIMARI_EXPERIENCES_BASE);
 
 export const TOUR_360: readonly Ficha[] = [
   {

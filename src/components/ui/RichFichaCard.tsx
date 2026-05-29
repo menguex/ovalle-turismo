@@ -111,6 +111,9 @@ export function RichFichaCard({ item, className, featured }: RichFichaCardProps)
           )}
 
           <div className="mt-auto grid gap-2 pt-4 sm:grid-cols-2">
+            {item.address && (
+              <MetaChip icon={MapPin} label={item.address} className="sm:col-span-2" />
+            )}
             {item.distanceFromOvalle && (
               <MetaChip icon={MapPin} label={item.distanceFromOvalle} />
             )}

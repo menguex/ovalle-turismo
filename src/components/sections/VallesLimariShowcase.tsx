@@ -45,25 +45,25 @@ const ESSENCE = [
   {
     icon: Wine,
     title: "Vinos de mineralidad",
-    text: "Chardonnay y varietales de autor bajo la influencia de Humboldt.",
+    text: "Vinos de alta gama bajo la corriente de Humboldt y la niebla costera que modera el clima del valle.",
     href: "/descubre/enoturismo",
   },
   {
     icon: Sparkles,
     title: "Pisco & tradición",
-    text: "Denominaciones de Origen entre las más antiguas de América.",
+    text: "Denominaciones de Origen Pisco y Pajarete, entre las más antiguas de América.",
     href: "/descubre/enoturismo",
   },
   {
     icon: UtensilsCrossed,
     title: "Mar y campo",
-    text: "Cabrito, quesos de cabra, aceitunas y aceites premiados.",
+    text: "Pescados y mariscos de aguas frías, cabrito, quesos de cabra, aceitunas y aceites premiados.",
     href: "/descubre/gastronomia",
   },
   {
     icon: Moon,
     title: "Cielos del desierto",
-    text: "Noches despejadas entre valles, observación y astroturismo.",
+    text: "Biodiversidad, rutas enoturísticas y cielos privilegiados para observación astronómica.",
     href: "/descubre/astroturismo",
   },
 ] as const;
@@ -105,68 +105,81 @@ function VallesStatsStrip() {
 function VallesIntro() {
   return (
     <TechSectionShell variant="subtle" glow className="section-alt py-20 lg:py-28">
-      <div className="container-wide grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-        <Reveal direction="left">
-          <SectionHeading
-            icon={PAGE_ICONS.valles}
-            eyebrow="El territorio"
-            title="Donde el desierto florece entre Andes y océano"
-            description="Un paisaje único en Chile: valles transversales, camanchaca, suelos calcáreos y una cultura viva que se saborea en cada rincón."
-          />
-          <div className="prose-valle mt-8 space-y-5">
-            <p>
-              Los Valles del Limarí forman uno de los territorios más singulares del país. Entre
-              la cordillera y el Pacífico nace un valle donde convergen naturaleza, vino, pisco y
-              tradiciones milenarias.
-            </p>
-            <p>
-              El Limarí es cuna de la viticultura chilena y hogar de dos Denominaciones de Origen
-              históricas: Pisco y Pajarete. Hoy produce vinos de alta gama con mineralidad y
-              frescura incomparables.
-            </p>
-          </div>
-          <Link
-            href="/planifica"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-gradient px-6 py-3 font-sans text-sm font-semibold text-night transition hover:opacity-90"
-          >
-            Armar mi ruta por el valle
-            <ArrowUpRight size={16} />
-          </Link>
-        </Reveal>
-
-        <Reveal direction="right" className="relative">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] image-frame-glow">
+      <div className="container-wide space-y-12">
+        <Reveal>
+          <div className="relative aspect-[21/9] overflow-hidden rounded-[2rem] image-frame-glow lg:aspect-[2/1]">
             <Image
               src={IMAGES.limari}
               alt="Valle del Limarí"
               fill
-              className="object-cover transition duration-700 hover:scale-[1.03]"
-              sizes="(max-width:1024px) 100vw, 50vw"
+              className="object-cover transition duration-700 hover:scale-[1.02]"
+              sizes="100vw"
+              priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-transparent" />
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="absolute -bottom-6 -left-4 w-44 overflow-hidden rounded-2xl border-4 border-bg shadow-xl lg:-left-8 lg:w-52"
-          >
-            <div className="relative aspect-square">
-              <Image src={IMAGES.desembocadura} alt="Desembocadura Limarí" fill className="object-cover" />
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35, duration: 0.6 }}
-            className="absolute -right-3 top-8 w-36 overflow-hidden rounded-2xl border-4 border-bg shadow-xl lg:-right-6 lg:w-44"
-          >
-            <div className="relative aspect-[3/4]">
-              <Image src={IMAGES.vinedos} alt="Viñedos Limarí" fill className="object-cover" />
-            </div>
-          </motion.div>
         </Reveal>
+
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)] lg:gap-14">
+          <Reveal direction="left">
+            <SectionHeading
+              icon={PAGE_ICONS.valles}
+              eyebrow="El territorio"
+              title="Donde el desierto florece entre Andes y océano"
+              description="Un paisaje único en Chile: valles transversales, camanchaca, suelos calcáreos y una cultura viva que se saborea en cada rincón."
+            />
+            <div className="prose-valle mt-8 space-y-5">
+              <p>
+                Los Valles del Limarí forman uno de los territorios más singulares del país. Entre
+                la cordillera de los Andes y el océano Pacífico se extienden valles transversales
+                donde la camanchaca —neblina oceánica— y los suelos calcáreos crean condiciones
+                excepcionales para la vida y el cultivo.
+              </p>
+              <p>
+                La geografía combina desierto y oasis: viñedos que se entrelazan con olivares,
+                papayeras y tradición caprina. Un paisaje donde la naturaleza y la agricultura
+                conviven en armonía desde tiempos ancestrales.
+              </p>
+              <p>
+                El Limarí es cuna de la viticultura chilena. Aquí se plantaron las primeras parras
+                en el siglo XVI, dando origen a una tradición enológica que perdura hasta hoy.
+              </p>
+              <p>
+                Hoy el valle produce vinos de alta gama con mineralidad y frescura incomparables,
+                influenciados por la corriente de Humboldt y la niebla costera que modera las
+                temperaturas.
+              </p>
+              <p>
+                Además, el Limarí alberga dos Denominaciones de Origen históricas: Pisco y
+                Pajarete, entre las más antiguas de América.
+              </p>
+              <p>
+                La gastronomía une mar y campo: pescados y mariscos del Pacífico con cabrito,
+                quesos de cabra, aceitunas y aceites premiados del valle.
+              </p>
+              <p>
+                Rutas enoturísticas, biodiversidad única y cielos despejados para la observación
+                astronómica completan una experiencia de viaje irrepetible en el norte chico.
+              </p>
+            </div>
+            <Link
+              href="/planifica"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-gradient px-6 py-3 font-sans text-sm font-semibold text-night transition hover:opacity-90"
+            >
+              Armar mi ruta por el valle
+              <ArrowUpRight size={16} />
+            </Link>
+          </Reveal>
+
+          <Reveal direction="right" className="space-y-4">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl image-frame-glow">
+              <Image src={IMAGES.desembocadura} alt="Desembocadura Limarí" fill className="object-cover" sizes="340px" />
+            </div>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl image-frame-glow">
+              <Image src={IMAGES.vinedos} alt="Viñedos Limarí" fill className="object-cover" sizes="340px" />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </TechSectionShell>
   );
@@ -257,8 +270,8 @@ function VallesComunasExplorer() {
                         : "tech-card-frame hover:border-brand-orange/25"
                     )}
                   >
-                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
-                      <Image src={comuna.image} alt={comuna.name} fill className="object-cover" sizes="56px" />
+                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl sm:h-14 sm:w-20 lg:h-14 lg:w-24">
+                      <Image src={comuna.image} alt={comuna.name} fill className="object-cover" sizes="96px" />
                     </div>
                     <div className="min-w-0">
                       <p className="font-accent text-[10px] uppercase tracking-wider text-muted">
@@ -281,16 +294,16 @@ function VallesComunasExplorer() {
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
               <PagePanel animated className="overflow-hidden">
-                <div className="grid lg:grid-cols-2">
-                  <div className="relative min-h-[260px] lg:min-h-[420px]">
+                <div className="flex flex-col">
+                  <div className="relative aspect-[21/9] w-full lg:aspect-[2/1]">
                     <Image
                       src={active.image}
                       alt={fichaLabel(active)}
                       fill
                       className="object-cover"
-                      sizes="(max-width:1024px) 100vw, 50vw"
+                      sizes="100vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-night/20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-night/40 via-transparent to-transparent" />
                   </div>
                   <div className="flex flex-col justify-center p-8 lg:p-10">
                     <IconBadge icon={MapPin} size="sm" variant="brand" className="mb-4 w-fit" />
@@ -405,7 +418,7 @@ function VallesExperiences() {
                 i === 0 && "md:col-span-2 md:row-span-2"
               )}
             >
-              <div className={cn("relative overflow-hidden", i === 0 ? "aspect-[16/10] md:aspect-auto md:min-h-[360px]" : "aspect-[4/3]")}>
+              <div className={cn("relative overflow-hidden", i === 0 ? "aspect-[21/9] lg:aspect-[2/1]" : "aspect-[16/9]")}>
                 <Image
                   src={item.image}
                   alt={fichaLabel(item)}
@@ -450,7 +463,7 @@ function VallesGalleryStrip() {
         {[...GALLERY, ...GALLERY].map((item, i) => (
           <div
             key={`${item.src}-${i}`}
-            className="relative h-48 w-72 shrink-0 overflow-hidden rounded-2xl md:h-56 md:w-96"
+            className="relative aspect-[16/9] w-[22rem] shrink-0 overflow-hidden rounded-2xl md:w-[28rem] lg:w-[32rem]"
           >
             <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="384px" />
           </div>
