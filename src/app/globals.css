@@ -514,6 +514,15 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
     }
   }
 
+  .brochure-panel {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .brochure-stage-shadow {
+    transform: scaleX(0.92);
+  }
+
   .section-tech-glow {
     background-image: radial-gradient(
       ellipse 70% 45% at 50% 0%,
