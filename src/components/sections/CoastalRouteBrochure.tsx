@@ -365,27 +365,12 @@ function BrochureZoomViewport({
   children: (displayWidth: number) => React.ReactNode;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const panOrigin = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
+  const panActiveRef = useRef(false);
+  const canPanRef = useRef(false);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const measure = () =>
-      setContainerSize({ width: el.clientWidth, height: el.clientHeight });
-    measure();
-
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.scrollLeft = 0;
-    el.scrollTop = 0;
-  }, [resetKey, zoom]);
+  const [canPan, setCanPan] = useState(false);
+  const [isPanning, setIsPanning] = useState(false);
 
   const displayWidth = computeDisplayWidth(
     containerSize.width,
@@ -396,21 +381,141 @@ function BrochureZoomViewport({
     zoomMax,
     fitInView
   );
+  const displayHeight =
+    displayWidth > 0 && nativeWidth > 0
+      ? Math.floor((displayWidth * nativeHeight) / nativeWidth)
+      : 0;
+
+  const updateCanPan = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const overflowX = el.scrollWidth - el.clientWidth > 2;
+    const overflowY = el.scrollHeight - el.clientHeight > 2;
+    const next = overflowX || overflowY;
+    canPanRef.current = next;
+    setCanPan(next);
+  }, []);
+
+  const centerScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollLeft = Math.max(0, (el.scrollWidth - el.clientWidth) / 2);
+      el.scrollTop = Math.max(0, (el.scrollHeight - el.clientHeight) / 2);
+      updateCanPan();
+    });
+  }, [updateCanPan]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const measure = () =>
+      setContainerSize({ width: el.clientWidth, height: el.clientHeight });
+    measure();
+
+    const ro = new ResizeObserver(() => {
+      measure();
+      updateCanPan();
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [updateCanPan]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollLeft = 0;
+    el.scrollTop = 0;
+    requestAnimationFrame(updateCanPan);
+  }, [resetKey, updateCanPan]);
+
+  useEffect(() => {
+    if (zoom > ZOOM_MIN + 0.01) centerScroll();
+    else {
+      const el = scrollRef.current;
+      if (el) {
+        el.scrollLeft = 0;
+        el.scrollTop = 0;
+      }
+      updateCanPan();
+    }
+  }, [zoom, displayWidth, displayHeight, centerScroll, updateCanPan]);
+
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (e.button !== 0) return;
+      if (!canPanRef.current && zoom <= ZOOM_MIN) return;
+      const el = scrollRef.current;
+      if (!el) return;
+      panActiveRef.current = true;
+      setIsPanning(true);
+      panOrigin.current = {
+        x: e.clientX,
+        y: e.clientY,
+        scrollLeft: el.scrollLeft,
+        scrollTop: el.scrollTop,
+      };
+      el.setPointerCapture(e.pointerId);
+    },
+    [zoom]
+  );
+
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!panActiveRef.current) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollLeft = panOrigin.current.scrollLeft - (e.clientX - panOrigin.current.x);
+    el.scrollTop = panOrigin.current.scrollTop - (e.clientY - panOrigin.current.y);
+  }, []);
+
+  const endPan = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!panActiveRef.current) return;
+    panActiveRef.current = false;
+    setIsPanning(false);
+    scrollRef.current?.releasePointerCapture(e.pointerId);
+    updateCanPan();
+  }, [updateCanPan]);
 
   return (
-    <div
-      ref={scrollRef}
-      className="brochure-zoom-scroll flex w-full min-h-[min(52vh,560px)] flex-1 justify-center overflow-auto pb-2"
-    >
+    <div className="flex min-h-0 w-full flex-1 flex-col gap-2">
       <div
-        className="brochure-zoom-inner shrink-0"
-        style={{
-          width: displayWidth,
-          maxWidth: nativeWidth,
-        }}
+        ref={scrollRef}
+        className={cn(
+          "brochure-zoom-scroll w-full min-h-[min(52vh,560px)] flex-1 overflow-auto rounded-xl border border-white/10 bg-black/20",
+          canPan && "brochure-zoom-scroll--pan",
+          isPanning && "brochure-zoom-scroll--panning"
+        )}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={endPan}
+        onPointerCancel={endPan}
+        onScroll={updateCanPan}
       >
-        {children(displayWidth)}
+        <div
+          className="flex min-h-full min-w-full items-center justify-center p-2"
+          style={{
+            minWidth: Math.max(containerSize.width, displayWidth),
+            minHeight: Math.max(containerSize.height, displayHeight),
+          }}
+        >
+          <div
+            className="brochure-zoom-inner shrink-0"
+            style={{
+              width: displayWidth,
+              height: displayHeight || undefined,
+              maxWidth: nativeWidth,
+            }}
+          >
+            {children(displayWidth)}
+          </div>
+        </div>
       </div>
+      {canPan && (
+        <p className="text-center text-[10px] text-sand/45">
+          Arrastra con el mouse o el dedo · rueda o pellizco para desplazar · zoom + para acercar
+        </p>
+      )}
     </div>
   );
 }
@@ -707,7 +812,7 @@ function BrochureModal({
                 zoom={zoom}
                 zoomMax={zoomMax}
                 fitInView={!isPliego}
-                resetKey={`${side}-${focusSectionId ?? "pliego"}-${zoom}`}
+                resetKey={`${side}-${focusSectionId ?? "pliego"}`}
               >
                 {(displayWidth) => (
                   <AnimatePresence mode="wait">

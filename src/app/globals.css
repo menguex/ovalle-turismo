@@ -531,6 +531,20 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
   .brochure-zoom-scroll {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 203, 5, 0.35) transparent;
+    touch-action: pan-x pan-y;
+  }
+
+  .brochure-zoom-scroll--pan {
+    cursor: grab;
+  }
+
+  .brochure-zoom-scroll--panning {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .brochure-zoom-scroll--panning * {
+    pointer-events: none;
   }
 
   .brochure-zoom-scroll::-webkit-scrollbar {
