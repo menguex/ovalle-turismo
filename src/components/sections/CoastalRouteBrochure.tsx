@@ -101,20 +101,31 @@ function preloadBrochureImages() {
   });
 }
 
-function nativeDisplayWidth(
+function computeDisplayWidth(
   containerWidth: number,
+  containerHeight: number,
   nativeWidth: number,
+  nativeHeight: number,
   zoom: number,
-  zoomMax: number
+  zoomMax: number,
+  fitInView: boolean
 ) {
   if (!containerWidth) return nativeWidth;
-  const fitWidth = Math.min(containerWidth, nativeWidth);
-  if (nativeWidth <= fitWidth || zoomMax <= ZOOM_MIN) return nativeWidth;
+
+  let fitWidth = Math.min(containerWidth, nativeWidth);
+  if (fitInView && containerHeight > 0 && nativeHeight > 0) {
+    const widthFromHeight = (containerHeight * nativeWidth) / nativeHeight;
+    fitWidth = Math.min(fitWidth, widthFromHeight);
+  }
+
+  fitWidth = Math.max(1, Math.floor(fitWidth));
+
+  if (nativeWidth <= fitWidth || zoomMax <= ZOOM_MIN) {
+    return Math.min(nativeWidth, fitWidth);
+  }
+
   const t = (zoom - ZOOM_MIN) / (zoomMax - ZOOM_MIN);
-  return Math.min(
-    nativeWidth,
-    Math.round(fitWidth + t * (nativeWidth - fitWidth))
-  );
+  return Math.min(nativeWidth, Math.round(fitWidth + t * (nativeWidth - fitWidth)));
 }
 
 function printBrochure(which: "both" | BrochureSide) {
@@ -338,25 +349,30 @@ function BrochureSectionZoom({
 
 function BrochureZoomViewport({
   nativeWidth,
+  nativeHeight,
   zoom,
   zoomMax,
   resetKey,
+  fitInView = false,
   children,
 }: {
   nativeWidth: number;
+  nativeHeight: number;
   zoom: number;
   zoomMax: number;
   resetKey: string;
+  fitInView?: boolean;
   children: (displayWidth: number) => React.ReactNode;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
-    const measure = () => setContainerWidth(el.clientWidth);
+    const measure = () =>
+      setContainerSize({ width: el.clientWidth, height: el.clientHeight });
     measure();
 
     const ro = new ResizeObserver(measure);
@@ -368,14 +384,23 @@ function BrochureZoomViewport({
     const el = scrollRef.current;
     if (!el) return;
     el.scrollLeft = 0;
+    el.scrollTop = 0;
   }, [resetKey, zoom]);
 
-  const displayWidth = nativeDisplayWidth(containerWidth, nativeWidth, zoom, zoomMax);
+  const displayWidth = computeDisplayWidth(
+    containerSize.width,
+    containerSize.height,
+    nativeWidth,
+    nativeHeight,
+    zoom,
+    zoomMax,
+    fitInView
+  );
 
   return (
     <div
       ref={scrollRef}
-      className="brochure-zoom-scroll flex justify-center overflow-x-auto overflow-y-visible pb-2"
+      className="brochure-zoom-scroll flex w-full min-h-[min(52vh,560px)] flex-1 justify-center overflow-auto pb-2"
     >
       <div
         className="brochure-zoom-inner shrink-0"
@@ -417,6 +442,11 @@ function BrochureModal({
     : focusSection
       ? sectionNativeSize(focusSection, side).width
       : sheetDims.width;
+  const nativeViewHeight = isPliego
+    ? sheetDims.height
+    : focusSection
+      ? sectionNativeSize(focusSection, side).height
+      : sheetDims.height;
 
   const goTo = useCallback((next: BrochureSide) => {
     setSide(next);
@@ -453,11 +483,6 @@ function BrochureModal({
     setLoading(!isImageCached(BROCHURE[initialSide].src));
     preloadBrochureImages();
   }, [open, initialSide]);
-
-  useEffect(() => {
-    if (!open) return;
-    contentScrollRef.current?.scrollTo({ top: 0, left: 0 });
-  }, [open, side, focusSectionId, zoom]);
 
   useEffect(() => {
     if (!open || !focusSectionId || !sectionNavRef.current) return;
@@ -665,7 +690,7 @@ function BrochureModal({
 
             <div
               ref={contentScrollRef}
-              className="relative flex min-h-0 flex-1 flex-col overflow-auto px-4 py-4 sm:px-6 sm:py-5"
+              className="relative flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-4 sm:px-6 sm:py-5"
             >
               {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c1524]/85">
@@ -676,11 +701,12 @@ function BrochureModal({
                 </div>
               )}
 
-              <div className="flex flex-1 flex-col items-center justify-start">
               <BrochureZoomViewport
                 nativeWidth={nativeViewWidth}
+                nativeHeight={nativeViewHeight}
                 zoom={zoom}
                 zoomMax={zoomMax}
+                fitInView={!isPliego}
                 resetKey={`${side}-${focusSectionId ?? "pliego"}-${zoom}`}
               >
                 {(displayWidth) => (
@@ -715,12 +741,11 @@ function BrochureModal({
                   </AnimatePresence>
                 )}
               </BrochureZoomViewport>
-              </div>
 
-              <p className="mt-4 text-center text-xs leading-relaxed text-sand/55">
+              <p className="mt-4 shrink-0 text-center text-xs leading-relaxed text-sand/55">
                 {isPliego
                   ? `Haz clic en cualquier panel para ampliarlo. Pliego en alta resolución (${sheetDims.width} px) — el zoom llega hasta píxel nativo sin estirar más.`
-                  : `Vista ampliada: ${focusSection?.label}. Panel nativo ~${Math.round(nativeViewWidth)} px · zoom hasta resolución completa. Esc para volver al pliego.`}
+                  : `Vista ampliada: ${focusSection?.label}. Panel completo visible · zoom para acercar hasta ~${Math.round(nativeViewWidth)} px nativos. Esc para volver al pliego.`}
               </p>
               {isPliego && (
                 <div className="mt-3 flex justify-center">
