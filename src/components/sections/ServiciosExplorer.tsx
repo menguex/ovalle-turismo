@@ -43,7 +43,7 @@ const TABS = [
     shortLabel: "Costa",
     icon: Waves,
     count: 4,
-    description: "Tongoy, Puerto Velero y el encuentro del valle con el Pacífico.",
+    description: "Desembocadura del Limarí, caletas artesanales, humedales y termas de la comuna de Ovalle.",
     sectionTitle: "Planifica tu visita a la costa",
     sectionDescription:
       "Servicios limitados en la costa: lleva comida, confirma horarios y contáctanos antes de viajar.",

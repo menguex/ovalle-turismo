@@ -68,9 +68,9 @@ const routes = [
     icon: Waves,
     title: "Costa y humedales",
     duration: "Día completo",
-    stops: "Desembocadura → Tongoy → Costa",
+    stops: "Desembocadura → Caleta El Toro → Humedales",
     description:
-      "Recorre el humedal costero, observa aves migratorias y cierra con playas del sector Tongoy–Puerto Velero.",
+      "Recorre el humedal costero y Santuario de la Naturaleza de la desembocadura del Limarí, observa aves migratorias y visita las caletas artesanales de la comuna de Ovalle.",
   },
   {
     icon: TreePine,

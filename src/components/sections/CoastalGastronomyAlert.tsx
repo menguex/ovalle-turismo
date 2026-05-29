@@ -20,7 +20,7 @@ export function CoastalGastronomyAlert({ onViewCoast }: CoastalGastronomyAlertPr
             ¿Vas al borde costero?
           </p>
           <p className="mt-1.5 text-body-sm leading-relaxed text-muted-fg">
-            En Tongoy, Puerto Velero y sectores costeros los servicios gastronómicos no siempre
+            En la costa de Ovalle —desembocadura del Limarí, caletas y humedales— los servicios gastronómicos no siempre
             están abiertos. Te recomendamos llevar comida y agua, y contactarnos para confirmar
             disponibilidad antes de viajar.
           </p>

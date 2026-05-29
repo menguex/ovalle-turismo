@@ -219,7 +219,7 @@ const LODGING_BASE: readonly Ficha[] = [
     distanceFromOvalle: "~45 km · borde costero",
     details: [
       "Restaurante y pensión sujetos a temporada — confirma disponibilidad antes de viajar.",
-      "Sector costero de Socos, camino al borde costero desde Ovalle.",
+      "Localidad de Socos, comuna de Ovalle (Ruta 5 Norte km 370).",
     ],
     email: "reservas@termasdesocos.cl",
     amenities: ["Termas", "Spa", "Restaurante", "Piscina"],
@@ -1145,18 +1145,18 @@ export const NATURAL_ATTRACTIONS: readonly Ficha[] = [
     badge: "Humedal costero",
     image: IMAGES.desembocadura,
     description:
-      "Donde el desierto se encuentra con el océano. Paisajes únicos, aguas turquesas y biodiversidad costera en uno de los humedales más singulares del norte de Chile, reconocido por su avifauna y contrastes entre mar, río y cordillera.",
+      "Donde el desierto se encuentra con el océano. Santuario de la Naturaleza y sitio Ramsar en la comuna de Ovalle: laguna costera, playa de arena y más de 130 especies de aves entre mar, río y cordillera.",
     highlights: [
+      "Santuario de la Naturaleza · sitio Ramsar",
       "Humedal costero y avifauna migratoria",
-      "Aguas turquesas y dunas",
-      "Ideal para fotografía y observación de aves",
+      "Caleta El Toro y playa de ~750 m",
     ],
     details: [
-      "Sector Tongoy–Puerto Velero, a unos 25 km de Ovalle hacia la costa.",
+      "Comuna de Ovalle, a unos 25 km hacia la costa por caminos rurales.",
       "Recomendado llevar binoculares, agua y protección solar.",
-      "Combina bien con playas de Tongoy y paseos costeros.",
+      "Combina con caletas artesanales del sector (El Toro, Talcaruca, La Cebada, entre otras).",
     ],
-    address: "Desembocadura del Río Limarí, Tongoy, Ovalle",
+    address: "Desembocadura del Río Limarí, comuna de Ovalle",
     distanceFromOvalle: "~25 km · costa",
     visitDuration: "2–3 horas",
     bestSeason: "Todo el año · primavera aves",

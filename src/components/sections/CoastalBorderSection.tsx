@@ -20,9 +20,10 @@ import { LODGING } from "@/lib/data/fichas";
 import { IMAGES, SITE } from "@/lib/data/site";
 
 const COASTAL_PLACES = [
-  "Tongoy y playas del sector",
-  "Puerto Velero",
   "Desembocadura del Río Limarí",
+  "Caleta El Toro",
+  "Caletas artesanales del Limarí",
+  "Humedales La Cebada y El Teniente",
   "Termas de Socos",
 ] as const;
 
@@ -58,8 +59,8 @@ export function CoastalBorderSection() {
         <SectionHeading
           icon={Waves}
           eyebrow="Borde costero"
-          title="Tongoy · Puerto Velero · Pacífico"
-          description="Playas, humedales y termas entre el valle y el mar. Planifica con anticipación: la oferta de servicios en la costa no siempre está disponible."
+          title="Costa de Ovalle · Desembocadura y caletas"
+          description="Ovalle es la única comuna de la provincia del Limarí con borde costero: humedales Ramsar, caletas artesanales y termas. Planifica con anticipación — la oferta de servicios es limitada."
         />
       </div>
 
@@ -78,8 +79,9 @@ export function CoastalBorderSection() {
                     Planifica tu visita al borde costero
                   </h3>
                   <p className="mt-3 max-w-md text-sm leading-relaxed text-sand/90">
-                    A unos 25–60 km de Ovalle encontrarás paisajes entre desierto y océano. Es un
-                    territorio hermoso, pero con servicios más dispersos que en el centro urbano.
+                    A unos 25–60 km de Ovalle encontrarás la desembocadura del Limarí, nueve caletas
+                    artesanales y humedales de alto valor ecológico. Territorio singular, con
+                    servicios más dispersos que en el centro urbano.
                   </p>
                 </div>
               </div>
@@ -92,8 +94,8 @@ export function CoastalBorderSection() {
                       Servicios gastronómicos no siempre abiertos
                     </p>
                     <p className="mt-1.5 text-body-sm leading-relaxed text-muted-fg">
-                      Los locales de comida y algunos servicios en Tongoy, Puerto Velero y sectores
-                      costeros pueden estar cerrados fuera de temporada alta o en ciertos días.
+                      Los locales de comida y algunos servicios en la costa de Ovalle —desembocadura,
+                      caletas y termas— pueden estar cerrados fuera de temporada alta o en ciertos días.
                       Lleva provisiones y confirma antes de salir.
                     </p>
                   </div>
