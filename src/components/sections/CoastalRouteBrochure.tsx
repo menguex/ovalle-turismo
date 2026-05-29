@@ -6,7 +6,6 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
-  Download,
   Loader2,
   Maximize2,
   Printer,
@@ -26,7 +25,7 @@ const BROCHURE = {
   title: "Ruta Costera de Ovalle",
   subtitle: "Tríptico oficial del litoral de Ovalle — tiro y retiro",
   description:
-    "Material desplegable de 3 paneles con las caletas artesanales de la comuna. Puedes verlo aquí, descargarlo o imprimirlo tal como lo entrega la Oficina de Turismo.",
+    "Material desplegable de 3 paneles con las caletas artesanales de la comuna. Puedes verlo aquí o imprimirlo tal como lo entrega la Oficina de Turismo.",
   tiro: {
     src: "/brochures/ruta-costera-tiro.png",
     thumbSrc: "/brochures/ruta-costera-tiro-thumb.jpg",
@@ -774,18 +773,10 @@ function BrochureModal({
                 >
                   <ZoomIn size={16} />
                 </button>
-                <a
-                  href={current.src}
-                  download={`ruta-costera-ovalle-${side}.png`}
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 font-sans text-xs font-medium text-sand/85 hover:text-white"
-                >
-                  <Download size={14} />
-                  Descargar pliego
-                </a>
                 <button
                   type="button"
                   onClick={() => printBrochure(side)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1.5 font-sans text-xs font-semibold text-night"
+                  className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1.5 font-sans text-xs font-semibold text-night"
                 >
                   <Printer size={14} />
                   Imprimir
@@ -934,7 +925,7 @@ export function CoastalRouteBrochure() {
             </div>
             <ul className="space-y-1.5 text-xs text-muted-fg">
               <li>· Pliego completo tiro y retiro, con zoom por cada panel</li>
-              <li>· Descarga o imprime desde el navegador</li>
+              <li>· Imprime desde el navegador</li>
             </ul>
             <div className="flex flex-wrap gap-2 pt-1">
               <button
@@ -947,14 +938,6 @@ export function CoastalRouteBrochure() {
                 <Sparkles size={15} />
                 Ver tríptico
               </button>
-              <a
-                href={BROCHURE.tiro.src}
-                download="ruta-costera-ovalle-tiro.png"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 font-sans text-sm font-medium text-fg transition hover:border-brand-blue/40"
-              >
-                <Download size={15} />
-                Descargar
-              </a>
               <button
                 type="button"
                 onClick={() => printBrochure("both")}
