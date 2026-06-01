@@ -108,7 +108,7 @@ export function Hero() {
             className="glass-tech-hero max-w-4xl rounded-3xl p-6 sm:p-8 lg:max-w-3xl"
           >
             <SplitText
-              text="Bienvenidos a Ovalle"
+              text="¡Bienvenidos a Ovalle!"
               className="heading-xl text-white"
               delay={0.3}
               stagger={0.035}

@@ -11,6 +11,7 @@ export type Ficha = {
   phone?: string;
   email?: string;
   website?: string;
+  instagram?: string;
   embedUrl?: string;
   mapUrl?: string;
   schedule?: string;

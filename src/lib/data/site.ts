@@ -424,8 +424,10 @@ export type NewsItem = (typeof NEWS)[number];
 /** Reseña histórica — enoturismo (ovalleturismo.cl/servicios-turisticos/enoturismo) */
 export const ENOTURISMO_HISTORY = [
   "Descubre el enoturismo en Ovalle y sus viñas, donde la tradición vitivinícola se combina con paisajes de valle y una cocina local de sabor único.",
-  "La región de Coquimbo, donde se ubica la provincia de Limarí, empezó a desarrollar viñedos en la colonia española. En las últimas décadas, Limarí emergió como potencia para Chardonnay, aprovechando su clima fresco y suelos calcareos bajo la influencia marina y la camanchaca.",
-  "El Valle del Limarí ofrece vinos con acidez marcada y mineralidad. Ovalle te invita a vivir una experiencia enoturística única: visita viñas, degustaciones y tradición vitivinícola en el corazón del norte chico.",
+  "La región de Coquimbo, donde se ubica la provincia de Limarí, desarrolló viñedos durante la colonización española, influenciada por recomendaciones agrícolas europeas. Entre el siglo XIX y principios del XX, la viticultura se expandió gracias a la llegada de inmigrantes y la demanda local e industrial de vinos.",
+  "Desde finales del siglo XX, Limarí se posicionó como potencia productora de Chardonnay, aprovechando su clima fresco y suelos calcáreos bajo la influencia marina y la camanchaca. El Valle del Limarí produce vinos con acidez marcada y mineralidad. Otras variedades como Syrah, Malbec y Pinot Noir ganaron aceptación en viñedos costeros e internos.",
+  "Entre las décadas de 1930 y 1960, la expansión de infraestructuras —acueductos, caminos y bodegas— facilitó el crecimiento del sector. Históricamente destacó la Moscatel de Alejandría para vinos dulces y pisco; luego las variedades internacionales diversificaron la oferta, fortaleciéndose mediante prácticas agroindustriales y cooperativas.",
+  "En las últimas décadas, los Chardonnay del Limarí obtuvieron premios en concursos internacionales, consolidando la reputación de la provincia. Ovalle te invita a vivir una experiencia enoturística única: visita viñas, degustaciones y tradición vitivinícola en el corazón del norte chico.",
 ] as const;
 
 /** Reseña histórica — pisquerías (ovalleturismo.cl/servicios-turisticos/pisqueras) */
@@ -443,7 +445,9 @@ export const HOME_COPY = {
   ],
   about: [
     "En Ovalle Turismo creemos en el turismo que nace desde el territorio y sus personas. Somos un equipo que trabaja con cariño y compromiso para poner en valor lo mejor de Ovalle, creando experiencias auténticas que conectan a quienes nos visitan con la historia, la cultura y la naturaleza de nuestra comuna.",
-    "Impulsamos el enoturismo y la gastronomía local, el astroturismo aprovechando nuestros cielos limpios, y experiencias de bienestar invitando a vivir el territorio con respeto, calma y conexión con la naturaleza.",
+    "Nuestro trabajo se inspira en un plan estratégico de turismo, pero sobre todo en el amor por lo que somos.",
+    "Impulsamos el enoturismo y la gastronomía local, donde el vino, los sabores y las tradiciones cuentan nuestra historia; el astroturismo, aprovechando nuestros cielos limpios y la magia de las noches del valle; invitando a vivir el territorio con respeto, calma y conexión con la naturaleza.",
+    "Queremos que cada experiencia sea una oportunidad para descubrir Ovalle de manera cercana y real, aportando al desarrollo local y fortaleciendo el orgullo de quienes vivimos aquí.",
   ],
 } as const;
 

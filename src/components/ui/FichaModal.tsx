@@ -9,6 +9,7 @@ import {
   Calendar,
   Clock,
   ExternalLink,
+  AtSign,
   Mail,
   MapPin,
   Navigation,
@@ -177,6 +178,17 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
                   >
                     <Mail size={15} className="shrink-0 text-copper" />
                     {ficha.email}
+                  </a>
+                )}
+                {ficha.instagram && (
+                  <a
+                    href={`https://www.instagram.com/${ficha.instagram.replace("@", "")}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-fg transition hover:text-copper"
+                  >
+                    <AtSign size={15} className="shrink-0 text-copper" />
+                    {ficha.instagram}
                   </a>
                 )}
                 {ficha.priceRange && (

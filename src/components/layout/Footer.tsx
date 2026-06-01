@@ -140,6 +140,12 @@ export function Footer() {
             <Link href="https://muniovalle.cl" target="_blank" className="transition hover:text-sand/80">
               Municipalidad de Ovalle
             </Link>
+            <Link href="https://montepatriaturismo.cl/" target="_blank" className="transition hover:text-sand/80">
+              Monte Patria Turismo
+            </Link>
+            <Link href="https://turismoriohurtado.cl/" target="_blank" className="transition hover:text-sand/80">
+              Turismo Río Hurtado
+            </Link>
             <Link href="/contacto" className="transition hover:text-sand/80">
               Contacto
             </Link>
