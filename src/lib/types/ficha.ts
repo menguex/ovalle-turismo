@@ -5,6 +5,8 @@ export type Ficha = {
   type?: string;
   category?: string;
   image: string;
+  /** Galería completa (mismas URLs que ovalleturismo.cl). Si no hay, se usa solo `image`. */
+  images?: readonly string[];
   description: string;
   highlights?: readonly string[];
   address?: string;
@@ -32,6 +34,8 @@ export type Ficha = {
   bestSeason?: string;
   lat?: number;
   lng?: number;
+  /** IDs de fichas relacionadas (como en ovalleturismo.cl) */
+  relatedIds?: readonly string[];
 };
 
 export function fichaLabel(item: Pick<Ficha, "name" | "title">) {

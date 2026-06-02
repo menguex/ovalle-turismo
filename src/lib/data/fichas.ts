@@ -1,7 +1,9 @@
 import { IMAGES, SITE } from "@/lib/data/site";
 import { enrichLimariFichas } from "@/lib/data/limari-enrichment";
-import { enrichFichas } from "@/lib/data/service-enrichment";
+import { finalizeFichas } from "@/lib/data/ficha-enrichment";
 import type { Ficha } from "@/lib/types/ficha";
+
+const withData = finalizeFichas;
 
 const LODGING_BASE: readonly Ficha[] = [
   {
@@ -429,7 +431,7 @@ const LODGING_BASE: readonly Ficha[] = [
   },
 ];
 
-export const LODGING: readonly Ficha[] = enrichFichas(LODGING_BASE);
+export const LODGING: readonly Ficha[] = withData(LODGING_BASE);
 
 /** Alojamientos recomendados para astroturismo (cielos oscuros o cercanía a zonas Starlight) */
 export const ASTRO_LODGING_IDS = [
@@ -445,7 +447,7 @@ export const ASTRO_LODGING: readonly Ficha[] = ASTRO_LODGING_IDS.map(
 ).filter(Boolean);
 
 /** Zonas y experiencias de observación astronómica */
-export const ASTRO_EXPERIENCES: readonly Ficha[] = [
+export const ASTRO_EXPERIENCES: readonly Ficha[] = withData([
   {
     id: "astro-cielos-limari",
     title: "Cielos del Limarí",
@@ -505,7 +507,7 @@ export const ASTRO_EXPERIENCES: readonly Ficha[] = [
     mapUrl: "https://maps.google.com/?q=Parque+Nacional+Fray+Jorge",
     href: "/descubre/astroturismo",
   },
-];
+]);
 
 const RESTAURANTS_BASE: readonly Ficha[] = [
   {
@@ -745,9 +747,9 @@ const RESTAURANTS_BASE: readonly Ficha[] = [
   },
 ];
 
-export const RESTAURANTS: readonly Ficha[] = enrichFichas(RESTAURANTS_BASE);
+export const RESTAURANTS: readonly Ficha[] = withData(RESTAURANTS_BASE);
 
-export const WINERIES: readonly Ficha[] = [
+const WINERIES_BASE: readonly Ficha[] = [
   {
     id: "vina-tabali",
     name: "Viña Tabali",
@@ -802,7 +804,7 @@ export const WINERIES: readonly Ficha[] = [
     name: "Viña Tololo",
     type: "Viña",
     category: "Enoturismo",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/vina-soler-377x234-1-300x186.jpg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/vina-tololo-1-1024x683.jpg",
     description: "Tradición vitivinícola del valle con varietales adaptados al clima limarino y visitas en bodega.",
     highlights: ["Viñedos históricos", "Degustaciones", "Región de Coquimbo"],
     schedule: "Lunes a viernes 09:30–13:00 / 14:00–18:30 hrs.",
@@ -975,7 +977,9 @@ export const WINERIES: readonly Ficha[] = [
   },
 ];
 
-export const EVENTS: readonly Ficha[] = [
+export const WINERIES: readonly Ficha[] = withData(WINERIES_BASE);
+
+export const EVENTS: readonly Ficha[] = withData([
   {
     id: "fiesta-cabrito",
     name: "Fiesta del Cabrito",
@@ -1054,7 +1058,7 @@ export const EVENTS: readonly Ficha[] = [
     badge: "Imperdible",
     audience: "Familia · Parejas · Amigos",
   },
-];
+]);
 
 const TOUR_OPERATORS_BASE: readonly Ficha[] = [
   {
@@ -1196,9 +1200,9 @@ const TOUR_OPERATORS_BASE: readonly Ficha[] = [
   },
 ];
 
-export const TOUR_OPERATORS: readonly Ficha[] = enrichFichas(TOUR_OPERATORS_BASE);
+export const TOUR_OPERATORS: readonly Ficha[] = withData(TOUR_OPERATORS_BASE);
 
-export const NATURAL_ATTRACTIONS: readonly Ficha[] = [
+export const NATURAL_ATTRACTIONS: readonly Ficha[] = withData([
   {
     id: "desembocadura-limari",
     title: "Desembocadura del Río Limarí",
@@ -1316,9 +1320,9 @@ export const NATURAL_ATTRACTIONS: readonly Ficha[] = [
     embedUrl: "https://www.ovalleturismo.cl/Tour%20Fray%20Jorge/",
     href: "/descubre/naturaleza",
   },
-];
+]);
 
-export const CULTURAL_ATTRACTIONS: readonly Ficha[] = [
+export const CULTURAL_ATTRACTIONS: readonly Ficha[] = withData([
   {
     id: "pueblo-barraza",
     title: "Pueblo de Barraza",
@@ -1420,9 +1424,9 @@ export const CULTURAL_ATTRACTIONS: readonly Ficha[] = [
     mapUrl: "https://maps.google.com/?q=Museo+del+Limari+Ovalle",
     href: "/descubre/cultura",
   },
-];
+]);
 
-export const USEFUL_INFO: readonly Ficha[] = [
+export const USEFUL_INFO: readonly Ficha[] = withData([
   {
     id: "info-clima",
     title: "Clima",
@@ -1515,7 +1519,7 @@ export const USEFUL_INFO: readonly Ficha[] = [
     ],
     href: "/datos-utiles",
   },
-];
+]);
 
 const LIMARI_COMMUNITIES_BASE: readonly Ficha[] = [
   {
@@ -1575,7 +1579,7 @@ const LIMARI_COMMUNITIES_BASE: readonly Ficha[] = [
   },
 ];
 
-export const LIMARI_COMMUNITIES: readonly Ficha[] = enrichLimariFichas(LIMARI_COMMUNITIES_BASE);
+export const LIMARI_COMMUNITIES: readonly Ficha[] = withData(enrichLimariFichas(LIMARI_COMMUNITIES_BASE));
 
 const LIMARI_EXPERIENCES_BASE: readonly Ficha[] = [
   {
@@ -1657,9 +1661,9 @@ const LIMARI_EXPERIENCES_BASE: readonly Ficha[] = [
   },
 ];
 
-export const LIMARI_EXPERIENCES: readonly Ficha[] = enrichLimariFichas(LIMARI_EXPERIENCES_BASE);
+export const LIMARI_EXPERIENCES: readonly Ficha[] = withData(enrichLimariFichas(LIMARI_EXPERIENCES_BASE));
 
-export const TOUR_360: readonly Ficha[] = [
+export const TOUR_360: readonly Ficha[] = withData([
   {
     id: "360-fray-jorge",
     title: "Parque Nacional Bosque Fray Jorge",
@@ -1688,7 +1692,7 @@ export const TOUR_360: readonly Ficha[] = [
     embedUrl: "https://muniovalle.cl/tour/",
     href: "/tour-360",
   },
-];
+]);
 
 /** Experiencias del valle + viña Soler (sitio original /limari) */
 export const VALLES_EXPERIENCES: readonly Ficha[] = [

@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
   Calendar,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   ExternalLink,
   AtSign,
@@ -20,15 +22,23 @@ import {
 } from "lucide-react";
 import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
+import { fichaImages } from "@/lib/ficha-images";
+import { getFicha } from "@/lib/data/fichas";
 import { cn, mapsEmbedUrl, telHref } from "@/lib/utils";
 
 type FichaModalProps = {
   ficha: Ficha | null;
   onClose: () => void;
+  onOpenRelated?: (id: string) => void;
 };
 
-export function FichaModal({ ficha, onClose }: FichaModalProps) {
+export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
   const reduced = useReducedMotion();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [ficha?.id]);
 
   useEffect(() => {
     if (!ficha) return;
@@ -45,6 +55,11 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
   }, [ficha, onClose]);
 
   const label = ficha ? fichaLabel(ficha) : "";
+  const images = ficha ? fichaImages(ficha) : [];
+  const hasGallery = images.length > 1;
+
+  const goPrev = () => setActiveIndex((i) => (i - 1 + images.length) % images.length);
+  const goNext = () => setActiveIndex((i) => (i + 1) % images.length);
 
   return (
     <AnimatePresence>
@@ -70,34 +85,104 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
             transition={{ duration: reduced ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="relative aspect-[16/9] shrink-0">
-              <Image src={ficha.image} alt={label} fill className="object-cover" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/20 to-transparent" />
-              <button
-                type="button"
-                onClick={onClose}
-                className="absolute right-4 top-4 rounded-full border border-white/20 bg-night/50 p-2 text-white backdrop-blur-sm transition hover:bg-night/70"
-                aria-label="Cerrar"
-              >
-                <X size={18} />
-              </button>
-              <div className="absolute bottom-4 left-5 right-5">
-                <div className="mb-2 flex flex-wrap gap-2">
-                  {ficha.badge && (
-                    <span className="inline-block rounded-full bg-gold/90 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-night">
-                      {ficha.badge}
+            <div className="relative shrink-0">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={images[activeIndex]}
+                    className="absolute inset-0"
+                    initial={reduced ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduced ? undefined : { opacity: 0 }}
+                    transition={{ duration: reduced ? 0 : 0.2 }}
+                  >
+                    <Image
+                      src={images[activeIndex]}
+                      alt={`${label} — foto ${activeIndex + 1} de ${images.length}`}
+                      fill
+                      className="object-cover"
+                      priority={activeIndex === 0}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/20 to-transparent" />
+
+                {hasGallery && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={goPrev}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-night/50 p-2 text-white backdrop-blur-sm transition hover:bg-night/70"
+                      aria-label="Foto anterior"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={goNext}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-night/50 p-2 text-white backdrop-blur-sm transition hover:bg-night/70"
+                      aria-label="Foto siguiente"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                    <span className="absolute right-4 top-4 rounded-full bg-night/50 px-2.5 py-1 font-accent text-[10px] uppercase tracking-wider text-white backdrop-blur-sm">
+                      {activeIndex + 1} / {images.length}
                     </span>
+                  </>
+                )}
+
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className={cn(
+                    "absolute rounded-full border border-white/20 bg-night/50 p-2 text-white backdrop-blur-sm transition hover:bg-night/70",
+                    hasGallery ? "right-4 top-12" : "right-4 top-4"
                   )}
-                  {ficha.type && (
-                    <span className="inline-block rounded-full bg-white/15 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-sm">
-                      {ficha.type}
-                    </span>
-                  )}
+                  aria-label="Cerrar"
+                >
+                  <X size={18} />
+                </button>
+
+                <div className="absolute bottom-4 left-5 right-5">
+                  <div className="mb-2 flex flex-wrap gap-2">
+                    {ficha.badge && (
+                      <span className="inline-block rounded-full bg-gold/90 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-night">
+                        {ficha.badge}
+                      </span>
+                    )}
+                    {ficha.type && (
+                      <span className="inline-block rounded-full bg-white/15 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-sm">
+                        {ficha.type}
+                      </span>
+                    )}
+                  </div>
+                  <h2 id="ficha-title" className="font-display text-2xl font-bold text-white sm:text-3xl">
+                    {label}
+                  </h2>
                 </div>
-                <h2 id="ficha-title" className="font-display text-2xl font-bold text-white sm:text-3xl">
-                  {label}
-                </h2>
               </div>
+
+              {hasGallery && (
+                <div className="flex gap-2 overflow-x-auto border-b border-border bg-surface-elevated px-4 py-3">
+                  {images.map((src, index) => (
+                    <button
+                      key={src}
+                      type="button"
+                      onClick={() => setActiveIndex(index)}
+                      className={cn(
+                        "relative h-14 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition",
+                        index === activeIndex
+                          ? "border-copper ring-1 ring-copper/40"
+                          : "border-transparent opacity-70 hover:opacity-100"
+                      )}
+                      aria-label={`Ver foto ${index + 1}`}
+                      aria-current={index === activeIndex ? "true" : undefined}
+                    >
+                      <Image src={src} alt="" fill className="object-cover" sizes="80px" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="overflow-y-auto p-6 sm:p-8">
@@ -221,6 +306,30 @@ export function FichaModal({ ficha, onClose }: FichaModalProps) {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
+                </div>
+              )}
+
+              {ficha.relatedIds && ficha.relatedIds.length > 0 && (
+                <div className="mt-6">
+                  <p className="mb-3 font-accent text-[10px] uppercase tracking-wider text-muted">
+                    Relacionados
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {ficha.relatedIds.map((id) => {
+                      const related = getFicha(id);
+                      if (!related) return null;
+                      return (
+                        <button
+                          key={id}
+                          type="button"
+                          onClick={() => onOpenRelated?.(id)}
+                          className="rounded-full border border-border bg-surface-elevated px-4 py-2 text-sm text-fg transition hover:border-copper hover:text-copper"
+                        >
+                          {fichaLabel(related)}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
 

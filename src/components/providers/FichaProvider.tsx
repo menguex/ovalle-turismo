@@ -64,7 +64,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
   return (
     <FichaContext.Provider value={value}>
       {children}
-      <FichaModal ficha={ficha} onClose={closeFicha} />
+      <FichaModal ficha={ficha} onClose={closeFicha} onOpenRelated={openFicha} />
     </FichaContext.Provider>
   );
 }

@@ -63,17 +63,20 @@ export const SERVICE_ENRICHMENT: Record<string, Partial<Ficha>> = {
     address: "Miguel Aguirre 209, Centro, Ovalle",
     phone: "+56 9 3366 4217",
     mapUrl: "https://maps.google.com/?q=Miguel+Aguirre+209+Ovalle+Chile",
+    email: "plazaterrazaovalle@gmail.com",
   },
   "cafe-carmen": {
     address: "Vicuña Mackenna 490, Centro, Ovalle",
     schedule: "Lun–vie 08:00–20:00 hrs.",
     mapUrl: "https://maps.google.com/?q=Vicuña+Mackenna+490+Ovalle+Chile",
+    email: "cafecarmenovalle@gmail.com",
   },
   "kata-resto-bar": {
     address: "Vicuña Mackenna 376, Centro, Ovalle",
     phone: "(53) 2 628952",
     schedule: "Lun–jue 09:30–01:00 · Vie–sáb 09:30–03:00 hrs.",
     mapUrl: "https://maps.google.com/?q=Vicuña+Mackenna+376+Ovalle+Chile",
+    email: "katabaryresto@gmail.com",
   },
   "riquisimo": {
     address: "Coquimbo 136, Centro, Ovalle",
@@ -94,6 +97,7 @@ export const SERVICE_ENRICHMENT: Record<string, Partial<Ficha>> = {
     phone: "+56 9 8138 2250",
     schedule: "Invierno lun–sáb 11:00–18:00 · Verano lun–sáb 11:00–19:00 · dom 11:00–18:00 hrs.",
     mapUrl: "https://maps.google.com/?q=Ariztía+Poniente+224+Ovalle+Chile",
+    email: "heladeriaalexovalle@gmail.com",
   },
   "poki-bubble-tea": {
     address: "Coquimbo 240, Centro, Ovalle",
@@ -122,10 +126,13 @@ export const SERVICE_ENRICHMENT: Record<string, Partial<Ficha>> = {
     address: "Las Majadas S/N, Camino Antiguo a Ovalle, Punitaqui",
     phone: "+56 9 8129 7729",
     website: "https://hostalovalle.cl/",
+    schedule: "Consultar horario con el establecimiento",
+    details: ["Capacidad máxima: 13 personas"],
   },
   "trapiche-lodge": {
     address: "Parcela 34, Lote 1, Trapiche, Ovalle",
     phone: "+56 9 6728 1723",
+    schedule: "Consultar horario con el establecimiento",
   },
   "hotel-italia": {
     address: "Vicuña Mackenna 687, Centro, Ovalle",
@@ -137,11 +144,13 @@ export const SERVICE_ENRICHMENT: Record<string, Partial<Ficha>> = {
   },
   "hostal-casona-campos": {
     phone: "+56 9 4250 6659 · +56 9 8218 9827",
-    details: ["Capacidad máxima 12 personas"],
+    schedule: "Consultar horario con el establecimiento",
+    details: ["Capacidad máxima: 12 personas"],
   },
   "hotel-florencia": {
     address: "Vicuña Mackenna 772, Ovalle",
     phone: "+56 9 9730 6313",
+    schedule: "Consultar horario con el establecimiento",
   },
   "apart-hotel-dolce-vita": {
     address: "Río Loa 384, Los Leices, Ovalle",
@@ -231,6 +240,60 @@ export const SERVICE_ENRICHMENT: Record<string, Partial<Ficha>> = {
   "viento-sur-operador": {
     address: "Peral Ojo de Agua S/N, Ruta D-540, Ovalle",
     phone: "+56 9 4989 5921 · +56 9 8433 9166",
+  },
+  "vina-tololo": {
+    address: "Ruta D-43 Km 12, Punitaqui, Ovalle",
+    phone: "+56 9 3869 3973",
+    email: "ventas@tololovinos.cl",
+    website: "https://www.tololovinos.cl/",
+    mapUrl: "https://maps.google.com/?q=Viña+Tololo+Punitaqui+Ovalle",
+    schedule: "Lun–vie 09:30–13:00 / 14:00–18:30 hrs.",
+    details: ["Capacidad máxima: 30 personas"],
+  },
+  "macero-sour": {
+    phone: "+56 9 7798 6964",
+    email: "macerosour@gmail.com",
+    website: "https://macerosour.cl/",
+    address: "Ovalle, Región de Coquimbo",
+    mapUrl: "https://maps.google.com/?q=Macero+Sour+Ovalle",
+  },
+  "pisco-ovalle": {
+    address: "Ovalle, Región de Coquimbo",
+  },
+  "espumante-azur": {
+    phone: "+56 9 2833 8383",
+    email: "info@azur.cl",
+    website: "https://www.azur.cl/",
+    address: "Valle del Limarí, Ovalle",
+    schedule: "Consultar horario con el establecimiento",
+  },
+  "vina-tabali": {
+    email: "turismo@tabali.cl",
+    website: "https://www.tabali.com/",
+    address: "Valle del Limarí, Ovalle",
+    schedule: "Sábado 11:00–16:00 hrs. · Consultar tours entre semana",
+  },
+  "vina-ochotierras": {
+    phone: "+56 9 9542 2781",
+    email: "info@ochotierras.cl",
+    website: "https://ochotierras.cl/",
+    address: "Valle del Limarí, Ovalle",
+  },
+  "cooperativa-pisquera": {
+    phone: "+56 9 5665 4120",
+    email: "ventas@controlpisquero.cl",
+    website: "https://www.controlpisquero.cl/",
+    schedule: "Consultar horarios de visita y degustación",
+  },
+  "museo-limari": {
+    schedule: "Mar–dom 10:00–18:00 hrs. · Lunes cerrado",
+    instagram: "@museodelimari",
+  },
+  "iglesia-san-vicente": {
+    schedule: "Exterior accesible todo el año · Interior consultar horarios de misa",
+  },
+  "pueblo-barraza": {
+    schedule: "Todo el año · Fiesta de Barraza en febrero",
   },
 };
 
