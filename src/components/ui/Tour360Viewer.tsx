@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, Maximize2, Minimize2, Rotate3D, X } from "lucide-react";
 import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 
 type Tour360ViewerProps = {
   tour: Ficha | null;
@@ -20,21 +21,18 @@ export function Tour360Viewer({ tour, onClose }: Tour360ViewerProps) {
   const label = tour ? fichaLabel(tour) : "";
   const embedUrl = tour?.embedUrl ?? tour?.website;
 
+  useScrollLock(Boolean(tour));
+
   useEffect(() => {
     if (!tour) return;
     setFullscreen(false);
     setIframeBlocked(false);
     iframeLoadedRef.current = false;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [tour, onClose]);
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export function Tour360Viewer({ tour, onClose }: Tour360ViewerProps) {
           role="dialog"
           aria-modal="true"
           aria-label={`Tour 360° ${label}`}
-          className="fixed inset-0 z-[110] flex flex-col bg-night"
+          className="fixed inset-0 z-[110] flex flex-col overflow-hidden overscroll-none bg-night"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

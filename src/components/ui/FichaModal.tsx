@@ -24,6 +24,7 @@ import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
 import { fichaImages } from "@/lib/ficha-images";
 import { getFicha } from "@/lib/data/fichas";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 import { cn, mapsEmbedUrl, telHref } from "@/lib/utils";
 
 type FichaModalProps = {
@@ -40,18 +41,15 @@ export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
     setActiveIndex(0);
   }, [ficha?.id]);
 
+  useScrollLock(Boolean(ficha));
+
   useEffect(() => {
     if (!ficha) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [ficha, onClose]);
 
   const label = ficha ? fichaLabel(ficha) : "";
@@ -64,7 +62,7 @@ export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
   return (
     <AnimatePresence>
       {ficha && (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center overflow-hidden overscroll-none sm:items-center sm:p-6">
           <motion.button
             type="button"
             aria-label="Cerrar ficha"
@@ -79,7 +77,7 @@ export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="ficha-title"
-            className="relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[2rem] border border-border bg-surface shadow-2xl sm:rounded-[2rem]"
+            className="relative z-10 flex max-h-[min(92vh,100dvh)] w-full max-w-3xl flex-col overflow-hidden rounded-t-[2rem] border border-border bg-surface shadow-2xl sm:max-h-[92vh] sm:rounded-[2rem]"
             initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
@@ -185,7 +183,7 @@ export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
               )}
             </div>
 
-            <div className="overflow-y-auto p-6 sm:p-8">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-6 sm:p-8">
               <p className="font-sans text-body-md leading-relaxed text-muted-fg">{ficha.description}</p>
 
               {ficha.highlights && ficha.highlights.length > 0 && (

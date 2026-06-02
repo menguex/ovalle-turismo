@@ -14,6 +14,7 @@ import {
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 import { cn } from "@/lib/utils";
 
 const BROCHURE_DIMS = {
@@ -531,6 +532,7 @@ function BrochureModal({
   initialSide?: BrochureSide;
 }) {
   const reduced = useReducedMotion();
+  useScrollLock(open);
   const [side, setSide] = useState<BrochureSide>(initialSide);
   const [focusSectionId, setFocusSectionId] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -601,8 +603,6 @@ function BrochureModal({
   useEffect(() => {
     if (!open) return;
 
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (focusSectionId) selectSection(null);
@@ -619,10 +619,7 @@ function BrochureModal({
       }
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose, goTo, focusSectionId, selectSection, stepSection]);
 
   useEffect(() => {
@@ -649,7 +646,7 @@ function BrochureModal({
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center sm:p-5">
+        <div className="fixed inset-0 z-[120] flex items-end justify-center overflow-hidden overscroll-none sm:items-center sm:p-5">
           <motion.button
             type="button"
             aria-label="Cerrar tríptico"
@@ -664,7 +661,7 @@ function BrochureModal({
             role="dialog"
             aria-modal="true"
             aria-label={BROCHURE.title}
-            className="relative z-10 flex max-h-[96vh] w-full max-w-[min(96vw,3897px)] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:rounded-[2rem]"
+            className="relative z-10 flex max-h-[min(96vh,100dvh)] w-full max-w-[min(96vw,3897px)] flex-col overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:max-h-[96vh] sm:rounded-[2rem]"
             initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 24 }}

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Clock, Share2, X } from "lucide-react";
 import type { NewsItem } from "@/lib/data/site";
 import { NEWS } from "@/lib/data/site";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 import { formatChileDate } from "@/lib/utils";
 
 type NewsModalProps = {
@@ -21,18 +22,15 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
+  useScrollLock(Boolean(post));
+
   useEffect(() => {
     if (!post) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [post, onClose]);
 
   const related = post ? NEWS.filter((n) => n.slug !== post.slug).slice(0, 2) : [];
@@ -50,7 +48,7 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
   return (
     <AnimatePresence>
       {post && (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center overflow-hidden overscroll-none sm:items-center sm:p-6">
           <motion.button
             type="button"
             aria-label="Cerrar noticia"
@@ -65,7 +63,7 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="news-modal-title"
-            className="relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[2rem] border border-border bg-surface shadow-2xl sm:rounded-[2rem]"
+            className="relative z-10 flex max-h-[min(92vh,100dvh)] w-full max-w-3xl flex-col overflow-hidden rounded-t-[2rem] border border-border bg-surface shadow-2xl sm:max-h-[92vh] sm:rounded-[2rem]"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
@@ -99,7 +97,7 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
               </div>
             </div>
 
-            <div className="overflow-y-auto p-6 sm:p-8">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-6 sm:p-8">
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-fg">
                 <time className="font-accent text-xs uppercase tracking-wider text-copper">
                   {formatChileDate(post.date)}
