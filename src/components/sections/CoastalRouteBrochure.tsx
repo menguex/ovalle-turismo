@@ -15,6 +15,7 @@ import {
   ZoomOut,
 } from "lucide-react";
 import { useScrollLock } from "@/lib/use-scroll-lock";
+import { lenisPreventProps } from "@/lib/lenis-context";
 import { cn } from "@/lib/utils";
 
 const BROCHURE_DIMS = {
@@ -662,6 +663,7 @@ function BrochureModal({
             aria-modal="true"
             aria-label={BROCHURE.title}
             className="relative z-10 grid h-[96dvh] w-full max-w-[min(96vw,3897px)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-t-[2rem] border border-white/10 bg-[#0c1524] shadow-2xl sm:h-[min(96vh,96dvh)] sm:max-h-[96vh] sm:rounded-[2rem]"
+            {...lenisPreventProps}
             initial={reduced ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
@@ -785,7 +787,8 @@ function BrochureModal({
 
             <div
               ref={contentScrollRef}
-              className="relative flex min-h-0 min-w-0 flex-col overflow-y-auto overscroll-contain touch-pan-y px-4 py-4 sm:px-6 sm:py-5 [-webkit-overflow-scrolling:touch]"
+              className="modal-scroll relative flex min-h-0 min-w-0 flex-col overflow-y-auto overscroll-contain touch-pan-y px-4 py-4 sm:px-6 sm:py-5 [-webkit-overflow-scrolling:touch]"
+              {...lenisPreventProps}
             >
               {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#0c1524]/85">

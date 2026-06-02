@@ -1,12 +1,17 @@
 import { useEffect } from "react";
+import { useLenis } from "@/lib/lenis-context";
 
 /**
- * Bloquea el scroll de la página detrás de modales (wheel/trackpad en macOS
- * no respeta solo overflow:hidden en body).
+ * Bloquea el scroll de la página detrás de modales.
+ * Pausa Lenis (smooth scroll) para que wheel/touch vayan al contenedor del modal.
  */
 export function useScrollLock(active: boolean) {
+  const lenis = useLenis();
+
   useEffect(() => {
     if (!active) return;
+
+    lenis?.stop();
 
     const scrollY = window.scrollY;
     const body = document.body.style;
@@ -39,6 +44,7 @@ export function useScrollLock(active: boolean) {
       body.overflow = prevBody.overflow;
       html.overflow = prevHtmlOverflow;
       window.scrollTo(0, scrollY);
+      lenis?.start();
     };
-  }, [active]);
+  }, [active, lenis]);
 }

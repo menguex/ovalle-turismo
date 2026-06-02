@@ -1,8 +1,10 @@
 "use client";
 
-import { type ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useScrollLock } from "@/lib/use-scroll-lock";
+import { lenisPreventProps } from "@/lib/lenis-context";
 import { cn } from "@/lib/utils";
 
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
@@ -23,7 +25,7 @@ type ModalShellProps = {
 
 /**
  * Shell de modal con altura fija y zona de scroll interna.
- * max-height solo no basta: sin h explícita el contenido se recorta sin scroll.
+ * Portal a document.body + data-lenis-prevent para scroll con Lenis activo.
  */
 export function ModalShell({
   open,
@@ -37,8 +39,13 @@ export function ModalShell({
   zIndex = "z-[100]",
 }: ModalShellProps) {
   const reduced = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
 
   useScrollLock(open);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -49,7 +56,9 @@ export function ModalShell({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <div
@@ -58,6 +67,7 @@ export function ModalShell({
             zIndex,
             className
           )}
+          {...lenisPreventProps}
         >
           <motion.button
             type="button"
@@ -82,14 +92,19 @@ export function ModalShell({
             exit={reduced ? undefined : { opacity: 0, y: 24 }}
             transition={{ duration: reduced ? 0 : 0.35, ease: PANEL_EASE }}
             onClick={(e) => e.stopPropagation()}
+            {...lenisPreventProps}
           >
             <div className="min-h-0 min-w-0 overflow-hidden">{header}</div>
-            <div className="min-h-0 min-w-0 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]">
+            <div
+              className="modal-scroll min-h-0 min-w-0 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
+              {...lenisPreventProps}
+            >
               {children}
             </div>
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

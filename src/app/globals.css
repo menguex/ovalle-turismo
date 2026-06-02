@@ -90,6 +90,13 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
 }
 
 @layer utilities {
+  /* Zona de scroll en modales (Lenis + iOS) */
+  .modal-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+
   .text-balance {
     text-wrap: balance;
   }

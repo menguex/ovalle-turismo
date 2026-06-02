@@ -7,6 +7,7 @@ import { ExternalLink, Maximize2, Minimize2, Rotate3D, X } from "lucide-react";
 import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
 import { useScrollLock } from "@/lib/use-scroll-lock";
+import { lenisPreventProps } from "@/lib/lenis-context";
 
 type Tour360ViewerProps = {
   tour: Ficha | null;
@@ -52,6 +53,7 @@ export function Tour360Viewer({ tour, onClose }: Tour360ViewerProps) {
           aria-modal="true"
           aria-label={`Tour 360° ${label}`}
           className="fixed inset-0 z-[110] flex flex-col overflow-hidden overscroll-none bg-night"
+          {...lenisPreventProps}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
