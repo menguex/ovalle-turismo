@@ -6,7 +6,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  Calendar,
   Check,
   Compass,
   Heart,
@@ -22,6 +21,7 @@ import {
 import { LogoMotif } from "@/components/brand/LogoMotif";
 import { TechSectionShell } from "@/components/brand/TechSectionShell";
 import { ButtonSubmit } from "@/components/ui/Button";
+import { PlannerDatePicker } from "@/components/ui/PlannerDatePicker";
 import { PILLARS, SITE } from "@/lib/data/site";
 import { cn } from "@/lib/utils";
 
@@ -416,36 +416,12 @@ export function TripPlannerWizard() {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-4"
                 >
-                  <div className="relative">
-                    <Calendar
-                      size={18}
-                      className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-brand-orange"
-                    />
-                    <input
-                      type="text"
-                      value={state.dates}
-                      onChange={(e) => setState((s) => ({ ...s, dates: e.target.value }))}
-                      placeholder="Ej: 15–20 de febrero 2026"
-                      className="w-full rounded-2xl border border-border bg-surface-elevated py-4 pl-12 pr-4 text-fg outline-none transition focus:border-brand-orange/40 focus:ring-2 focus:ring-brand-orange/20"
-                    />
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {["Verano 2026", "Vendimia", "Semana Santa", "Aún no lo sé"].map((chip) => (
-                      <button
-                        key={chip}
-                        type="button"
-                        onClick={() => setState((s) => ({ ...s, dates: chip }))}
-                        className={cn(
-                          "rounded-full border px-4 py-2 text-xs font-medium transition",
-                          state.dates === chip
-                            ? "border-brand-orange bg-brand-yellow/15 text-fg"
-                            : "border-border text-muted hover:border-brand-orange/30"
-                        )}
-                      >
-                        {chip}
-                      </button>
-                    ))}
-                  </div>
+                  <PlannerDatePicker
+                    key="planner-dates"
+                    autoOpen
+                    value={state.dates}
+                    onChange={(dates) => setState((s) => ({ ...s, dates }))}
+                  />
                   <p className="rounded-xl border border-brand-blue/20 bg-brand-blue/5 px-4 py-3 text-xs leading-relaxed text-muted-fg">
                     <Moon size={12} className="mr-1 inline text-brand-blue" />
                     Abril a septiembre: mejor ventana para cielos despejados y astroturismo.
