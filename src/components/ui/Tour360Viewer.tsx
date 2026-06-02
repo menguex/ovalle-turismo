@@ -97,9 +97,9 @@ export function Tour360Viewer({ tour, onClose }: Tour360ViewerProps) {
             </div>
           </header>
 
-          <div className={`relative flex-1 ${fullscreen ? "" : "p-3 sm:p-5"}`}>
+          <div className={`relative min-h-0 flex-1 ${fullscreen ? "" : "p-3 sm:p-5"}`}>
             <div
-              className={`relative h-full overflow-hidden bg-night ${
+              className={`relative h-full min-h-0 overflow-hidden bg-night ${
                 fullscreen ? "" : "rounded-2xl border border-white/10 shadow-2xl"
               }`}
             >
