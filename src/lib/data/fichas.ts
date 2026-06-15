@@ -656,7 +656,7 @@ const RESTAURANTS_BASE: readonly Ficha[] = [
     category: "Gastronomía",
     featured: true,
     badge: "Mejor carta de vinos",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/MG_4915-683x1024.jpg",
+    image: "/fotos/fuente-toscana/02.jpg",
     description:
       "Cocina mediterránea migrante con producto local. Galardonado con la mejor carta de vinos de Chile (La Cav 2024 y 2025) y referente gastronómico de la región. Concepto del Norte Verde.",
     highlights: ["Mejor carta de vinos La Cav 2024–2025", "Cocina mediterránea", "Producto local"],

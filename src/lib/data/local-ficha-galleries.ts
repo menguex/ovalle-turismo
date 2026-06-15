@@ -50,8 +50,8 @@ export const LOCAL_FICHA_GALLERIES: Record<string, readonly string[]> = {
     "/fotos/ecocamping-munay/04.jpg",
   ],
   "fuente-toscana": [
-    "/fotos/fuente-toscana/01.jpg",
     "/fotos/fuente-toscana/02.jpg",
+    "/fotos/fuente-toscana/01.jpg",
     "/fotos/fuente-toscana/03.jpg",
     "/fotos/fuente-toscana/04.jpg",
     "/fotos/fuente-toscana/05.jpg",

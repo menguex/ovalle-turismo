@@ -47,6 +47,20 @@ const FOLDER_TO_FICHA_ID = {
   "vina tololo": "vina-tololo",
 };
 
+/** Foto principal distinta al orden alfabético de la carpeta (índice 0-based). */
+const GALLERY_HERO_INDEX = {
+  "fuente-toscana": 1,
+};
+
+function orderFilesForHero(fichaId, files) {
+  const heroIdx = GALLERY_HERO_INDEX[fichaId];
+  if (heroIdx == null || heroIdx < 0 || heroIdx >= files.length) return files;
+  const ordered = [...files];
+  const [hero] = ordered.splice(heroIdx, 1);
+  ordered.unshift(hero);
+  return ordered;
+}
+
 function normalizeKey(name) {
   return name
     .normalize("NFD")
@@ -120,7 +134,7 @@ function walkSource() {
         continue;
       }
 
-      galleries[fichaId] = copyGallery(fichaId, files, folderPath);
+      galleries[fichaId] = copyGallery(fichaId, orderFilesForHero(fichaId, files), folderPath);
       console.log(`✓ ${folder.name} → ${fichaId} (${files.length} fotos)`);
     }
   }
