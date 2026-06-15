@@ -179,6 +179,62 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
     @apply font-accent text-label-sm font-semibold uppercase tracking-[0.14em] text-brand-yellow;
   }
 
+  /* Franja editorial de nombres — scroll decorativo */
+  .scroll-ribbon {
+    @apply relative overflow-hidden border-y border-copper/10 bg-surface-elevated py-7 md:py-9;
+    background-image: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--brand-orange) 4%, transparent) 0%,
+      transparent 45%,
+      color-mix(in srgb, var(--brand-yellow) 3%, transparent) 100%
+    );
+  }
+
+  .scroll-ribbon::before,
+  .scroll-ribbon::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 h-px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--brand-orange) 28%, transparent) 50%,
+      transparent
+    );
+  }
+
+  .scroll-ribbon::before {
+    top: 0;
+  }
+
+  .scroll-ribbon::after {
+    bottom: 0;
+  }
+
+  .scroll-ribbon-text {
+    @apply font-accent font-bold uppercase leading-[0.92];
+    font-size: clamp(2.35rem, 5.6vw, 4.75rem);
+    letter-spacing: 0.2em;
+    word-spacing: 0.35em;
+    color: color-mix(in srgb, var(--foreground) 11%, transparent);
+    transform: scaleY(1.06);
+    transform-origin: center;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .scroll-ribbon-sep {
+    @apply inline-block font-normal;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--brand-orange) 42%, transparent);
+  }
+
+  .dark .scroll-ribbon-text {
+    color: color-mix(in srgb, var(--foreground) 16%, transparent);
+  }
+
+  .dark .scroll-ribbon-sep {
+    color: color-mix(in srgb, var(--brand-yellow) 38%, transparent);
+  }
+
   .heading-xl {
     @apply font-display text-display-xl font-bold text-balance text-fg;
   }

@@ -54,7 +54,8 @@ export const IMAGES = {
 export const VIDEOS = {
   planificaValle: "/videos/planifica-valle.webm",
   astroCielo: "/videos/astro-cielo.mp4",
-  eventosVendimia: "/videos/eventos-vendimia.webm",
+  /** Spot oficial Viñas del Limarí — Valle del Limarí, Región de Coquimbo */
+  eventosVendimia: "/videos/eventos-vendimia.mp4",
 } as const;
 
 export const VIDEO_POSTERS = {

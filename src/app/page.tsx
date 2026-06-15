@@ -25,7 +25,6 @@ export default function HomePage() {
       <ScrollVelocityText
         text="OVALLE · LIMARÍ · ASTROTURISMO · NATURALEZA · CULTURA · ENOTURISMO"
         baseVelocity={-1.5}
-        className="border-y border-border bg-surface opacity-40"
       />
       <Pillars />
       <SectionDivider />
@@ -35,7 +34,6 @@ export default function HomePage() {
       <ScrollVelocityText
         text="VALLE DEL ENCANTO · FRAY JORGE · VENDIMIA · CIELOS LIMPIOS · PISCO"
         baseVelocity={1.5}
-        className="border-y border-border bg-surface opacity-40"
       />
       <MapSection />
       <SectionDivider />

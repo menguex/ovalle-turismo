@@ -14,6 +14,8 @@ type SectionVideoBackgroundProps = {
   className?: string;
   /** When false, skips the default gradient scrim (e.g. card overlays) */
   scrim?: boolean;
+  /** Dims and scales video for card/ambient backgrounds */
+  ambient?: boolean;
   priority?: boolean;
 };
 
@@ -24,6 +26,7 @@ export function SectionVideoBackground({
   overlayClassName,
   className,
   scrim = true,
+  ambient = false,
   priority = false,
 }: SectionVideoBackgroundProps) {
   const reduced = useReducedMotion();
@@ -64,6 +67,7 @@ export function SectionVideoBackground({
         fill
         className={cn(
           "object-cover transition-opacity duration-700",
+          ambient && "scale-105",
           ready && !reduced ? "opacity-0" : "opacity-100"
         )}
         sizes={priority ? "(max-width:1024px) 100vw, 60vw" : "100vw"}
@@ -75,6 +79,7 @@ export function SectionVideoBackground({
           ref={videoRef}
           className={cn(
             "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+            ambient && "scale-110 brightness-[0.55] saturate-[0.88] contrast-[1.05]",
             ready ? "opacity-100" : "opacity-0"
           )}
           src={src}

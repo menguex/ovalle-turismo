@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 type ScrollVelocityTextProps = {
@@ -11,11 +11,26 @@ type ScrollVelocityTextProps = {
   repeat?: number;
 };
 
+function RibbonContent({ text }: { text: string }) {
+  const segments = useMemo(() => text.split(" · ").map((s) => s.trim()), [text]);
+
+  return (
+    <>
+      {segments.map((segment, index) => (
+        <span key={`${segment}-${index}`}>
+          {index > 0 && <span className="scroll-ribbon-sep"> · </span>}
+          {segment}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export function ScrollVelocityText({
   text,
   className,
   baseVelocity = -2,
-  repeat = 6,
+  repeat = 5,
 }: ScrollVelocityTextProps) {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -31,16 +46,20 @@ export function ScrollVelocityText({
 
   if (reduced) return null;
 
-  const repeated = Array.from({ length: repeat }, () => text).join(" — ");
+  const blocks = Array.from({ length: repeat }, (_, index) => (
+    <span key={index} className="inline-flex shrink-0 items-center pr-[0.35em]">
+      <RibbonContent text={text} />
+    </span>
+  ));
 
   return (
-    <div ref={ref} className={cn("overflow-hidden py-6", className)} aria-hidden>
-      <motion.p
-        className="whitespace-nowrap font-display text-[clamp(3rem,8vw,8rem)] font-bold leading-none tracking-tighter text-border/60"
+    <div ref={ref} className={cn("scroll-ribbon", className)} aria-hidden>
+      <motion.div
+        className="scroll-ribbon-text flex w-max whitespace-nowrap"
         style={{ x }}
       >
-        {repeated}
-      </motion.p>
+        {blocks}
+      </motion.div>
     </div>
   );
 }
