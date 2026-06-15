@@ -42,7 +42,7 @@ export const IMAGES = {
   alameda: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/alamedaaaaaaaaaaaaokk.jpg",
   vendimia: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
   plazaEvent: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/plaza-1-scaled.jpg",
-  gastronomia: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/IMG_6108-1-768x1024.jpeg",
+  gastronomia: "/fotos/fuente-toscana/05.jpg",
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
 } as const;
 
