@@ -92,6 +92,7 @@ const config: Config = {
         float: "float 6s ease-in-out infinite",
         orbit: "orbit 16s linear infinite",
         "ken-burns": "kenBurns 20s ease-out forwards",
+        "ken-burns-loop": "kenBurnsLoop 26s ease-in-out infinite",
         "pin-pulse": "pinPulse 2s ease-in-out infinite",
         "gradient-flow": "gradientFlow 8s ease infinite",
         breathe: "breathe 4s ease-in-out infinite",
@@ -126,6 +127,10 @@ const config: Config = {
         kenBurns: {
           "0%": { transform: "scale(1.05)" },
           "100%": { transform: "scale(1)" },
+        },
+        kenBurnsLoop: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.07)" },
         },
         pinPulse: {
           "0%, 100%": { transform: "translate(-50%, -50%) scale(1)", opacity: "0.6" },

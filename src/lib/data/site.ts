@@ -52,12 +52,6 @@ export const IMAGES = {
 
 /** Videos de fondo — Ovalle / Valle del Limarí (sin costa; ver scripts/audit-videos.mjs) */
 export const REGIONAL_VIDEOS = {
-  /** Fondo de toda la sección Eventos en el inicio */
-  eventosSection: {
-    youtubeId: "nsAbY2OKCh0",
-    title: "Ovalle, Limarí — Región de Coquimbo",
-    poster: IMAGES.plazaEvent,
-  },
   planificaValle: {
     youtubeId: "MoWWNMP3bPw",
     title: "Ovalle, la Perla del Limarí",

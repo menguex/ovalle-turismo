@@ -34,7 +34,7 @@ export function AstroSection() {
         youtubeId={REGIONAL_VIDEOS.astroCielo.youtubeId}
         poster={REGIONAL_VIDEOS.astroCielo.poster}
         alt={REGIONAL_VIDEOS.astroCielo.title}
-        overlayClassName="bg-gradient-to-r from-night/95 via-night/78 to-night/55 lg:bg-gradient-to-r lg:from-night/92 lg:via-night/72 lg:to-night/40"
+          overlayClassName="bg-gradient-to-r from-night/88 via-night/62 to-night/38 lg:from-night/85 lg:via-night/58 lg:to-night/32"
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_20%_80%,rgba(61,143,217,0.14),transparent_60%)]" />

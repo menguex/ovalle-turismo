@@ -32,8 +32,10 @@ function buildYoutubeEmbedUrl(youtubeId: string) {
     disablekb: "1",
     fs: "0",
     autohide: "1",
-    color: "white",
   });
+  if (typeof window !== "undefined") {
+    params.set("origin", window.location.origin);
+  }
   return `https://www.youtube-nocookie.com/embed/${youtubeId}?${params.toString()}`;
 }
 
@@ -68,8 +70,15 @@ export function SectionVideoBackground({
   }, [reduced]);
 
   useEffect(() => {
-    if (inView) setMounted(true);
-  }, [inView]);
+    if (priority) setMounted(true);
+    else if (inView) setMounted(true);
+  }, [inView, priority]);
+
+  useEffect(() => {
+    if (!youtubeId || !mounted || reduced) return;
+    const timer = window.setTimeout(() => setReady(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, [youtubeId, mounted, reduced]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -141,8 +150,9 @@ export function SectionVideoBackground({
       {scrim && (
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-t from-night/90 via-night/55 to-night/35",
-            overlayClassName
+            "absolute inset-0",
+            overlayClassName ??
+              "bg-gradient-to-t from-night/82 via-night/48 to-night/28"
           )}
           aria-hidden
         />

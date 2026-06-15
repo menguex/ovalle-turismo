@@ -65,7 +65,7 @@ export function PlannerCTA() {
         youtubeId={REGIONAL_VIDEOS.planificaValle.youtubeId}
         poster={REGIONAL_VIDEOS.planificaValle.poster}
         alt={REGIONAL_VIDEOS.planificaValle.title}
-        overlayClassName="bg-gradient-to-t from-night/92 via-earth/70 to-night/45"
+        overlayClassName="bg-gradient-to-t from-night/88 via-earth/55 to-night/38"
       />
       <div className="container-wide relative z-10">
         <div className="glass-tech-hero gradient-border mx-auto max-w-3xl rounded-[2rem] p-10 text-center lg:p-12">

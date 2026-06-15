@@ -22,11 +22,10 @@ for (const [, key, id, title, poster] of slots) {
 
 console.log(`
 Criterios aplicados en el sitio:
-• Contenido de Ovalle / Valle del Limarí (sin costa ni stock ajeno)
-• object-fit cover en iframe y MP4 (sin bandas negras ni recortes bruscos)
-• Poster en alta resolución mientras carga el video
-• Tarjeta destacada de eventos: solo imagen nítida (sin video embebido)
-• Video de sección eventos: fondo a ancho completo bajo el contenido
+• Sección Eventos (inicio): foto HD Plaza de Ovalle + zoom cinematográfico (fiable)
+• Planifica / Astroturismo: YouTube regional Ovalle con scrim único (no doble capa)
+• object-fit cover en iframe y MP4 (sin bandas negras)
+• Tarjeta Vendimia: imagen municipal 2048 px (sin video embebido)
 
 Para reemplazar un video: editar REGIONAL_VIDEOS en src/lib/data/site.ts
 Para MP4 locales: añadir src en SectionVideoBackground y public/videos/
