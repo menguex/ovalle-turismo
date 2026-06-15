@@ -65,9 +65,10 @@ export const REGIONAL_VIDEOS = {
     playbackRate: 0.82,
   },
   astroCielo: {
-    youtubeId: "xDIo5t8oS68",
-    title: "Lanzamiento AstroLimarí — Ovalle",
-    poster: IMAGES.vinedos,
+    src: "/videos/astro-cielo.mp4",
+    title: "Vía Láctea en cielo despejado — astroturismo",
+    poster: IMAGES.astro,
+    playbackRate: 0.78,
   },
 } as const;
 

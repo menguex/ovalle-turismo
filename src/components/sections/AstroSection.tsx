@@ -31,10 +31,11 @@ export function AstroSection() {
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-night py-24 lg:py-32">
       <SectionVideoBackground
-        youtubeId={REGIONAL_VIDEOS.astroCielo.youtubeId}
+        src={REGIONAL_VIDEOS.astroCielo.src}
         poster={REGIONAL_VIDEOS.astroCielo.poster}
         alt={REGIONAL_VIDEOS.astroCielo.title}
-          overlayClassName="bg-gradient-to-r from-night/88 via-night/62 to-night/38 lg:from-night/85 lg:via-night/58 lg:to-night/32"
+        playbackRate={REGIONAL_VIDEOS.astroCielo.playbackRate}
+        overlayClassName="bg-gradient-to-r from-night/88 via-night/62 to-night/38 lg:from-night/85 lg:via-night/58 lg:to-night/32"
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_20%_80%,rgba(61,143,217,0.14),transparent_60%)]" />
