@@ -19,7 +19,9 @@ import { HOME_SECTION_ICONS, PAGE_ICONS } from "@/lib/icons/page-icons";
 import { useFichaOptional } from "@/components/providers/FichaProvider";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { cn } from "@/lib/utils";
+import { VIDEO_POSTERS, VIDEOS } from "@/lib/data/site";
 
 const FILTERS = ["Todos", "Fiesta costumbrista", "Festival", "Cultural", "Festival urbano"] as const;
 
@@ -234,12 +236,11 @@ function FeaturedEventCard({
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex min-h-[420px] w-full overflow-hidden rounded-[2rem] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/50 lg:min-h-[480px]"
     >
-      <Image
-        src={event.image}
+      <SectionVideoBackground
+        src={VIDEOS.eventosVendimia}
+        poster={VIDEO_POSTERS.eventosVendimia}
         alt={fichaLabel(event)}
-        fill
-        className="object-cover transition duration-700 group-hover:scale-105"
-        sizes="(max-width:1024px) 100vw, 60vw"
+        scrim={false}
         priority
       />
       <div className="absolute inset-0 bg-gradient-to-t from-night via-night/50 to-night/10" />

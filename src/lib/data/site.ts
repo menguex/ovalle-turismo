@@ -50,16 +50,18 @@ export const IMAGES = {
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
 } as const;
 
-/** Videos de fondo para secciones temáticas (MP4 locales en public/videos/) */
+/** Videos de fondo para secciones temáticas (1080p+ en public/videos/) */
 export const VIDEOS = {
-  planificaValle: "/videos/planifica-valle.mp4",
+  planificaValle: "/videos/planifica-valle.webm",
   astroCielo: "/videos/astro-cielo.mp4",
+  eventosVendimia: "/videos/eventos-vendimia.webm",
 } as const;
 
 export const VIDEO_POSTERS = {
   planificaValle: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/DSC00721-scaled.jpg",
   astroCielo:
     "https://turismoregiondecoquimbo.cl/wp-content/uploads/2025/11/RESERVA-STARLIGHT-PERAL-OJO-DE-AGUA-3-scaled.jpg",
+  eventosVendimia: "/noticias/fiesta-vendimia-2026-50-mil.jpg",
 } as const;
 
 export const NAV = [

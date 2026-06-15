@@ -12,6 +12,9 @@ type SectionVideoBackgroundProps = {
   /** Tailwind classes for the scrim over the video */
   overlayClassName?: string;
   className?: string;
+  /** When false, skips the default gradient scrim (e.g. card overlays) */
+  scrim?: boolean;
+  priority?: boolean;
 };
 
 export function SectionVideoBackground({
@@ -20,6 +23,8 @@ export function SectionVideoBackground({
   alt,
   overlayClassName,
   className,
+  scrim = true,
+  priority = false,
 }: SectionVideoBackgroundProps) {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -61,8 +66,8 @@ export function SectionVideoBackground({
           "object-cover transition-opacity duration-700",
           ready && !reduced ? "opacity-0" : "opacity-100"
         )}
-        sizes="100vw"
-        priority={false}
+        sizes={priority ? "(max-width:1024px) 100vw, 60vw" : "100vw"}
+        priority={priority}
       />
 
       {!reduced && (
@@ -77,19 +82,21 @@ export function SectionVideoBackground({
           muted
           loop
           playsInline
-          preload="metadata"
+          preload={priority ? "auto" : "metadata"}
           aria-hidden
           onCanPlay={() => setReady(true)}
         />
       )}
 
-      <div
-        className={cn(
-          "absolute inset-0 bg-gradient-to-t from-night/90 via-night/55 to-night/35",
-          overlayClassName
-        )}
-        aria-hidden
-      />
+      {scrim && (
+        <div
+          className={cn(
+            "absolute inset-0 bg-gradient-to-t from-night/90 via-night/55 to-night/35",
+            overlayClassName
+          )}
+          aria-hidden
+        />
+      )}
     </div>
   );
 }
