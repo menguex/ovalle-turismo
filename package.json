@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "sync-fotos": "node scripts/sync-local-fotos.mjs",
-    "audit-news-images": "node scripts/audit-news-images.mjs"
+    "audit-news-images": "node scripts/audit-news-images.mjs",
+    "audit-videos": "node scripts/audit-videos.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

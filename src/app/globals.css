@@ -179,7 +179,25 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
     @apply font-accent text-label-sm font-semibold uppercase tracking-[0.14em] text-brand-yellow;
   }
 
-  /* Franja editorial de nombres — scroll decorativo */
+  /* Video/iframe a pantalla completa sin bandas negras (object-fit: cover) */
+  .video-bg-frame {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+  }
+
+  .video-bg-cover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, calc(100vh * 16 / 9));
+    height: max(100%, calc(100vw * 9 / 16));
+    transform: translate(-50%, -50%);
+    border: 0;
+  }
+
+  .video-bg-cover-native {
+    @apply absolute inset-0 h-full w-full object-cover;
+  }
+
   .scroll-ribbon {
     @apply relative overflow-hidden border-y border-copper/10 bg-surface-elevated py-7 md:py-9;
     background-image: linear-gradient(

@@ -52,18 +52,21 @@ export function EventsShowcase({ fullPage = false }: { fullPage?: boolean }) {
   return (
     <section
       className={cn(
-        "relative overflow-hidden",
-        fullPage ? "bg-bg py-20 lg:py-28" : "bg-night py-20 text-white lg:py-28"
+        "relative overflow-hidden py-20 lg:py-28",
+        fullPage ? "bg-bg" : "text-white"
       )}
     >
       {!fullPage && (
-        <>
-          <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-copper/10 blur-3xl" />
-          <div className="pointer-events-none absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-river/10 blur-3xl" />
-        </>
+        <SectionVideoBackground
+          youtubeId={REGIONAL_VIDEOS.eventosSection.youtubeId}
+          poster={REGIONAL_VIDEOS.eventosSection.poster}
+          alt={REGIONAL_VIDEOS.eventosSection.title}
+          overlayClassName="bg-gradient-to-b from-night/90 via-night/75 to-night/92"
+          priority
+        />
       )}
 
-      <div className="container-wide relative">
+      <div className="container-wide relative z-10">
         {/* Header */}
         <Reveal>
           <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -228,8 +231,6 @@ function FeaturedEventCard({
   onOpen: () => void;
   dark?: boolean;
 }) {
-  const useRegionalVideo = event.id === "vendimia-2026";
-
   return (
     <motion.button
       type="button"
@@ -238,27 +239,17 @@ function FeaturedEventCard({
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex min-h-[420px] w-full overflow-hidden rounded-[2rem] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/50 lg:min-h-[480px]"
     >
-      {useRegionalVideo ? (
-        <SectionVideoBackground
-          youtubeId={REGIONAL_VIDEOS.eventosVendimia.youtubeId}
-          poster={REGIONAL_VIDEOS.eventosVendimia.poster}
-          alt={REGIONAL_VIDEOS.eventosVendimia.title}
-          scrim={false}
-          ambient
-          priority
-        />
-      ) : (
-        <Image
-          src={event.image}
-          alt={fichaLabel(event)}
-          fill
-          className="object-cover transition duration-700 group-hover:scale-105"
-          sizes="(max-width:1024px) 100vw, 60vw"
-          priority
-        />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-night via-night/65 to-night/20" />
-      <div className="absolute inset-0 bg-gradient-to-r from-night/70 via-night/35 to-transparent" />
+      <Image
+        src={event.image}
+        alt={fichaLabel(event)}
+        fill
+        className="object-cover transition duration-700 group-hover:scale-[1.03]"
+        sizes="(max-width: 1024px) 100vw, 55vw"
+        quality={90}
+        priority
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-night via-night/55 to-night/15" />
+      <div className="absolute inset-0 bg-gradient-to-r from-night/65 via-night/30 to-transparent" />
 
       <div className="relative z-10 flex h-full flex-col justify-between p-8 lg:p-10">
         <div className="flex flex-wrap gap-2">

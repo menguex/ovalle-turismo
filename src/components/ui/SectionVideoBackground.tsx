@@ -8,13 +8,12 @@ import { cn } from "@/lib/utils";
 type SectionVideoBackgroundProps = {
   poster: string;
   alt: string;
-  /** MP4/WebM local — opcional si hay youtubeId */
   src?: string;
-  /** Video de YouTube sobre Ovalle / Limarí (autoplay silenciado) */
   youtubeId?: string;
   overlayClassName?: string;
   className?: string;
   scrim?: boolean;
+  /** Atenúa el video para tarjetas (no usar en fondos de sección) */
   ambient?: boolean;
   priority?: boolean;
 };
@@ -31,6 +30,9 @@ function buildYoutubeEmbedUrl(youtubeId: string) {
     playsinline: "1",
     iv_load_policy: "3",
     disablekb: "1",
+    fs: "0",
+    autohide: "1",
+    color: "white",
   });
   return `https://www.youtube-nocookie.com/embed/${youtubeId}?${params.toString()}`;
 }
@@ -51,6 +53,7 @@ export function SectionVideoBackground({
   const containerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [inView, setInView] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -58,11 +61,15 @@ export function SectionVideoBackground({
 
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { rootMargin: "120px 0px", threshold: 0.12 }
+      { rootMargin: "160px 0px", threshold: 0.05 }
     );
     observer.observe(node);
     return () => observer.disconnect();
   }, [reduced]);
+
+  useEffect(() => {
+    if (inView) setMounted(true);
+  }, [inView]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -76,51 +83,48 @@ export function SectionVideoBackground({
     }
   }, [inView, reduced, youtubeId]);
 
-  useEffect(() => {
-    if (!inView) setReady(false);
-  }, [inView]);
-
-  const showVideo = ready && !reduced && inView;
+  const showVideo = ready && !reduced && (inView || mounted);
 
   return (
-    <div ref={containerRef} className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+    <div ref={containerRef} className={cn("pointer-events-none absolute inset-0", className)}>
       <Image
         src={poster}
         alt={alt}
         fill
         className={cn(
-          "object-cover transition-opacity duration-700",
-          ambient && "scale-105",
+          "video-bg-cover-native transition-opacity duration-700",
           showVideo ? "opacity-0" : "opacity-100"
         )}
-        sizes={priority ? "(max-width:1024px) 100vw, 60vw" : "100vw"}
+        sizes="100vw"
+        quality={90}
         priority={priority}
       />
 
-      {!reduced && inView && youtubeId && (
-        <iframe
-          title={alt}
-          className={cn(
-            "absolute left-1/2 top-1/2 min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 border-0 transition-opacity duration-700",
-            ambient
-              ? "h-[130%] w-[130%] brightness-[0.55] saturate-[0.88] contrast-[1.05]"
-              : "h-[120%] w-[120%]",
-            showVideo ? "opacity-100" : "opacity-0"
-          )}
-          src={buildYoutubeEmbedUrl(youtubeId)}
-          allow="autoplay; encrypted-media; picture-in-picture"
-          loading={priority ? "eager" : "lazy"}
-          referrerPolicy="strict-origin-when-cross-origin"
-          onLoad={() => setReady(true)}
-        />
+      {!reduced && mounted && youtubeId && (
+        <div className="video-bg-frame" aria-hidden>
+          <iframe
+            title={alt}
+            className={cn(
+              "video-bg-cover transition-opacity duration-700",
+              ambient && "brightness-[0.55] saturate-[0.88] contrast-[1.05]",
+              showVideo ? "opacity-100" : "opacity-0"
+            )}
+            src={buildYoutubeEmbedUrl(youtubeId)}
+            allow="autoplay; encrypted-media"
+            loading={priority ? "eager" : "lazy"}
+            referrerPolicy="strict-origin-when-cross-origin"
+            tabIndex={-1}
+            onLoad={() => setReady(true)}
+          />
+        </div>
       )}
 
       {!reduced && src && !youtubeId && (
         <video
           ref={videoRef}
           className={cn(
-            "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
-            ambient && "scale-110 brightness-[0.55] saturate-[0.88] contrast-[1.05]",
+            "video-bg-cover-native transition-opacity duration-700",
+            ambient && "brightness-[0.55] saturate-[0.88] contrast-[1.05]",
             showVideo ? "opacity-100" : "opacity-0"
           )}
           src={src}

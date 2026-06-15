@@ -42,7 +42,7 @@ export const IMAGES = {
   alameda: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/alamedaaaaaaaaaaaaokk.jpg",
   /** Hero /noticias: destino genérico (Alameda), no foto puntual de evento */
   noticiasHero: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/alamedaaaaaaaaaaaaokk.jpg",
-  vendimia: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
+  vendimia: "/noticias/fiesta-vendimia-2026-50-mil.jpg",
   plazaEvent: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/plaza-1-scaled.jpg",
   gastronomia: "/fotos/fuente-toscana/01.jpg",
   /** Tarjeta vertical del inicio (pillar 4:5) */
@@ -50,22 +50,23 @@ export const IMAGES = {
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
 } as const;
 
-/** Videos de fondo — contenido de Ovalle / Valle del Limarí (YouTube, sin costa ni stock genérico) */
+/** Videos de fondo — Ovalle / Valle del Limarí (sin costa; ver scripts/audit-videos.mjs) */
 export const REGIONAL_VIDEOS = {
+  /** Fondo de toda la sección Eventos en el inicio */
+  eventosSection: {
+    youtubeId: "nsAbY2OKCh0",
+    title: "Ovalle, Limarí — Región de Coquimbo",
+    poster: IMAGES.plazaEvent,
+  },
   planificaValle: {
-    youtubeId: "1LvX0gt7XVQ",
+    youtubeId: "MoWWNMP3bPw",
     title: "Ovalle, la Perla del Limarí",
-    poster: IMAGES.limari,
+    poster: IMAGES.hero,
   },
   astroCielo: {
     youtubeId: "xDIo5t8oS68",
     title: "Lanzamiento AstroLimarí — Ovalle",
-    poster: IMAGES.encanto,
-  },
-  eventosVendimia: {
-    youtubeId: "JfVof0o-Keo",
-    title: "Fiesta de la Vendimia Ovalle — video oficial",
-    poster: "/noticias/fiesta-vendimia-2026-50-mil.jpg",
+    poster: IMAGES.vinedos,
   },
 } as const;
 
