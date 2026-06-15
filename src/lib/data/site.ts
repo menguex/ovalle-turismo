@@ -53,9 +53,10 @@ export const IMAGES = {
 /** Videos de fondo — Ovalle / Valle del Limarí (sin costa; ver scripts/audit-videos.mjs) */
 export const REGIONAL_VIDEOS = {
   planificaValle: {
-    youtubeId: "MoWWNMP3bPw",
-    title: "Ovalle, la Perla del Limarí",
-    poster: IMAGES.hero,
+    src: "/videos/planifica-valle.mp4",
+    title: "Planifica tu viaje por Ovalle y el Limarí",
+    poster: IMAGES.limari,
+    playbackRate: 0.82,
   },
   astroCielo: {
     youtubeId: "xDIo5t8oS68",

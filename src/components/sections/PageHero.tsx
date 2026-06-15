@@ -62,10 +62,12 @@ export function PlannerCTA() {
   return (
     <section className="relative overflow-hidden bg-night py-20 text-white lg:py-28">
       <SectionVideoBackground
-        youtubeId={REGIONAL_VIDEOS.planificaValle.youtubeId}
+        src={REGIONAL_VIDEOS.planificaValle.src}
         poster={REGIONAL_VIDEOS.planificaValle.poster}
         alt={REGIONAL_VIDEOS.planificaValle.title}
-        overlayClassName="bg-gradient-to-t from-night/88 via-earth/55 to-night/38"
+        playbackRate={REGIONAL_VIDEOS.planificaValle.playbackRate}
+        overlayClassName="bg-gradient-to-t from-night/82 via-night/45 to-night/32"
+        priority
       />
       <div className="container-wide relative z-10">
         <div className="glass-tech-hero gradient-border mx-auto max-w-3xl rounded-[2rem] p-10 text-center lg:p-12">

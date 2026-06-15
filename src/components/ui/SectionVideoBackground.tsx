@@ -15,6 +15,8 @@ type SectionVideoBackgroundProps = {
   scrim?: boolean;
   /** Atenúa el video para tarjetas (no usar en fondos de sección) */
   ambient?: boolean;
+  /** Reproduce más lento para efecto cinematográfico (solo MP4 local) */
+  playbackRate?: number;
   priority?: boolean;
 };
 
@@ -49,6 +51,7 @@ export function SectionVideoBackground({
   scrim = true,
   ambient = false,
   priority = false,
+  playbackRate = 1,
 }: SectionVideoBackgroundProps) {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -85,12 +88,13 @@ export function SectionVideoBackground({
     if (!video || reduced || youtubeId) return;
 
     if (inView) {
+      video.playbackRate = playbackRate;
       const play = video.play();
       if (play) play.catch(() => undefined);
     } else {
       video.pause();
     }
-  }, [inView, reduced, youtubeId]);
+  }, [inView, reduced, youtubeId, playbackRate]);
 
   const showVideo = ready && !reduced && (inView || mounted);
 
