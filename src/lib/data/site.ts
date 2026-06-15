@@ -52,9 +52,15 @@ export const IMAGES = {
 
 /** Videos de fondo — Ovalle / Valle del Limarí (sin costa; ver scripts/audit-videos.mjs) */
 export const REGIONAL_VIDEOS = {
+  eventosVerano: {
+    src: "/videos/eventos-verano.mp4",
+    title: "Gente disfrutando en festivales y fiestas",
+    poster: IMAGES.feria,
+    playbackRate: 0.85,
+  },
   planificaValle: {
     src: "/videos/planifica-valle.mp4",
-    title: "Planifica tu viaje por Ovalle y el Limarí",
+    title: "Personas conversando y planificando su viaje",
     poster: IMAGES.limari,
     playbackRate: 0.82,
   },

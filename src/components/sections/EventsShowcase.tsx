@@ -19,9 +19,9 @@ import { HOME_SECTION_ICONS, PAGE_ICONS } from "@/lib/icons/page-icons";
 import { useFichaOptional } from "@/components/providers/FichaProvider";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SectionCinematicBackground } from "@/components/ui/SectionCinematicBackground";
+import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { cn } from "@/lib/utils";
-import { IMAGES } from "@/lib/data/site";
+import { REGIONAL_VIDEOS } from "@/lib/data/site";
 
 const FILTERS = ["Todos", "Fiesta costumbrista", "Festival", "Cultural", "Festival urbano"] as const;
 
@@ -57,9 +57,11 @@ export function EventsShowcase({ fullPage = false }: { fullPage?: boolean }) {
       )}
     >
       {!fullPage && (
-        <SectionCinematicBackground
-          poster={IMAGES.plazaEvent}
-          alt="Plaza de Armas de Ovalle — agenda estival"
+        <SectionVideoBackground
+          src={REGIONAL_VIDEOS.eventosVerano.src}
+          poster={REGIONAL_VIDEOS.eventosVerano.poster}
+          alt={REGIONAL_VIDEOS.eventosVerano.title}
+          playbackRate={REGIONAL_VIDEOS.eventosVerano.playbackRate}
           priority
         />
       )}
