@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { IconBadge } from "@/components/ui/IconBadge";
+import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { BrandShapes } from "@/components/brand/BrandShapes";
 import { getPageIcon, type PageIconKey } from "@/lib/icons/page-icons";
+import { VIDEO_POSTERS, VIDEOS } from "@/lib/data/site";
 
 export function PageHero({
   title,
@@ -58,9 +60,13 @@ export function PageHero({
 
 export function PlannerCTA() {
   return (
-    <section className="relative overflow-hidden bg-earth py-20 text-white dark:bg-night lg:py-28">
-      <div className="mesh-bg pointer-events-none absolute inset-0 opacity-20" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(201,169,98,0.15),transparent_50%)]" />
+    <section className="relative overflow-hidden bg-night py-20 text-white lg:py-28">
+      <SectionVideoBackground
+        src={VIDEOS.planificaValle}
+        poster={VIDEO_POSTERS.planificaValle}
+        alt="Valle del Limarí al atardecer"
+        overlayClassName="bg-gradient-to-t from-night/92 via-earth/70 to-night/45"
+      />
       <div className="container-wide relative z-10">
         <div className="glass-tech-hero gradient-border mx-auto max-w-3xl rounded-[2rem] p-10 text-center lg:p-12">
           <IconBadge icon={getPageIcon("planifica")} size="md" variant="hero" className="mx-auto mb-5" />

@@ -40,12 +40,26 @@ export const IMAGES = {
   vinedos: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/DSC09843-scaled.jpg",
   rutaWellness: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/DSC00676-scaled.jpg",
   alameda: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/alamedaaaaaaaaaaaaokk.jpg",
+  /** Hero /noticias: destino genérico (Alameda), no foto puntual de evento */
+  noticiasHero: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/alamedaaaaaaaaaaaaokk.jpg",
   vendimia: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
   plazaEvent: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/plaza-1-scaled.jpg",
   gastronomia: "/fotos/fuente-toscana/01.jpg",
   /** Tarjeta vertical del inicio (pillar 4:5) */
   gastronomiaHome: "/fotos/fuente-toscana/01.jpg",
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
+} as const;
+
+/** Videos de fondo para secciones temáticas (MP4 locales en public/videos/) */
+export const VIDEOS = {
+  planificaValle: "/videos/planifica-valle.mp4",
+  astroCielo: "/videos/astro-cielo.mp4",
+} as const;
+
+export const VIDEO_POSTERS = {
+  planificaValle: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/DSC00721-scaled.jpg",
+  astroCielo:
+    "https://turismoregiondecoquimbo.cl/wp-content/uploads/2025/11/RESERVA-STARLIGHT-PERAL-OJO-DE-AGUA-3-scaled.jpg",
 } as const;
 
 export const NAV = [

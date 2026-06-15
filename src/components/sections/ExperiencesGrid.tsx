@@ -11,6 +11,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { useFichaOptional } from "@/components/providers/FichaProvider";
 import { TiltCard } from "@/components/ui/TiltCard";
+import { cn } from "@/lib/utils";
 
 export function ExperiencesGrid() {
   const fichaCtx = useFichaOptional();
@@ -61,11 +62,11 @@ export function ExperiencesGrid() {
                   className="object-cover transition duration-700 ease-premium group-hover:scale-105"
                   sizes="(max-width:768px) 100vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-night/95 via-night/35 to-transparent" />
-                <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-night/10" />
+                <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2">
                   {item.badge && (
                     <motion.span
-                      className="rounded-full bg-gold/90 px-2.5 py-1 font-accent text-[10px] uppercase tracking-wider text-night"
+                      className="rounded-full bg-gold/90 px-2.5 py-1 font-accent text-[10px] uppercase tracking-wider text-night shadow-sm"
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
@@ -75,9 +76,21 @@ export function ExperiencesGrid() {
                     </motion.span>
                   )}
                 </div>
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <h3 className="heading-md text-white">{fichaLabel(item)}</h3>
-                  <p className="mt-2 line-clamp-2 font-sans text-sm leading-relaxed text-sand/90">
+                <div className="image-card-caption absolute inset-x-0 bottom-0">
+                  <h3
+                    className={cn(
+                      "image-card-title",
+                      i === 0 ? "image-card-title--lg" : "image-card-title--sm line-clamp-2"
+                    )}
+                  >
+                    {fichaLabel(item)}
+                  </h3>
+                  <p
+                    className={cn(
+                      "mt-2 font-sans leading-relaxed text-sand/90",
+                      i === 0 ? "line-clamp-3 text-sm sm:text-[0.9375rem]" : "line-clamp-2 text-xs sm:text-sm"
+                    )}
+                  >
                     {item.description}
                   </p>
                   <span className="mt-3 inline-flex items-center gap-1.5 font-accent text-[10px] uppercase tracking-wider text-gold opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">

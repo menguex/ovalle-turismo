@@ -39,7 +39,7 @@ export function Pillars() {
                   className="object-cover transition duration-700 ease-premium group-hover:scale-105"
                   sizes="(max-width:768px) 100vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-night via-night/45 to-night/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-night/10" />
 
                 {/* Hover glow */}
                 <motion.div
@@ -50,7 +50,7 @@ export function Pillars() {
                   }}
                 />
 
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <div className="image-card-caption absolute inset-x-0 bottom-0">
                   <motion.div
                     initial={false}
                     className="origin-left"
@@ -58,9 +58,11 @@ export function Pillars() {
                     transition={{ duration: 0.3 }}
                   >
                     <p className="eyebrow-light !text-[10px]">{pillar.subtitle}</p>
-                    <h3 className="heading-md mt-2 text-white">{pillar.title}</h3>
+                    <h3 className="image-card-title image-card-title--sm mt-1.5 line-clamp-2">
+                      {pillar.title}
+                    </h3>
                   </motion.div>
-                  <p className="mt-2 line-clamp-2 font-sans text-sm leading-relaxed text-sand/90">
+                  <p className="mt-2 line-clamp-2 font-sans text-xs leading-relaxed text-sand/90 sm:text-sm">
                     {pillar.description}
                   </p>
                   <span className="mt-4 inline-flex items-center gap-1 font-sans text-sm font-semibold text-gold opacity-90 transition-all duration-300 group-hover:gap-2.5 group-hover:opacity-100">

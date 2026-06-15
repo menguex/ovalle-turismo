@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "www.ovalleturismo.cl",
         pathname: "/sitio/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "turismoregiondecoquimbo.cl",
+        pathname: "/wp-content/uploads/**",
+      },
     ],
   },
 };

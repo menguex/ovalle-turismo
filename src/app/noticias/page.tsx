@@ -14,7 +14,7 @@ export default function NoticiasPage() {
         eyebrow="Blog"
         title="Noticias del valle"
         subtitle="Eventos, vendimia, temporada estival y novedades turísticas de Ovalle."
-        image={IMAGES.vendimia}
+        image={IMAGES.noticiasHero}
       />
       <NewsShowcase fullPage />
     </>

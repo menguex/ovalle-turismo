@@ -4,13 +4,13 @@ import Image from "next/image";
 import { Moon, Sparkles, Star } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { Button } from "@/components/ui/Button";
-import { IMAGES } from "@/lib/data/site";
+import { VIDEO_POSTERS, VIDEOS } from "@/lib/data/site";
 import { HOME_SECTION_ICONS } from "@/lib/icons/page-icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { FloatingParticles } from "@/components/ui/FloatingParticles";
-import { CursorGlow } from "@/components/ui/CursorGlow";
 import { MagneticWrapper } from "@/components/ui/MagneticWrapper";
 
 const ASTRO_STATS = [
@@ -30,21 +30,25 @@ export function AstroSection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-night py-24 lg:py-32">
-      <CursorGlow color="rgba(61, 143, 217, 0.08)" size={500} />
-
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_20%_80%,rgba(61,143,217,0.12),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_85%_15%,rgba(255,203,5,0.08),transparent_55%)]" />
-
-      {/* Enhanced star field with FloatingParticles */}
-      <FloatingParticles
-        className="absolute inset-0"
-        count={80}
-        colors={["#ffffff", "#ffffff", "#3D8FD9", "#FFCB05"]}
-        maxSize={2.5}
-        speed={0.3}
+      <SectionVideoBackground
+        src={VIDEOS.astroCielo}
+        poster={VIDEO_POSTERS.astroCielo}
+        alt="Cielo estrellado sobre el desierto del norte de Chile"
+        overlayClassName="bg-gradient-to-r from-night/95 via-night/78 to-night/55 lg:bg-gradient-to-r lg:from-night/92 lg:via-night/72 lg:to-night/40"
       />
 
-      <div className="container-wide relative grid items-center gap-14 lg:grid-cols-2">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_20%_80%,rgba(61,143,217,0.14),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_85%_15%,rgba(255,203,5,0.06),transparent_55%)]" />
+
+      <FloatingParticles
+        className="absolute inset-0 z-[1]"
+        count={50}
+        colors={["#ffffff", "#ffffff", "#3D8FD9", "#FFCB05"]}
+        maxSize={2}
+        speed={0.2}
+      />
+
+      <div className="container-wide relative z-10 grid items-center gap-14 lg:grid-cols-2">
         <Reveal>
           <SectionHeading
             dark
@@ -88,20 +92,18 @@ export function AstroSection() {
           </motion.div>
         </Reveal>
 
-        <Reveal direction="right" className="relative aspect-[4/5] overflow-hidden rounded-3xl">
+        <Reveal direction="right" className="relative aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-white/10">
           <div className="orbit-ring absolute -right-8 -top-8 h-24 w-24 opacity-40" />
-          <div className="orbit-ring absolute -bottom-6 -left-6 h-16 w-16 opacity-30 [animation-direction:reverse]" />
           <motion.div className="relative h-full w-full" style={reduced ? undefined : { y: imageY }}>
             <Image
-              src={IMAGES.encanto}
-              alt="Astroturismo Valle del Encanto"
+              src="https://turismoregiondecoquimbo.cl/wp-content/uploads/2025/11/RESERVA-STARLIGHT-PERAL-OJO-DE-AGUA-3-scaled.jpg"
+              alt="Reserva Starlight en la Región de Coquimbo"
               fill
               className="object-cover transition duration-700 ease-premium hover:scale-[1.03]"
               sizes="(max-width:1024px) 100vw, 50vw"
             />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-transparent to-night/20" />
-          <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-transparent to-night/15" />
         </Reveal>
       </div>
     </section>
