@@ -43,6 +43,8 @@ export const IMAGES = {
   vendimia: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
   plazaEvent: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/plaza-1-scaled.jpg",
   gastronomia: "/fotos/fuente-toscana/05.jpg",
+  /** Tarjeta vertical del inicio (pillar 4:5) */
+  gastronomiaHome: "/fotos/fuente-toscana/01.jpg",
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
 } as const;
 
@@ -92,7 +94,7 @@ export const PILLARS = [
     description:
       "Tradición local y propuestas modernas que combinan lo típico del valle con cocina de calidad.",
     href: "/descubre/gastronomia",
-    image: IMAGES.gastronomia,
+    image: IMAGES.gastronomiaHome,
   },
   {
     id: "enoturismo",
