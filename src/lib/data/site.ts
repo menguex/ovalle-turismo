@@ -50,19 +50,23 @@ export const IMAGES = {
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
 } as const;
 
-/** Videos de fondo para secciones temáticas (1080p+ en public/videos/) */
-export const VIDEOS = {
-  planificaValle: "/videos/planifica-valle.webm",
-  astroCielo: "/videos/astro-cielo.mp4",
-  /** Spot oficial Viñas del Limarí — Valle del Limarí, Región de Coquimbo */
-  eventosVendimia: "/videos/eventos-vendimia.mp4",
-} as const;
-
-export const VIDEO_POSTERS = {
-  planificaValle: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/DSC00721-scaled.jpg",
-  astroCielo:
-    "https://turismoregiondecoquimbo.cl/wp-content/uploads/2025/11/RESERVA-STARLIGHT-PERAL-OJO-DE-AGUA-3-scaled.jpg",
-  eventosVendimia: "/noticias/fiesta-vendimia-2026-50-mil.jpg",
+/** Videos de fondo — contenido de Ovalle / Valle del Limarí (YouTube, sin costa ni stock genérico) */
+export const REGIONAL_VIDEOS = {
+  planificaValle: {
+    youtubeId: "1LvX0gt7XVQ",
+    title: "Ovalle, la Perla del Limarí",
+    poster: IMAGES.limari,
+  },
+  astroCielo: {
+    youtubeId: "xDIo5t8oS68",
+    title: "Lanzamiento AstroLimarí — Ovalle",
+    poster: IMAGES.encanto,
+  },
+  eventosVendimia: {
+    youtubeId: "JfVof0o-Keo",
+    title: "Fiesta de la Vendimia Ovalle — video oficial",
+    poster: "/noticias/fiesta-vendimia-2026-50-mil.jpg",
+  },
 } as const;
 
 export const NAV = [

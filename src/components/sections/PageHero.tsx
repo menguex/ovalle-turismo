@@ -4,7 +4,7 @@ import { IconBadge } from "@/components/ui/IconBadge";
 import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { BrandShapes } from "@/components/brand/BrandShapes";
 import { getPageIcon, type PageIconKey } from "@/lib/icons/page-icons";
-import { VIDEO_POSTERS, VIDEOS } from "@/lib/data/site";
+import { REGIONAL_VIDEOS } from "@/lib/data/site";
 
 export function PageHero({
   title,
@@ -62,9 +62,9 @@ export function PlannerCTA() {
   return (
     <section className="relative overflow-hidden bg-night py-20 text-white lg:py-28">
       <SectionVideoBackground
-        src={VIDEOS.planificaValle}
-        poster={VIDEO_POSTERS.planificaValle}
-        alt="Valle del Limarí al atardecer"
+        youtubeId={REGIONAL_VIDEOS.planificaValle.youtubeId}
+        poster={REGIONAL_VIDEOS.planificaValle.poster}
+        alt={REGIONAL_VIDEOS.planificaValle.title}
         overlayClassName="bg-gradient-to-t from-night/92 via-earth/70 to-night/45"
       />
       <div className="container-wide relative z-10">

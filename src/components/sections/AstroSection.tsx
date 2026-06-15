@@ -6,7 +6,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { useRef } from "react";
 import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { Button } from "@/components/ui/Button";
-import { VIDEO_POSTERS, VIDEOS } from "@/lib/data/site";
+import { REGIONAL_VIDEOS } from "@/lib/data/site";
 import { HOME_SECTION_ICONS } from "@/lib/icons/page-icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
@@ -31,9 +31,9 @@ export function AstroSection() {
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-night py-24 lg:py-32">
       <SectionVideoBackground
-        src={VIDEOS.astroCielo}
-        poster={VIDEO_POSTERS.astroCielo}
-        alt="Cielo estrellado sobre el desierto del norte de Chile"
+        youtubeId={REGIONAL_VIDEOS.astroCielo.youtubeId}
+        poster={REGIONAL_VIDEOS.astroCielo.poster}
+        alt={REGIONAL_VIDEOS.astroCielo.title}
         overlayClassName="bg-gradient-to-r from-night/95 via-night/78 to-night/55 lg:bg-gradient-to-r lg:from-night/92 lg:via-night/72 lg:to-night/40"
       />
 

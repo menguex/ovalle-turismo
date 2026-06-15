@@ -21,7 +21,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { cn } from "@/lib/utils";
-import { VIDEO_POSTERS, VIDEOS } from "@/lib/data/site";
+import { REGIONAL_VIDEOS } from "@/lib/data/site";
 
 const FILTERS = ["Todos", "Fiesta costumbrista", "Festival", "Cultural", "Festival urbano"] as const;
 
@@ -240,9 +240,9 @@ function FeaturedEventCard({
     >
       {useRegionalVideo ? (
         <SectionVideoBackground
-          src={VIDEOS.eventosVendimia}
-          poster={VIDEO_POSTERS.eventosVendimia}
-          alt={`Ambiente del valle — ${fichaLabel(event)}`}
+          youtubeId={REGIONAL_VIDEOS.eventosVendimia.youtubeId}
+          poster={REGIONAL_VIDEOS.eventosVendimia.poster}
+          alt={REGIONAL_VIDEOS.eventosVendimia.title}
           scrim={false}
           ambient
           priority
