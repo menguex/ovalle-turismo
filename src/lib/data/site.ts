@@ -277,7 +277,7 @@ export const NEWS = [
     excerpt:
       "Con una convocatoria histórica que superó las 50 mil personas durante sus dos jornadas, la Fiesta de la Vendimia se consolidó como uno de los eventos más masivos del norte de Chile.",
     date: "2026-03-02",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/03/Anais-Velasquez-300x200-1.jpg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
     body: "Con una convocatoria histórica que superó las 50 mil personas durante sus dos jornadas, la Fiesta de la Vendimia de Ovalle 2026 se consolidó como uno de los eventos más masivos y relevantes del norte de Chile. Por primera vez, esta tradicional celebración se desarrolló en las dependencias de la Cooperativa Control Pisquero y en Avenida La Chimba, marcando un hito en la organización del evento y permitiendo recibir a miles de visitantes en un espacio más amplio y adecuado para la magnitud de la actividad.",
     category: "Vendimia",
     readTime: 4,
@@ -289,7 +289,7 @@ export const NEWS = [
     excerpt:
       "Por primera vez, la tradicional celebración se desarrollará en la cooperativa pisquera más antigua del mundo, fundada en 1931.",
     date: "2026-02-26",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/03/Fiesta-de-la-Vendimia-de-Ovalle-300x225-1.jpeg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
     body: "La Fiesta de la Vendimia Ovalle 2026 marcará un hito histórico, puesto que, por primera vez, la tradicional celebración se desarrollará en las dependencias de la Cooperativa Agrícola Control Pisquero y en Avenida La Chimba, consolidando una alianza estratégica con el municipio de Ovalle que pone en valor la identidad vitivinícola y pisquera de la comuna.",
     category: "Vendimia",
     readTime: 3,
@@ -301,7 +301,7 @@ export const NEWS = [
     excerpt:
       "Agenda de enero a marzo para dinamizar la economía local y ofrecer esparcimiento a residentes y visitantes durante la temporada estival.",
     date: "2026-01-23",
-    image: IMAGES.plazaEvent,
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/1-plaza.jpg",
     body: "Con el objetivo de consolidar a la capital del Limarí como un polo de atracción turística durante el verano, el municipio ovallino ha diseñado un calendario de actividades que recorre tanto el centro urbano como las zonas rurales de la comuna.",
     category: "Agenda",
     readTime: 5,
@@ -312,7 +312,7 @@ export const NEWS = [
     excerpt:
       "Iniciativa de Sercotec y SERNATUR busca consolidar a la provincia como destino turístico sustentable con identidad territorial.",
     date: "2026-01-13",
-    image: IMAGES.limari,
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/plaza-1-scaled.jpg",
     body: "Se realizó el lanzamiento oficial de la Temporada Estival de Verano Limarí 2026, una iniciativa que busca consolidar a la provincia como un destino turístico competitivo, sustentable y con identidad territorial.",
     category: "Turismo",
     readTime: 3,
@@ -369,7 +369,7 @@ export const NEWS = [
     excerpt:
       "El certamen que celebra las mejores experiencias en torno al vino y el turismo amplía su alcance territorial y marca récord de participación.",
     date: "2025-11-20",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/nota-web.jpg",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/nota-web-1536x819.jpg",
     body: "Los Premios Enoturismo Chile 2025 ya tienen a sus ganadores regionales. En su cuarta edición, el certamen que celebra las mejores experiencias en torno al vino y el turismo amplía su alcance territorial con la incorporación de la Región de Atacama y marca un récord histórico de participación, con 96 postulaciones.",
     category: "Enoturismo",
     readTime: 3,
@@ -380,7 +380,7 @@ export const NEWS = [
     excerpt:
       "Por segundo año consecutivo, Fuente Toscana en Ovalle lidera el ranking de La CAV con una curatoría basada en el concepto del Norte Verde.",
     date: "2025-11-05",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/toscana.jpeg",
+    image: "/fotos/fuente-toscana/02.jpg",
     body: "Por segundo año consecutivo, el negocio Ovallino lidera el ranking de La CAV. Con una curatoría única basada en el concepto del Norte Verde, Fuente Toscana —ubicado en el centro de Ovalle— reafirma que la excelencia también se escribe desde regiones.",
     category: "Gastronomía",
     readTime: 3,
@@ -391,7 +391,7 @@ export const NEWS = [
     excerpt:
       "Un informe global proyecta que Chile alcanzará 10 millones de visitantes extranjeros en 2040, posicionándose en el puesto 48 del ranking mundial.",
     date: "2025-08-19",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Torres-del-Paine-turismo-Chile.webp",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Torres-del-Paine-turismo-Chile-1024x576.webp",
     body: "Un informe global proyecta que el país alcanzará los 10 millones de visitantes extranjeros en 2040, posicionándose en el puesto 48 del ranking mundial de destinos turísticos. La industria turística de Chile experimentará un crecimiento significativo en las próximas dos décadas, según el estudio impulsado por Google.",
     category: "Turismo",
     readTime: 4,

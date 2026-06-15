@@ -6,6 +6,7 @@ import { ModalShell } from "@/components/ui/ModalShell";
 import type { NewsItem } from "@/lib/data/site";
 import { NEWS } from "@/lib/data/site";
 import { formatChileDate } from "@/lib/utils";
+import { NEWS_IMAGE_QUALITY, newsImageSrc } from "@/lib/news-images";
 
 type NewsModalProps = {
   post: NewsItem | null;
@@ -41,7 +42,15 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
       header={
         post ? (
           <div className="relative aspect-[16/9] max-h-[38vh] overflow-hidden sm:max-h-none sm:aspect-[21/9]">
-            <Image src={post.image} alt={post.title} fill className="object-cover" priority />
+            <Image
+              src={newsImageSrc(post.image)}
+              alt={post.title}
+              fill
+              quality={NEWS_IMAGE_QUALITY}
+              className="object-cover"
+              sizes="(max-width:640px) 100vw, 768px"
+              priority
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/30 to-transparent" />
             <button
               type="button"
@@ -112,10 +121,12 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
                   >
                     <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
                       <Image
-                        src={item.image}
+                        src={newsImageSrc(item.image)}
                         alt={item.title}
                         fill
+                        quality={NEWS_IMAGE_QUALITY}
                         className="object-cover transition group-hover:scale-105"
+                        sizes="80px"
                       />
                     </div>
                     <p className="line-clamp-3 text-sm font-medium text-fg">{item.title}</p>
