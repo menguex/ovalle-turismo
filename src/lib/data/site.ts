@@ -277,7 +277,7 @@ export const NEWS = [
     excerpt:
       "Con una convocatoria histórica que superó las 50 mil personas durante sus dos jornadas, la Fiesta de la Vendimia se consolidó como uno de los eventos más masivos del norte de Chile.",
     date: "2026-03-02",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
+    image: "/noticias/fiesta-vendimia-2026-50-mil.jpg",
     body: "Con una convocatoria histórica que superó las 50 mil personas durante sus dos jornadas, la Fiesta de la Vendimia de Ovalle 2026 se consolidó como uno de los eventos más masivos y relevantes del norte de Chile. Por primera vez, esta tradicional celebración se desarrolló en las dependencias de la Cooperativa Control Pisquero y en Avenida La Chimba, marcando un hito en la organización del evento y permitiendo recibir a miles de visitantes en un espacio más amplio y adecuado para la magnitud de la actividad.",
     category: "Vendimia",
     readTime: 4,
@@ -289,7 +289,7 @@ export const NEWS = [
     excerpt:
       "Por primera vez, la tradicional celebración se desarrollará en la cooperativa pisquera más antigua del mundo, fundada en 1931.",
     date: "2026-02-26",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/Fiesta-de-la-Vendimia.jpg-1024x768.jpeg",
+    image: "/noticias/vendimia-cooperativa-pisquera.jpg",
     body: "La Fiesta de la Vendimia Ovalle 2026 marcará un hito histórico, puesto que, por primera vez, la tradicional celebración se desarrollará en las dependencias de la Cooperativa Agrícola Control Pisquero y en Avenida La Chimba, consolidando una alianza estratégica con el municipio de Ovalle que pone en valor la identidad vitivinícola y pisquera de la comuna.",
     category: "Vendimia",
     readTime: 3,
@@ -301,7 +301,7 @@ export const NEWS = [
     excerpt:
       "Agenda de enero a marzo para dinamizar la economía local y ofrecer esparcimiento a residentes y visitantes durante la temporada estival.",
     date: "2026-01-23",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/1-plaza.jpg",
+    image: "/noticias/programacion-verano-2026.jpg",
     body: "Con el objetivo de consolidar a la capital del Limarí como un polo de atracción turística durante el verano, el municipio ovallino ha diseñado un calendario de actividades que recorre tanto el centro urbano como las zonas rurales de la comuna.",
     category: "Agenda",
     readTime: 5,
@@ -312,7 +312,7 @@ export const NEWS = [
     excerpt:
       "Iniciativa de Sercotec y SERNATUR busca consolidar a la provincia como destino turístico sustentable con identidad territorial.",
     date: "2026-01-13",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/plaza-1-scaled.jpg",
+    image: "/noticias/temporada-estival-limari-2026.jpg",
     body: "Se realizó el lanzamiento oficial de la Temporada Estival de Verano Limarí 2026, una iniciativa que busca consolidar a la provincia como un destino turístico competitivo, sustentable y con identidad territorial.",
     category: "Turismo",
     readTime: 3,
@@ -324,7 +324,7 @@ export const NEWS = [
     excerpt:
       "Chile impulsa el enoturismo con el Calendario de Vendimias 2026 y un mapa interactivo que moderniza la experiencia en los valles vitivinícolas.",
     date: "2025-12-18",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/12/noticia.png",
+    image: "/noticias/calendario-vendimias-2026.jpg",
     body: "Chile dio un nuevo impulso al enoturismo con el lanzamiento del Calendario de Vendimias 2026, una de las agendas culturales y turísticas más esperadas del año. La actividad, realizada en la Casa del Turismo, reunió a autoridades, representantes de los valles vitivinícolas y actores del sector para presentar un mapa interactivo que moderniza la forma de descubrir fiestas, rutas y experiencias enoturísticas en el país.",
     category: "Enoturismo",
     readTime: 4,
@@ -335,7 +335,7 @@ export const NEWS = [
     excerpt:
       "La Asociación de Municipalidades Turísticas de Chile y la UTEM abren postulaciones a un diplomado para fortalecer equipos municipales de turismo.",
     date: "2025-12-17",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/12/noticia2.png",
+    image: "/noticias/diplomado-gestion-turistica-amtc.jpg",
     body: "Con el objetivo de fortalecer las capacidades técnicas, estratégicas y colaborativas de los equipos municipales de turismo a lo largo del país, la Asociación de Municipalidades Turísticas de Chile (AMTC), en conjunto con la Universidad Tecnológica Metropolitana (UTEM), lanzó oficialmente el Diplomado en Gestión Turística Municipal.",
     category: "Turismo",
     readTime: 3,
@@ -346,7 +346,7 @@ export const NEWS = [
     excerpt:
       "Tras meses de trabajo técnico y participación ciudadana, Sernatur Coquimbo presentó la actualización de la marca turística regional.",
     date: "2025-12-01",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/12/noticia-3.png",
+    image: "/noticias/marca-turistica-coquimbo.jpg",
     body: "Tras meses de trabajo técnico y participación ciudadana, se presentó la actualización de la marca turística de la Región de Coquimbo, un proyecto impulsado por la dirección regional de Sernatur Coquimbo, financiado por el Gobierno Regional y aprobado por el CORE, a través del Fondo Nacional de Desarrollo Regional.",
     category: "Turismo",
     readTime: 3,
@@ -358,7 +358,7 @@ export const NEWS = [
     excerpt:
       "Por primera vez un queso chileno obtiene reconocimiento mundial: Yasna Molina, de Caprinos Villaseca en Ovalle, logra medalla de bronce entre 5 mil participantes.",
     date: "2025-11-20",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/6917ddcba9ee8_1200x719.jpg",
+    image: "/noticias/yasna-molina-world-cheese-awards.jpg",
     body: "La productora de queso de cabra de Ovalle, Yasna Molina, logró que por primera vez un queso chileno obtenga un reconocimiento a nivel mundial en el World Cheese Awards. “Mi gran sueño siempre fue lograr algún premio en un torneo mundial y hoy me siento muy feliz y orgullosa de haberlo logrado”, señaló la artesana detrás de Caprinos Villaseca.",
     category: "Gastronomía",
     readTime: 3,
@@ -369,7 +369,7 @@ export const NEWS = [
     excerpt:
       "El certamen que celebra las mejores experiencias en torno al vino y el turismo amplía su alcance territorial y marca récord de participación.",
     date: "2025-11-20",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/11/nota-web-1536x819.jpg",
+    image: "/noticias/premios-enoturismo-2025.jpg",
     body: "Los Premios Enoturismo Chile 2025 ya tienen a sus ganadores regionales. En su cuarta edición, el certamen que celebra las mejores experiencias en torno al vino y el turismo amplía su alcance territorial con la incorporación de la Región de Atacama y marca un récord histórico de participación, con 96 postulaciones.",
     category: "Enoturismo",
     readTime: 3,
@@ -391,7 +391,7 @@ export const NEWS = [
     excerpt:
       "Un informe global proyecta que Chile alcanzará 10 millones de visitantes extranjeros en 2040, posicionándose en el puesto 48 del ranking mundial.",
     date: "2025-08-19",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Torres-del-Paine-turismo-Chile-1024x576.webp",
+    image: "/noticias/turismo-internacional-chile-2040.webp",
     body: "Un informe global proyecta que el país alcanzará los 10 millones de visitantes extranjeros en 2040, posicionándose en el puesto 48 del ranking mundial de destinos turísticos. La industria turística de Chile experimentará un crecimiento significativo en las próximas dos décadas, según el estudio impulsado por Google.",
     category: "Turismo",
     readTime: 4,
@@ -403,7 +403,7 @@ export const NEWS = [
       "El Servicio Nacional de Turismo abrió postulaciones para una nueva edición del concurso que destaca experiencias turísticas innovadoras y sustentables.",
     date: "2025-07-22",
     image:
-      "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/07/Cerreando-Outdoor-ganador-del-concurso-Mas-Valor-Turistico-2024-1.png",
+      "/noticias/mas-valor-turistico-2025.png",
     body: "El Servicio Nacional de Turismo anunció la apertura de postulaciones para una nueva edición del concurso Más Valor Turístico, una iniciativa que por más de una década ha destacado experiencias turísticas innovadoras que aportan al desarrollo sostenible del sector en Chile.",
     category: "Turismo",
     readTime: 3,
@@ -414,7 +414,7 @@ export const NEWS = [
     excerpt:
       "En el Palacio Pereira, Enoturismo Chile de Corfo entregó los Sellos Fiestas de la Vendimia 2025 a organizaciones que destacan por su gestión.",
     date: "2025-07-22",
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/07/Foto-notas-para-web-2025-07-15T105418.016.png",
+    image: "/noticias/sellos-vendimia-2025.png",
     body: "Con una emotiva ceremonia realizada en el Palacio Pereira y la presencia de destacadas autoridades nacionales y regionales, se desarrolló la entrega de los Sellos Fiestas de la Vendimia 2025, evento organizado por Enoturismo Chile de Corfo. Esta iniciativa reconoce a las organizaciones que han demostrado buenas prácticas en la gestión de fiestas de la vendimia.",
     category: "Enoturismo",
     readTime: 3,
