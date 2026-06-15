@@ -745,6 +745,30 @@ const RESTAURANTS_BASE: readonly Ficha[] = [
     instagram: "@dongiorgiocl",
     href: "/descubre/gastronomia",
   },
+  {
+    id: "silvestre-cafeteria",
+    name: "Silvestre Cafetería",
+    type: "Cafetería",
+    category: "Gastronomía",
+    image: "/fotos/silvestre-cafeteria/01.jpeg",
+    description:
+      "Cafetería en Ovalle con ambiente acogedor, café y propuesta de pastelería para disfrutar en el centro del valle.",
+    highlights: ["Cafetería local", "Ambiente acogedor", "Centro de Ovalle"],
+    address: "Centro, Ovalle",
+    href: "/descubre/gastronomia",
+  },
+  {
+    id: "xin-jiang",
+    name: "Xin Jiang",
+    type: "Restaurante",
+    category: "Gastronomía",
+    image: "/fotos/xin-jiang/01.jpeg",
+    description:
+      "Restaurante con propuesta asiática en Ovalle: sabores orientales y platos para compartir en un ambiente cercano.",
+    highlights: ["Cocina asiática", "Propuesta local", "Centro de Ovalle"],
+    address: "Centro, Ovalle",
+    href: "/descubre/gastronomia",
+  },
 ];
 
 export const RESTAURANTS: readonly Ficha[] = withData(RESTAURANTS_BASE);

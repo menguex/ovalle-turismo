@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Carpeta fuente de fotos (servidas desde public/fotos tras npm run sync-fotos)
+FOTOS Pagina Web/
