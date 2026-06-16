@@ -9,7 +9,6 @@ import { Tour360Showcase } from "@/components/sections/Tour360Showcase";
 import { EventsPreview } from "@/components/sections/EventsPreview";
 import { NewsPreview } from "@/components/sections/NewsPreview";
 import { PlannerCTA } from "@/components/sections/PageHero";
-import { PartnersSection } from "@/components/sections/PartnersSection";
 import { TourOperatorsPreview } from "@/components/sections/TourOperatorsPreview";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { ScrollVelocityText } from "@/components/ui/ScrollVelocityText";
@@ -45,7 +44,6 @@ export default function HomePage() {
       <SectionDivider />
       <TourOperatorsPreview />
       <SectionDivider />
-      <PartnersSection />
       <PlannerCTA />
     </>
   );

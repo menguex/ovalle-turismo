@@ -54,9 +54,9 @@ export const IMAGES = {
 export const REGIONAL_VIDEOS = {
   eventosVerano: {
     src: "/videos/eventos-verano.mp4",
-    title: "Gente disfrutando en festivales y fiestas",
+    title: "Personas conversando y compartiendo en encuentros",
     poster: IMAGES.feria,
-    playbackRate: 0.85,
+    playbackRate: 0.72,
   },
   planificaValle: {
     src: "/videos/planifica-valle.mp4",
@@ -478,7 +478,19 @@ export const HOME_COPY = {
 } as const;
 
 export const PARTNERS = [
-  { name: "CONAF", image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Conaf.png" },
-  { name: "Municipalidad de Ovalle", image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Logo-IMO-PNG-300x300.png" },
-  { name: "Sernatur", image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Sernatur-300x272.png" },
+  {
+    name: "CONAF",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Conaf.png",
+    href: "https://www.conaf.cl",
+  },
+  {
+    name: "Municipalidad de Ovalle",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Logo-IMO-PNG-300x300.png",
+    href: "https://muniovalle.cl",
+  },
+  {
+    name: "Sernatur",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Sernatur-300x272.png",
+    href: "https://www.sernatur.cl",
+  },
 ] as const;

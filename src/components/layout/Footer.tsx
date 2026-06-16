@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Mail, MapPin, Phone, Share2 } from "lucide-react";
-import { NAV, SITE } from "@/lib/data/site";
+import { NAV, PARTNERS, SITE } from "@/lib/data/site";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
@@ -126,6 +127,37 @@ export function Footer() {
             <NewsletterForm />
           </StaggerItem>
         </Stagger>
+      </div>
+
+      <div className="border-t border-white/8 bg-white/[0.02]">
+        <div className="container-wide py-8 lg:py-10">
+          <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between lg:gap-10">
+            <p className="shrink-0 font-accent text-[11px] uppercase tracking-[0.22em] text-sand/50">
+              Con el apoyo de
+            </p>
+            <ul className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+              {PARTNERS.map((partner) => (
+                <li key={partner.name}>
+                  <a
+                    href={partner.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-14 min-w-[7.5rem] items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 transition hover:border-white/20 hover:bg-white/[0.08]"
+                    aria-label={partner.name}
+                  >
+                    <Image
+                      src={partner.image}
+                      alt=""
+                      width={120}
+                      height={48}
+                      className="h-9 w-auto max-w-[7rem] object-contain opacity-80 transition duration-300 group-hover:opacity-100 sm:h-10 sm:max-w-[8.5rem]"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className="border-t border-white/8">

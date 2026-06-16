@@ -57,13 +57,21 @@ export function EventsShowcase({ fullPage = false }: { fullPage?: boolean }) {
       )}
     >
       {!fullPage && (
-        <SectionVideoBackground
-          src={REGIONAL_VIDEOS.eventosVerano.src}
-          poster={REGIONAL_VIDEOS.eventosVerano.poster}
-          alt={REGIONAL_VIDEOS.eventosVerano.title}
-          playbackRate={REGIONAL_VIDEOS.eventosVerano.playbackRate}
-          priority
-        />
+        <>
+          <SectionVideoBackground
+            src={REGIONAL_VIDEOS.eventosVerano.src}
+            poster={REGIONAL_VIDEOS.eventosVerano.poster}
+            alt={REGIONAL_VIDEOS.eventosVerano.title}
+            playbackRate={REGIONAL_VIDEOS.eventosVerano.playbackRate}
+            ambient
+            overlayClassName="bg-gradient-to-b from-night/94 via-night/82 to-night/92"
+            priority
+          />
+          <div
+            className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_80%_55%_at_50%_40%,rgba(11,13,23,0.35),rgba(11,13,23,0.72))]"
+            aria-hidden
+          />
+        </>
       )}
 
       <div className="container-wide relative z-10">
@@ -84,7 +92,7 @@ export function EventsShowcase({ fullPage = false }: { fullPage?: boolean }) {
                 "inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-accent text-sm uppercase tracking-wider transition",
                 fullPage
                   ? "border-border text-fg hover:border-copper/40 hover:bg-surface-elevated"
-                  : "border-white/20 text-sand hover:border-gold/40 hover:bg-white/10"
+                  : "border-white/25 bg-night/55 text-mist backdrop-blur-sm hover:border-gold/40 hover:bg-night/70"
               )}
             >
               Ver agenda completa
@@ -98,9 +106,9 @@ export function EventsShowcase({ fullPage = false }: { fullPage?: boolean }) {
           <div
             className={cn(
               "mb-10 grid grid-cols-2 gap-4 rounded-2xl border p-4 sm:grid-cols-4 lg:p-5",
-              fullPage
-                ? "border-border bg-surface-elevated"
-                : "border-white/10 bg-white/5 backdrop-blur-sm"
+                fullPage
+                  ? "border-border bg-surface-elevated"
+                  : "border-white/15 bg-night/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md"
             )}
           >
             {[
@@ -175,7 +183,7 @@ export function EventsShowcase({ fullPage = false }: { fullPage?: boolean }) {
                 "rounded-[2rem] border p-6 lg:p-8",
                 fullPage
                   ? "border-border bg-surface"
-                  : "border-white/10 bg-white/5 backdrop-blur-sm"
+                  : "border-white/15 bg-night/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md"
               )}
             >
               <p
@@ -317,7 +325,7 @@ function TimelineRow({
       onClick={onOpen}
       className={cn(
         "group flex w-full gap-4 rounded-xl p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40",
-        dark ? "hover:bg-white/8" : "hover:bg-surface-elevated"
+        dark ? "hover:bg-night/55" : "hover:bg-surface-elevated"
       )}
     >
       <div className="flex flex-col items-center pt-1">
@@ -380,7 +388,7 @@ function EventMiniCard({ event, onOpen }: { event: Ficha; onOpen: () => void }) 
     <button
       type="button"
       onClick={onOpen}
-      className="w-[280px] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-left transition hover:border-gold/30 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
+      className="w-[280px] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/15 bg-night/70 text-left shadow-lg backdrop-blur-md transition hover:border-gold/30 hover:bg-night/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
     >
       <div className="relative aspect-[16/10]">
         <Image src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
