@@ -76,6 +76,13 @@ export const REGIONAL_VIDEOS = {
     poster: IMAGES.astro,
     playbackRate: 0.78,
   },
+  /** Valles del Limarí — sección Geografía viva (único en esa página) */
+  geografiaValle: {
+    src: "/videos/geografia-valle.mp4",
+    title: "Vista aérea de valle árido y cordillera — geografía del Limarí",
+    poster: IMAGES.desembocadura,
+    playbackRate: 0.84,
+  },
 } as const;
 
 export const NAV = [

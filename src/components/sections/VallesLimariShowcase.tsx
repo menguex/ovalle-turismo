@@ -24,9 +24,10 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useFichaOptional } from "@/components/providers/FichaProvider";
 import { LIMARI_COMMUNITIES, VALLES_EXPERIENCES } from "@/lib/data/fichas";
 import { fichaLabel } from "@/lib/types/ficha";
-import { IMAGES } from "@/lib/data/site";
+import { IMAGES, REGIONAL_VIDEOS } from "@/lib/data/site";
 import { PAGE_ICONS } from "@/lib/icons/page-icons";
 import { cn } from "@/lib/utils";
+import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 
 const TERRITORY_STATS = [
   { icon: MapPin, value: "5", label: "Comunas del valle", detail: "Ovalle al corazón del Limarí" },
@@ -191,19 +192,30 @@ function VallesIntro() {
 
 function VallesTerritoryFlow() {
   const reduced = useReducedMotion();
+  const geoVideo = REGIONAL_VIDEOS.geografiaValle;
 
   return (
     <section className="relative overflow-hidden bg-night py-24 text-white lg:py-32">
-      <div className="mesh-bg pointer-events-none absolute inset-0 opacity-25" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,203,5,0.1),transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_80%,rgba(61,143,217,0.12),transparent_50%)]" />
+      <SectionVideoBackground
+        src={geoVideo.src}
+        poster={geoVideo.poster}
+        alt={geoVideo.title}
+        playbackRate={geoVideo.playbackRate}
+        videoClassName="video-bg-dim-cinematic video-bg-smooth-drift"
+        overlayClassName="bg-gradient-to-b from-night/90 via-night/78 to-night/92"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_75%_50%_at_50%_35%,rgba(11,13,23,0.25),rgba(11,13,23,0.65))]"
+        aria-hidden
+      />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_80%_80%,rgba(61,143,217,0.1),transparent_50%)]" />
 
-      <div className="container-wide relative">
+      <div className="container-wide relative z-10">
         <Reveal>
           <SectionHeading
             dark
             align="center"
-            icon={PAGE_ICONS.valles}
+            icon={Mountain}
             eyebrow="Geografía viva"
             title="Del altiplano al mar en un solo valle"
             description="La corriente de Humboldt, la camanchaca y los suelos calcáreos esculpen un ecosistema irrepetible."
