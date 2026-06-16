@@ -54,7 +54,7 @@ export const IMAGES = {
 export const REGIONAL_VIDEOS = {
   eventosVerano: {
     src: "/videos/eventos-verano.mp4",
-    title: "Personas conversando y compartiendo en encuentros",
+    title: "Amigos compartiendo y conversando al aire libre",
     poster: IMAGES.feria,
     playbackRate: 0.72,
   },
