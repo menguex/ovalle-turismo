@@ -66,7 +66,7 @@ export function PlannerCTA() {
         poster={REGIONAL_VIDEOS.planificaValle.poster}
         alt={REGIONAL_VIDEOS.planificaValle.title}
         playbackRate={REGIONAL_VIDEOS.planificaValle.playbackRate}
-        videoClassName="video-bg-dim-cinematic transition-opacity duration-[1.2s] ease-out"
+        videoClassName="video-bg-dim-cinematic video-bg-smooth-drift"
         overlayClassName="bg-gradient-to-t from-night/90 via-night/48 to-night/18"
         priority
       />

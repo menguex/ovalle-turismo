@@ -90,13 +90,22 @@ export function SectionVideoBackground({
     const video = videoRef.current;
     if (!video || reduced || youtubeId) return;
 
-    if (inView) {
+    const primePlayback = () => {
+      video.defaultPlaybackRate = playbackRate;
       video.playbackRate = playbackRate;
+    };
+
+    primePlayback();
+    video.addEventListener("loadedmetadata", primePlayback);
+
+    if (inView) {
       const play = video.play();
       if (play) play.catch(() => undefined);
     } else {
       video.pause();
     }
+
+    return () => video.removeEventListener("loadedmetadata", primePlayback);
   }, [inView, reduced, youtubeId, playbackRate]);
 
   const showVideo = ready && !reduced && (inView || mounted);

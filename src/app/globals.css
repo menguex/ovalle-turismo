@@ -202,6 +202,30 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
     filter: brightness(0.52) saturate(0.84) contrast(1.05);
   }
 
+  .video-bg-smooth-drift {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+    animation: video-bg-drift 36s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes video-bg-drift {
+    from {
+      transform: scale(1.04) translate3d(0, 0, 0);
+    }
+    to {
+      transform: scale(1.1) translate3d(0, -0.4%, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-bg-smooth-drift {
+      animation: none;
+      transform: none;
+    }
+  }
+
   .scroll-ribbon {
     @apply relative overflow-hidden border-y border-copper/10 bg-surface-elevated py-7 md:py-9;
     background-image: linear-gradient(
