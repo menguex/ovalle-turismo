@@ -5,6 +5,7 @@ import { DescubreExperienceHub } from "@/components/sections/DescubreExperienceH
 import { LodgingStripSection } from "@/components/sections/descubre/LodgingStripSection";
 import { ASTRO_EXPERIENCES, ASTRO_LODGING } from "@/lib/data/fichas";
 import { IMAGES } from "@/lib/data/site";
+import { hdImageSrc } from "@/lib/images";
 import { PAGE_ICONS } from "@/lib/icons/page-icons";
 
 const stats = [
@@ -36,7 +37,9 @@ const gallery = [
   { src: IMAGES.encanto, alt: "Cielo nocturno en el Valle del Encanto" },
   { src: IMAGES.frayJorge, alt: "Parque Nacional Fray Jorge" },
   {
-    src: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/silla-480x650-1.jpg",
+    src: hdImageSrc(
+      "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/silla-480x650-1.jpg"
+    ),
     alt: "Viento Sur Astroturismo",
   },
   { src: IMAGES.astro, alt: "Astroturismo en el Limarí" },

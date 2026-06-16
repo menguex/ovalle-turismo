@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, useReducedMotion } from "framer-motion";
@@ -67,7 +67,7 @@ export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
                 exit={reduced ? undefined : { opacity: 0 }}
                 transition={{ duration: reduced ? 0 : 0.2 }}
               >
-                <Image
+                <SiteImage
                   src={images[activeIndex]}
                   alt={`${label} — foto ${activeIndex + 1} de ${images.length}`}
                   fill
@@ -149,7 +149,7 @@ export function FichaModal({ ficha, onClose, onOpenRelated }: FichaModalProps) {
                   aria-label={`Ver foto ${index + 1}`}
                   aria-current={index === activeIndex ? "true" : undefined}
                 >
-                  <Image src={src} alt="" fill className="object-cover" sizes="80px" />
+                  <SiteImage src={src} alt="" fill className="object-cover" sizes="80px" />
                 </button>
               ))}
             </div>

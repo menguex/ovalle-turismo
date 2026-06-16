@@ -4,6 +4,7 @@ import { Calendar, Grape, MapPin, Wine } from "lucide-react";
 import { DescubreExperienceHub } from "@/components/sections/DescubreExperienceHub";
 import { WINERIES } from "@/lib/data/fichas";
 import { IMAGES } from "@/lib/data/site";
+import { hdImageSrc } from "@/lib/images";
 import { PAGE_ICONS } from "@/lib/icons/page-icons";
 
 const stats = [
@@ -61,11 +62,15 @@ const routes = [
 const gallery = [
   { src: IMAGES.vinedos, alt: "Viñedos del Valle del Limarí" },
   {
-    src: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/barrilesa1-1-768x576-1.jpg",
+    src: hdImageSrc(
+      "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/barrilesa1-1-768x576-1.jpg"
+    ),
     alt: "Barricas en cooperativa pisquera",
   },
   {
-    src: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Vinedos-Valle-del-Limari-Ochotierras-300x300.jpg",
+    src: hdImageSrc(
+      "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/08/Vinedos-Valle-del-Limari-Ochotierras-300x300.jpg"
+    ),
     alt: "Viñedos Ochotierras",
   },
   {
@@ -73,7 +78,9 @@ const gallery = [
     alt: "Fiesta de la Vendimia Ovalle",
   },
   {
-    src: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/5-1024x683.jpg",
+    src: hdImageSrc(
+      "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/5-1024x683.jpg"
+    ),
     alt: "Quesos artesanales del valle",
   },
   {

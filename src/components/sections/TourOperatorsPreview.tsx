@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { ArrowUpRight, Compass, MapPin, Phone, Users } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -78,7 +78,7 @@ export function TourOperatorsPreview() {
                   className="flex h-full flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-border/30">
-                    <Image
+                    <SiteImage
                       src={op.image}
                       alt={op.name}
                       fill

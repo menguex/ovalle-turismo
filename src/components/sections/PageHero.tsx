@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { Button } from "@/components/ui/Button";
 import { IconBadge } from "@/components/ui/IconBadge";
 import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
@@ -23,7 +23,7 @@ export function PageHero({
 
   return (
     <section className="relative flex min-h-[52vh] items-end overflow-hidden pt-28 md:pt-36">
-      <Image
+      <SiteImage
         src={image}
         alt={title}
         fill

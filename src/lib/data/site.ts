@@ -1,3 +1,5 @@
+import { hdImageSrc } from "@/lib/images";
+
 export const SITE = {
   name: "Ovalle Turismo",
   tagline: "Bajo el mismo cielo",
@@ -20,7 +22,7 @@ export const USEFUL_RECOMMENDATIONS = [
   "Consulta horarios en la oficina de turismo antes de visitar parques y sitios.",
 ] as const;
 
-export const IMAGES = {
+const IMAGES_RAW = {
   logo: "/branding/logo-ovalle-turismo.png",
   logoCream: "/branding/logo-ovalle-turismo-cream.png",
   logoLight: "/branding/logo-ovalle-turismo-light.png",
@@ -49,6 +51,10 @@ export const IMAGES = {
   gastronomiaHome: "/fotos/fuente-toscana/01.jpg",
   experiencias: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2026/01/desembocadura-limari-3.jpg",
 } as const;
+
+export const IMAGES = Object.fromEntries(
+  Object.entries(IMAGES_RAW).map(([key, value]) => [key, hdImageSrc(value)])
+) as { readonly [K in keyof typeof IMAGES_RAW]: string };
 
 /** Videos de fondo — Ovalle / Valle del Limarí (sin costa; ver scripts/audit-videos.mjs) */
 export const REGIONAL_VIDEOS = {

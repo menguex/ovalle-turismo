@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -112,7 +112,7 @@ export function SectionVideoBackground({
 
   return (
     <div ref={containerRef} className={cn("pointer-events-none absolute inset-0", className)}>
-      <Image
+      <SiteImage
         src={poster}
         alt={alt}
         fill

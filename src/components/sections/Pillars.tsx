@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -32,7 +32,7 @@ export function Pillars() {
                 className="group relative block aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-white/0 transition duration-500 hover:ring-white/15"
               >
                 <div className="pillar-card-shine" aria-hidden />
-                <Image
+                <SiteImage
                   src={pillar.image}
                   alt={pillar.title}
                   fill

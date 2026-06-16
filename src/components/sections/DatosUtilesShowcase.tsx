@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -85,7 +85,7 @@ export function DatosUtilesShowcase() {
               className="glass-tech gradient-border overflow-hidden rounded-[2rem]"
             >
               <div className="relative aspect-[21/9] min-h-[200px]">
-                <Image
+                <SiteImage
                   src={active.image}
                   alt={fichaLabel(active)}
                   fill

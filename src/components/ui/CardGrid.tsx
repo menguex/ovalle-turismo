@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 
 export function CardGrid({
   items,
@@ -15,7 +15,7 @@ export function CardGrid({
             className="group overflow-hidden rounded-3xl border border-earth/8 bg-white card-hover"
           >
             <div className="relative aspect-[4/3] overflow-hidden">
-              <Image
+              <SiteImage
                 src={item.image}
                 alt={label}
                 fill

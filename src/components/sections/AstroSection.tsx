@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { Moon, Sparkles, Star } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -96,7 +96,7 @@ export function AstroSection() {
         <Reveal direction="right" className="relative aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-white/10">
           <div className="orbit-ring absolute -right-8 -top-8 h-24 w-24 opacity-40" />
           <motion.div className="relative h-full w-full" style={reduced ? undefined : { y: imageY }}>
-            <Image
+            <SiteImage
               src="https://turismoregiondecoquimbo.cl/wp-content/uploads/2025/11/RESERVA-STARLIGHT-PERAL-OJO-DE-AGUA-3-scaled.jpg"
               alt="Reserva Starlight en la Región de Coquimbo"
               fill

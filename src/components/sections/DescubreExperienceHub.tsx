@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import { Compass, Lightbulb, Rotate3D, Route } from "lucide-react";
@@ -160,7 +160,7 @@ export function DescubreExperienceHub({
                   key={img.src}
                   className="relative h-44 w-64 shrink-0 overflow-hidden rounded-2xl sm:h-48 sm:w-auto"
                 >
-                  <Image src={img.src} alt={img.alt} fill className="object-cover" sizes="200px" />
+                  <SiteImage src={img.src} alt={img.alt} fill className="object-cover" sizes="200px" />
                 </StaggerItem>
               ))}
             </Stagger>

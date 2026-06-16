@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { CalendarDays, MapPin } from "lucide-react";
 import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
@@ -40,7 +40,7 @@ export function EventsGrid({
           className="w-[85vw] shrink-0 snap-start overflow-hidden rounded-3xl border border-border bg-surface-elevated text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40 sm:w-[360px]"
         >
           <div className="relative aspect-[16/10]">
-            <Image src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
+            <SiteImage src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
           </div>
           <div className="p-6">
             <div className="mb-3 flex items-center gap-2 text-copper">
@@ -69,7 +69,7 @@ function EventListCard({ event, onOpen }: { event: Ficha; onOpen: () => void }) 
       )}
     >
       <div className="relative min-h-[240px]">
-        <Image src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
+        <SiteImage src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
       </div>
       <div className="flex flex-col justify-center p-8 lg:p-10">
         <div className="mb-3 flex items-center gap-2 text-copper">

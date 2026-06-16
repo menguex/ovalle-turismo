@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { ArrowUpRight, Mail, MapPin, Phone, Share2 } from "lucide-react";
 import { NAV, PARTNERS, SITE } from "@/lib/data/site";
 import { BrandLogo } from "@/components/ui/BrandLogo";
@@ -145,7 +145,7 @@ export function Footer() {
                     className="group flex h-14 min-w-[7.5rem] items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 transition hover:border-white/20 hover:bg-white/[0.08]"
                     aria-label={partner.name}
                   >
-                    <Image
+                    <SiteImage
                       src={partner.image}
                       alt=""
                       width={120}

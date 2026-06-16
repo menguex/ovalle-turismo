@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { cn } from "@/lib/utils";
 import { IMAGES, SITE } from "@/lib/data/site";
 
@@ -44,7 +44,7 @@ export function BrandLogo({
 
   return (
     <span className={cn("inline-flex items-center", className)}>
-      <Image
+      <SiteImage
         src={onDark ? IMAGES.logoCream : IMAGES.logo}
         alt={SITE.name}
         width={width}

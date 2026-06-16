@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -248,7 +248,7 @@ function FeaturedEventCard({
       className="group gradient-border flex w-full flex-col overflow-hidden rounded-[2rem] border border-white/15 bg-night text-left shadow-[0_24px_80px_rgba(0,0,0,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/45"
     >
       <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden lg:aspect-[5/3]">
-        <Image
+        <SiteImage
           src={event.image}
           alt={fichaLabel(event)}
           fill
@@ -394,7 +394,7 @@ function EventMiniCard({ event, onOpen }: { event: Ficha; onOpen: () => void }) 
       className="w-[280px] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/15 bg-night/70 text-left shadow-lg backdrop-blur-md transition hover:border-gold/30 hover:bg-night/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
     >
       <div className="relative aspect-[16/10]">
-        <Image src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
+        <SiteImage src={event.image} alt={fichaLabel(event)} fill className="object-cover" />
         {event.badge && (
           <span className="absolute left-3 top-3 rounded-full bg-copper px-2 py-0.5 font-accent text-[9px] uppercase tracking-wider text-white">
             {event.badge}

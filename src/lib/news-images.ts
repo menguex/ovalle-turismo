@@ -17,8 +17,10 @@ const NEWS_IMAGE_UPGRADES: Record<string, string> = {
   [`${WP}/2025/12/noticia-3.png`]: "/noticias/marca-turistica-coquimbo.jpg",
 };
 
-export const NEWS_IMAGE_QUALITY = 90;
+import { IMAGE_QUALITY, wpHdSrc } from "@/lib/images";
+
+export const NEWS_IMAGE_QUALITY = IMAGE_QUALITY;
 
 export function newsImageSrc(url: string): string {
-  return NEWS_IMAGE_UPGRADES[url] ?? url;
+  return wpHdSrc(NEWS_IMAGE_UPGRADES[url] ?? url);
 }

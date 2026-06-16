@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -55,7 +55,7 @@ export function ExperiencesGrid() {
                 className="group relative h-full w-full overflow-hidden rounded-3xl text-left ring-1 ring-white/0 transition duration-500 hover:ring-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40"
               >
                 <div className="pillar-card-shine" aria-hidden />
-                <Image
+                <SiteImage
                   src={item.image}
                   alt={fichaLabel(item)}
                   fill

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -120,7 +120,7 @@ function TourCard({
       whileHover={{ y: -6 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Image
+      <SiteImage
         src={tour.image}
         alt={label}
         fill

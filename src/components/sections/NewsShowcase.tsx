@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock, Newspaper } from "lucide-react";
@@ -146,7 +146,7 @@ function FeaturedNewsCard({
       onClick={onOpen}
       className="group relative flex h-full min-h-[360px] w-full overflow-hidden rounded-[2rem] text-left lg:min-h-[520px]"
     >
-      <Image
+      <SiteImage
         src={newsImageSrc(post.image)}
         alt={post.title}
         fill
@@ -215,7 +215,7 @@ function NewsCard({
         className="group grid w-full overflow-hidden rounded-[2rem] border border-border bg-surface text-left card-hover sm:grid-cols-[280px_1fr]"
       >
         <div className="relative min-h-[180px] sm:min-h-0">
-          <Image
+          <SiteImage
             src={newsImageSrc(post.image)}
             alt={post.title}
             fill
@@ -256,7 +256,7 @@ function NewsCard({
             compact ? "aspect-[16/10] sm:aspect-auto sm:w-2/5 lg:w-full lg:aspect-[16/10]" : "aspect-[16/10]"
           )}
         >
-          <Image
+          <SiteImage
             src={newsImageSrc(post.image)}
             alt={post.title}
             fill

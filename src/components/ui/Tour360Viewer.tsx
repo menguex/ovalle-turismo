@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, Maximize2, Minimize2, Rotate3D, X } from "lucide-react";
@@ -120,7 +120,7 @@ export function Tour360Viewer({ tour, onClose }: Tour360ViewerProps) {
               ) : (
                 <div className="flex h-full flex-col items-center justify-center gap-6 p-8 text-center">
                   <div className="relative h-48 w-full max-w-md overflow-hidden rounded-2xl">
-                    <Image src={tour.image} alt={label} fill className="object-cover opacity-60" />
+                    <SiteImage src={tour.image} alt={label} fill className="object-cover opacity-60" />
                   </div>
                   <p className="max-w-md text-sm text-sand/80">
                     El recorrido se abre mejor en una ventana dedicada. Haz clic abajo para explorar

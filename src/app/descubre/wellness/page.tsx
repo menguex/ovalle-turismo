@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { Leaf, Sparkles, Wine } from "lucide-react";
 import { PageHero, PlannerCTA } from "@/components/sections/PageHero";
 import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
@@ -58,7 +58,7 @@ export default function WellnessPage() {
         <div className="container-wide mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {wellnessImages.map((item) => (
             <div key={item.src} className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-              <Image src={item.src} alt={item.alt} fill className="object-cover" />
+              <SiteImage src={item.src} alt={item.alt} fill className="object-cover" />
             </div>
           ))}
         </div>

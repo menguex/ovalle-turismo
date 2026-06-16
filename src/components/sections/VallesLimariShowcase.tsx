@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -108,7 +108,7 @@ function VallesIntro() {
       <div className="container-wide space-y-12">
         <Reveal>
           <div className="relative aspect-[21/9] overflow-hidden rounded-[2rem] image-frame-glow lg:aspect-[2/1]">
-            <Image
+            <SiteImage
               src={IMAGES.limari}
               alt="Valle del Limarí"
               fill
@@ -176,10 +176,10 @@ function VallesIntro() {
 
           <Reveal direction="right" className="space-y-4">
             <div className="relative aspect-[2/1] overflow-hidden rounded-2xl image-frame-glow">
-              <Image src={IMAGES.desembocadura} alt="Desembocadura Limarí" fill className="object-cover" sizes="340px" />
+              <SiteImage src={IMAGES.desembocadura} alt="Desembocadura Limarí" fill className="object-cover" sizes="340px" />
             </div>
             <div className="relative aspect-[2/1] overflow-hidden rounded-2xl image-frame-glow">
-              <Image src={IMAGES.vinedos} alt="Viñedos Limarí" fill className="object-cover" sizes="340px" />
+              <SiteImage src={IMAGES.vinedos} alt="Viñedos Limarí" fill className="object-cover" sizes="340px" />
             </div>
           </Reveal>
         </div>
@@ -309,7 +309,7 @@ function VallesComunasExplorer() {
               <PagePanel animated className="overflow-hidden">
                 <div className="flex flex-col">
                   <div className="relative aspect-[21/9] w-full lg:aspect-[2/1]">
-                    <Image
+                    <SiteImage
                       src={active.image}
                       alt={fichaLabel(active)}
                       fill
@@ -432,7 +432,7 @@ function VallesExperiences() {
               )}
             >
               <div className={cn("relative overflow-hidden", i === 0 ? "aspect-[21/9] sm:aspect-[2/1]" : "aspect-[16/9]")}>
-                <Image
+                <SiteImage
                   src={item.image}
                   alt={fichaLabel(item)}
                   fill
@@ -478,7 +478,7 @@ function VallesGalleryStrip() {
             key={`${item.src}-${i}`}
             className="relative aspect-[21/9] h-52 w-[min(42rem,85vw)] shrink-0 overflow-hidden rounded-2xl sm:h-60 md:h-72 md:w-[36rem]"
           >
-            <Image src={item.src} alt={item.alt} fill className="object-cover" sizes="576px" />
+            <SiteImage src={item.src} alt={item.alt} fill className="object-cover" sizes="576px" />
           </div>
         ))}
       </motion.div>

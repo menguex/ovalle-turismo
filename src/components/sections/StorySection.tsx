@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { HOME_COPY, IMAGES } from "@/lib/data/site";
@@ -29,7 +29,7 @@ export function StorySection() {
             className="image-frame-glow relative aspect-[4/5]"
             style={reduced ? undefined : { y: imgY, rotate: imgRotate }}
           >
-            <Image
+            <SiteImage
               src={IMAGES.collage}
               alt="Experiencias en Ovalle"
               fill
@@ -43,7 +43,7 @@ export function StorySection() {
             whileHover={reduced ? undefined : { scale: 1.08, rotate: 3 }}
             transition={{ duration: 0.4 }}
           >
-            <Image
+            <SiteImage
               src={IMAGES.heroPlaza}
               alt="Plaza de Armas Ovalle"
               fill

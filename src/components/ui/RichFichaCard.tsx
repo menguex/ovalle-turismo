@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import {
   ArrowUpRight,
   Calendar,
@@ -48,7 +48,7 @@ export function RichFichaCard({ item, className, featured }: RichFichaCardProps)
             featured ? "aspect-[16/10] lg:aspect-auto lg:min-h-[280px] lg:flex-1" : "aspect-[4/3]"
           )}
         >
-          <Image
+          <SiteImage
             src={item.image}
             alt={label}
             fill

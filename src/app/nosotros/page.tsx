@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { PageHero, PlannerCTA } from "@/components/sections/PageHero";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { PagePanel } from "@/components/ui/PagePanel";
@@ -49,7 +49,7 @@ export default function NosotrosPage() {
           <PagePanel className="p-10">
             <div className="flex flex-wrap items-center justify-center gap-12">
               {PARTNERS.map((partner) => (
-                <Image
+                <SiteImage
                   key={partner.name}
                   src={partner.image}
                   alt={partner.name}

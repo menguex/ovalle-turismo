@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { cn } from "@/lib/utils";
 
 type SectionCinematicBackgroundProps = {
@@ -21,7 +21,7 @@ export function SectionCinematicBackground({
 }: SectionCinematicBackgroundProps) {
   return (
     <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden>
-      <Image
+      <SiteImage
         src={poster}
         alt={alt}
         fill

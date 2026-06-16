@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Ficha } from "@/lib/types/ficha";
@@ -82,7 +82,7 @@ export function InteractiveCardGrid({
                   className="group tech-card-frame pillar-card-shine flex w-full flex-col overflow-hidden text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40"
                 >
                   <div className="relative isolate aspect-[4/3] w-full shrink-0 overflow-hidden bg-border/40">
-                    <Image
+                    <SiteImage
                       src={item.image}
                       alt={label}
                       fill

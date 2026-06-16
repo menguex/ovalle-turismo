@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Sparkles } from "lucide-react";
 import { useRef } from "react";
@@ -38,7 +38,7 @@ export function Hero() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Image
+            <SiteImage
               src={IMAGES.hero}
               alt="Corazón del Limarí - Ovalle"
               fill

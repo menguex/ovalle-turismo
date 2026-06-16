@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SiteImage from "@/components/ui/SiteImage";
 import { Clock, Share2, X } from "lucide-react";
 import { ModalShell } from "@/components/ui/ModalShell";
 import type { NewsItem } from "@/lib/data/site";
@@ -42,7 +42,7 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
       header={
         post ? (
           <div className="relative aspect-[16/9] max-h-[38vh] overflow-hidden sm:max-h-none sm:aspect-[21/9]">
-            <Image
+            <SiteImage
               src={newsImageSrc(post.image)}
               alt={post.title}
               fill
@@ -120,7 +120,7 @@ export function NewsModal({ post, onClose, onOpenPost }: NewsModalProps) {
                     className="group flex gap-3 rounded-2xl border border-border bg-surface-elevated p-3 text-left transition hover:border-copper/30"
                   >
                     <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl">
-                      <Image
+                      <SiteImage
                         src={newsImageSrc(item.image)}
                         alt={item.title}
                         fill

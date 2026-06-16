@@ -1,6 +1,7 @@
 import { applyGalleryEnrichment } from "@/lib/data/gallery-enrichment";
 import { OFFICIAL_CONTENT } from "@/lib/data/official-content-enrichment";
 import { enrichFicha } from "@/lib/data/service-enrichment";
+import { hdImageList, hdImageSrc } from "@/lib/images";
 import type { Ficha } from "@/lib/types/ficha";
 
 const MUNICIPAL_PHONE = /\(53\)\s*2\s*665346|532\s*665346/i;
@@ -44,9 +45,19 @@ export function applyOfficialContent<T extends Ficha>(ficha: T): T {
   };
 }
 
-/** Aplica enriquecimiento de servicios, contenido oficial y galerías. */
+function applyHdImages<T extends Ficha>(ficha: T): T {
+  return {
+    ...ficha,
+    image: hdImageSrc(ficha.image),
+    images: hdImageList(ficha.images),
+  };
+}
+
+/** Aplica enriquecimiento de servicios, contenido oficial, galerías y resolución de imagen. */
 export function finalizeFicha<T extends Ficha>(ficha: T): T {
-  return applyGalleryEnrichment(applyOfficialContent(enrichFicha(ficha)));
+  return applyHdImages(
+    applyGalleryEnrichment(applyOfficialContent(enrichFicha(ficha)))
+  );
 }
 
 export function finalizeFichas<T extends Ficha>(items: readonly T[]): readonly T[] {
