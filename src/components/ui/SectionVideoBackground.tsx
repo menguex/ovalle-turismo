@@ -15,6 +15,8 @@ type SectionVideoBackgroundProps = {
   scrim?: boolean;
   /** Atenúa el video para tarjetas (no usar en fondos de sección) */
   ambient?: boolean;
+  /** Clases extra en el elemento video (filtros, transición, etc.) */
+  videoClassName?: string;
   /** Reproduce más lento para efecto cinematográfico (solo MP4 local) */
   playbackRate?: number;
   priority?: boolean;
@@ -52,6 +54,7 @@ export function SectionVideoBackground({
   ambient = false,
   priority = false,
   playbackRate = 1,
+  videoClassName,
 }: SectionVideoBackgroundProps) {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -138,6 +141,7 @@ export function SectionVideoBackground({
           className={cn(
             "video-bg-cover-native transition-opacity duration-700",
             ambient && "brightness-[0.55] saturate-[0.88] contrast-[1.05]",
+            videoClassName,
             showVideo ? "opacity-100" : "opacity-0"
           )}
           src={src}

@@ -62,7 +62,7 @@ export const REGIONAL_VIDEOS = {
     src: "/videos/eventos-verano.mp4",
     title: "Amigos compartiendo y conversando al aire libre",
     poster: IMAGES.limari,
-    playbackRate: 0.72,
+    playbackRate: 0.62,
   },
   astroCielo: {
     src: "/videos/astro-cielo.mp4",
