@@ -48,10 +48,12 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
 
   const closeFicha = useCallback(() => {
     setActiveId(null);
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("ficha");
-    const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    requestAnimationFrame(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("ficha");
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    });
   }, [pathname, router, searchParams]);
 
   const value = useMemo(

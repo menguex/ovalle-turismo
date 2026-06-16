@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useLenis } from "@/lib/lenis-context";
 
 /**
@@ -7,13 +7,15 @@ import { useLenis } from "@/lib/lenis-context";
  */
 export function useScrollLock(active: boolean) {
   const lenis = useLenis();
+  const scrollYRef = useRef(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!active) return;
 
+    scrollYRef.current = lenis?.scroll ?? window.scrollY;
     lenis?.stop();
 
-    const scrollY = window.scrollY;
+    const scrollY = scrollYRef.current;
     const body = document.body.style;
     const html = document.documentElement.style;
 
@@ -36,6 +38,8 @@ export function useScrollLock(active: boolean) {
     html.overflow = "hidden";
 
     return () => {
+      const savedY = scrollYRef.current;
+
       body.position = prevBody.position;
       body.top = prevBody.top;
       body.left = prevBody.left;
@@ -43,8 +47,13 @@ export function useScrollLock(active: boolean) {
       body.width = prevBody.width;
       body.overflow = prevBody.overflow;
       html.overflow = prevHtmlOverflow;
-      window.scrollTo(0, scrollY);
-      lenis?.start();
+
+      if (lenis) {
+        lenis.scrollTo(savedY, { immediate: true, force: true });
+        lenis.start();
+      } else {
+        window.scrollTo(0, savedY);
+      }
     };
   }, [active, lenis]);
 }

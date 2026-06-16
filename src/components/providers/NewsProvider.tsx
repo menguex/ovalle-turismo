@@ -47,10 +47,12 @@ export function NewsProvider({ children }: { children: React.ReactNode }) {
 
   const closeNews = useCallback(() => {
     setActiveSlug(null);
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("noticia");
-    const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    requestAnimationFrame(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("noticia");
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    });
   }, [pathname, router, searchParams]);
 
   const value = useMemo(
