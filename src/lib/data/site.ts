@@ -76,12 +76,12 @@ export const REGIONAL_VIDEOS = {
     poster: IMAGES.astro,
     playbackRate: 0.78,
   },
-  /** Valles del Limarí — hero (viñedos y valle verde; no reutilizado en otras secciones) */
+  /** Valles del Limarí — hero (viñedos del valle, 4K; distinto de geografía y planifica) */
   vallesHero: {
     src: "/videos/valles-hero.mp4",
-    title: "Viñedos y paisaje del Valle del Limarí",
+    title: "Viñedos del Valle del Limarí vistos en drone",
     poster: IMAGES.vinedos,
-    playbackRate: 0.9,
+    playbackRate: 0.88,
   },
   /** Valles del Limarí — sección Geografía viva (cañón árido; distinto del hero) */
   geografiaValle: {
