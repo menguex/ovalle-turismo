@@ -243,43 +243,45 @@ function FeaturedEventCard({
     <motion.button
       type="button"
       onClick={onOpen}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative flex min-h-[420px] w-full overflow-hidden rounded-[2rem] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/50 lg:min-h-[480px]"
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex min-h-[440px] w-full overflow-hidden rounded-[2rem] border border-white/20 text-left shadow-[0_22px_70px_rgba(0,0,0,0.48)] ring-1 ring-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/45 lg:min-h-[500px]"
     >
       <Image
         src={event.image}
         alt={fichaLabel(event)}
         fill
-        className="object-cover transition duration-700 group-hover:scale-[1.03]"
+        className="object-cover object-[center_22%] contrast-[1.07] saturate-[1.12] transition duration-[1.15s] ease-out group-hover:scale-[1.045]"
         sizes="(max-width: 1024px) 100vw, 55vw"
-        quality={90}
+        quality={95}
         priority
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-night via-night/55 to-night/15" />
-      <div className="absolute inset-0 bg-gradient-to-r from-night/65 via-night/30 to-transparent" />
 
-      <div className="relative z-10 flex h-full flex-col justify-between p-8 lg:p-10">
+      <div className="absolute inset-0 bg-gradient-to-t from-night from-[30%] via-night/55 to-night/5" />
+      <div className="absolute inset-0 bg-gradient-to-r from-night/55 via-night/15 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
+
+      <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-9">
         <div className="flex flex-wrap gap-2">
           {event.badge && (
-            <span className="rounded-full bg-copper px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-white">
+            <span className="rounded-full bg-copper px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-white shadow-md">
               {event.badge}
             </span>
           )}
-          <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-sm">
+          <span className="rounded-full border border-white/25 bg-night/45 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-md">
             {event.type}
           </span>
         </div>
 
-        <div>
+        <div className="mt-auto rounded-2xl border border-white/12 bg-night/62 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-lg sm:p-6 lg:p-7">
           <p className="mb-2 flex items-center gap-2 font-accent text-xs uppercase tracking-wider text-gold">
             <CalendarDays size={14} />
             {event.date}
           </p>
-          <h3 className="font-display text-3xl font-bold text-white lg:text-4xl">
+          <h3 className="font-display text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
             {fichaLabel(event)}
           </h3>
-          <p className="mt-3 max-w-lg text-pretty text-sm leading-relaxed text-sand/90">
+          <p className="mt-3 max-w-lg text-pretty text-sm leading-relaxed text-sand/92">
             {event.description}
           </p>
           {event.highlights && (
@@ -287,21 +289,23 @@ function FeaturedEventCard({
               {event.highlights.slice(0, 3).map((h) => (
                 <span
                   key={h}
-                  className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] text-sand/90"
+                  className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[11px] text-sand/95"
                 >
                   {h}
                 </span>
               ))}
             </div>
           )}
-          <p className="mt-5 flex items-center gap-2 text-xs text-sand/80">
-            <MapPin size={13} />
-            {event.location}
-          </p>
-          <span className="mt-5 inline-flex items-center gap-1.5 font-accent text-xs uppercase tracking-wider text-gold transition group-hover:gap-2.5">
-            Abrir ficha del evento
-            <ArrowUpRight size={14} />
-          </span>
+          <div className="mt-5 flex flex-col gap-3 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="flex items-center gap-2 text-xs text-sand/85">
+              <MapPin size={13} className="shrink-0 text-gold/90" />
+              {event.location}
+            </p>
+            <span className="inline-flex items-center gap-1.5 font-accent text-xs uppercase tracking-wider text-gold transition group-hover:gap-2.5">
+              Abrir ficha del evento
+              <ArrowUpRight size={14} />
+            </span>
+          </div>
         </div>
       </div>
     </motion.button>
