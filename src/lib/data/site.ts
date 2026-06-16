@@ -76,7 +76,14 @@ export const REGIONAL_VIDEOS = {
     poster: IMAGES.astro,
     playbackRate: 0.78,
   },
-  /** Valles del Limarí — sección Geografía viva (único en esa página) */
+  /** Valles del Limarí — hero (viñedos y valle verde; no reutilizado en otras secciones) */
+  vallesHero: {
+    src: "/videos/valles-hero.mp4",
+    title: "Viñedos y paisaje del Valle del Limarí",
+    poster: IMAGES.vinedos,
+    playbackRate: 0.9,
+  },
+  /** Valles del Limarí — sección Geografía viva (cañón árido; distinto del hero) */
   geografiaValle: {
     src: "/videos/geografia-valle.mp4",
     title: "Vista aérea de valle árido y cordillera — geografía del Limarí",
@@ -84,6 +91,8 @@ export const REGIONAL_VIDEOS = {
     playbackRate: 0.84,
   },
 } as const;
+
+export type RegionalVideoKey = keyof typeof REGIONAL_VIDEOS;
 
 export const NAV = [
   {

@@ -4,7 +4,7 @@ import { IconBadge } from "@/components/ui/IconBadge";
 import { SectionVideoBackground } from "@/components/ui/SectionVideoBackground";
 import { BrandShapes } from "@/components/brand/BrandShapes";
 import { getPageIcon, type PageIconKey } from "@/lib/icons/page-icons";
-import { REGIONAL_VIDEOS } from "@/lib/data/site";
+import { REGIONAL_VIDEOS, type RegionalVideoKey } from "@/lib/data/site";
 
 export function PageHero({
   title,
@@ -12,25 +12,42 @@ export function PageHero({
   image,
   eyebrow,
   icon,
+  videoKey,
 }: {
   title: string;
   subtitle?: string;
   image: string;
   eyebrow?: string;
   icon?: PageIconKey;
+  /** Video de fondo HD (poster desde REGIONAL_VIDEOS; imagen estática como respaldo) */
+  videoKey?: RegionalVideoKey;
 }) {
   const Icon = icon ? getPageIcon(icon) : null;
+  const video = videoKey ? REGIONAL_VIDEOS[videoKey] : null;
 
   return (
     <section className="relative flex min-h-[52vh] items-end overflow-hidden pt-28 md:pt-36">
-      <SiteImage
-        src={image}
-        alt={title}
-        fill
-        priority
-        className="object-cover animate-ken-burns"
-        sizes="100vw"
-      />
+      {video ? (
+        <SectionVideoBackground
+          src={video.src}
+          poster={video.poster}
+          alt={video.title}
+          playbackRate={video.playbackRate}
+          videoClassName="video-bg-dim-cinematic"
+          overlayClassName="bg-gradient-to-t from-night/82 via-night/45 to-night/30"
+          priority
+        />
+      ) : (
+        <SiteImage
+          src={image}
+          alt={title}
+          fill
+          priority
+          quality={95}
+          className="object-cover animate-ken-burns"
+          sizes="100vw"
+        />
+      )}
       <BrandShapes variant="page" parallax />
       <div className="absolute inset-0 gradient-overlay" />
       <div className="container-wide relative z-10 pb-14 pt-10">

@@ -16,7 +16,8 @@ export default function VallesPage() {
         eyebrow="Territorio"
         title="Conecta con la esencia del valle"
         subtitle="Ovalle · Monte Patria · Punitaqui · Río Hurtado · Combarbalá"
-        image={IMAGES.limari}
+        videoKey="vallesHero"
+        image={IMAGES.vinedos}
       />
       <VallesLimariShowcase />
       <PlannerCTA />

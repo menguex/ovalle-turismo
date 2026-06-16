@@ -29,7 +29,8 @@ Uso por sección:
 • eventosVerano — fondo Eventos (home)
 • planificaValle — CTA Planifica (home + páginas internas)
 • astroCielo — Astroturismo (home)
-• geografiaValle — Geografía viva (Valles del Limarí, video exclusivo)
+• vallesHero — Hero Valles del Limarí (viñedos / valle verde)
+• geografiaValle — Geografía viva (Valles del Limarí, paisaje árido)
 
 Para reemplazar: editar REGIONAL_VIDEOS en src/lib/data/site.ts
 MP4 locales en public/videos/

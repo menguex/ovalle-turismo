@@ -110,7 +110,7 @@ function VallesIntro() {
         <Reveal>
           <div className="relative aspect-[21/9] overflow-hidden rounded-[2rem] image-frame-glow lg:aspect-[2/1]">
             <SiteImage
-              src={IMAGES.limari}
+              src={IMAGES.vinedos}
               alt="Valle del Limarí"
               fill
               className="object-cover transition duration-700 hover:scale-[1.02]"
