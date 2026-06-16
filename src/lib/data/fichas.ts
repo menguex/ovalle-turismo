@@ -1069,7 +1069,7 @@ export const EVENTS: readonly Ficha[] = withData([
     name: "Fiesta de la Vendimia 2026",
     type: "Festival",
     category: "Eventos",
-    image: IMAGES.vendimia,
+    image: "/noticias/vendimia-cooperativa-pisquera.jpg",
     description:
       "Ovalle celebra su historia en cada copa. Por primera vez en Cooperativa Control Pisquero con más de 50 mil asistentes en ediciones recientes.",
     highlights: ["Pisco y vendimia", "Cooperativa Control Pisquero", "Música y gastronomía"],

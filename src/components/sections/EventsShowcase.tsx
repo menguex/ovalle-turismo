@@ -245,67 +245,66 @@ function FeaturedEventCard({
       onClick={onOpen}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative flex min-h-[440px] w-full overflow-hidden rounded-[2rem] border border-white/20 text-left shadow-[0_22px_70px_rgba(0,0,0,0.48)] ring-1 ring-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/45 lg:min-h-[500px]"
+      className="group gradient-border flex w-full flex-col overflow-hidden rounded-[2rem] border border-white/15 bg-night text-left shadow-[0_24px_80px_rgba(0,0,0,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/45"
     >
-      <Image
-        src={event.image}
-        alt={fichaLabel(event)}
-        fill
-        className="object-cover object-[center_22%] contrast-[1.07] saturate-[1.12] transition duration-[1.15s] ease-out group-hover:scale-[1.045]"
-        sizes="(max-width: 1024px) 100vw, 55vw"
-        quality={95}
-        priority
-      />
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden lg:aspect-[5/3]">
+        <Image
+          src={event.image}
+          alt={fichaLabel(event)}
+          fill
+          className="object-cover object-[center_18%] contrast-[1.08] saturate-[1.14] transition duration-[1.15s] ease-out group-hover:scale-[1.06]"
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          quality={95}
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-night via-night/25 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-night/55 to-transparent" />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-night from-[30%] via-night/55 to-night/5" />
-      <div className="absolute inset-0 bg-gradient-to-r from-night/55 via-night/15 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
-
-      <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-9">
-        <div className="flex flex-wrap gap-2">
+        <div className="absolute left-5 top-5 flex flex-wrap gap-2">
           {event.badge && (
-            <span className="rounded-full bg-copper px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-white shadow-md">
+            <span className="rounded-full bg-copper px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-white shadow-lg">
               {event.badge}
             </span>
           )}
-          <span className="rounded-full border border-white/25 bg-night/45 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-md">
+          <span className="rounded-full border border-white/30 bg-night/55 px-3 py-1 font-accent text-[10px] uppercase tracking-wider text-sand backdrop-blur-md">
             {event.type}
           </span>
         </div>
 
-        <div className="mt-auto rounded-2xl border border-white/12 bg-night/62 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-lg sm:p-6 lg:p-7">
-          <p className="mb-2 flex items-center gap-2 font-accent text-xs uppercase tracking-wider text-gold">
-            <CalendarDays size={14} />
-            {event.date}
-          </p>
-          <h3 className="font-display text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
-            {fichaLabel(event)}
-          </h3>
-          <p className="mt-3 max-w-lg text-pretty text-sm leading-relaxed text-sand/92">
-            {event.description}
-          </p>
-          {event.highlights && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {event.highlights.slice(0, 3).map((h) => (
-                <span
-                  key={h}
-                  className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[11px] text-sand/95"
-                >
-                  {h}
-                </span>
-              ))}
-            </div>
-          )}
-          <div className="mt-5 flex flex-col gap-3 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="flex items-center gap-2 text-xs text-sand/85">
-              <MapPin size={13} className="shrink-0 text-gold/90" />
-              {event.location}
-            </p>
-            <span className="inline-flex items-center gap-1.5 font-accent text-xs uppercase tracking-wider text-gold transition group-hover:gap-2.5">
-              Abrir ficha del evento
-              <ArrowUpRight size={14} />
-            </span>
+        <p className="absolute bottom-4 left-5 flex items-center gap-2 font-accent text-xs uppercase tracking-wider text-gold drop-shadow-md">
+          <CalendarDays size={14} />
+          {event.date}
+        </p>
+      </div>
+
+      <div className="relative border-t border-gold/25 bg-[linear-gradient(165deg,rgba(18,20,31,0.98)_0%,rgba(11,13,23,1)_55%,rgba(61,143,217,0.12)_100%)] p-6 sm:p-7 lg:p-8">
+        <h3 className="font-display text-2xl font-bold text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
+          {fichaLabel(event)}
+        </h3>
+        <p className="mt-3 text-pretty text-sm leading-relaxed text-sand/90 lg:text-[0.95rem]">
+          {event.description}
+        </p>
+        {event.highlights && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {event.highlights.slice(0, 3).map((h) => (
+              <span
+                key={h}
+                className="rounded-full border border-white/12 bg-white/8 px-3 py-1 text-[11px] text-sand/95"
+              >
+                {h}
+              </span>
+            ))}
           </div>
+        )}
+        <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="flex items-center gap-2 text-xs text-sand/80">
+            <MapPin size={14} className="shrink-0 text-gold" />
+            {event.location}
+          </p>
+          <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-gradient px-5 py-2.5 font-sans text-sm font-semibold text-night shadow-[0_6px_20px_rgba(255,203,5,0.22)] transition group-hover:brightness-105">
+            Abrir ficha del evento
+            <ArrowUpRight size={15} />
+          </span>
         </div>
       </div>
     </motion.button>
