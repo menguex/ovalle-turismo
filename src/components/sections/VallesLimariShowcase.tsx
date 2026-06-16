@@ -1,6 +1,7 @@
 "use client";
 
 import SiteImage from "@/components/ui/SiteImage";
+import { ExperienceFichaCard } from "@/components/ui/ExperienceFichaCard";
 import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -404,7 +405,7 @@ function VallesEssence() {
 
 function VallesExperiences() {
   const fichaCtx = useFichaOptional();
-  const reduced = useReducedMotion();
+  const [featured, ...rest] = VALLES_EXPERIENCES;
 
   return (
     <section className="section-alt py-20 lg:py-28">
@@ -418,46 +419,27 @@ function VallesExperiences() {
         </Reveal>
       </div>
 
-      <div className="container-wide grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {VALLES_EXPERIENCES.map((item, i) => (
-          <Reveal key={item.id} delay={0.05 * i}>
-            <motion.button
-              type="button"
-              whileHover={reduced ? undefined : { y: -4 }}
-              whileTap={reduced ? undefined : { scale: 0.99 }}
-              onClick={() => fichaCtx?.openFicha(item.id)}
-              className={cn(
-                "group tech-card-frame w-full overflow-hidden text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40",
-                i === 0 && "md:col-span-2"
-              )}
-            >
-              <div className={cn("relative overflow-hidden", i === 0 ? "aspect-[21/9] sm:aspect-[2/1]" : "aspect-[16/9]")}>
-                <SiteImage
-                  src={item.image}
-                  alt={fichaLabel(item)}
-                  fill
-                  className="object-cover transition duration-700 group-hover:scale-105"
-                  sizes={i === 0 ? "(max-width:768px) 100vw, 66vw" : "(max-width:768px) 100vw, 33vw"}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/30 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  {item.type && (
-                    <p className="eyebrow-light !text-[10px]">{item.type}</p>
-                  )}
-                  <h3 className={cn("heading-md text-white", i === 0 && "text-2xl lg:text-3xl")}>
-                    {fichaLabel(item)}
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-sand/90">
-                    {item.description}
-                  </p>
-                  <span className="mt-3 inline-flex items-center gap-1 font-accent text-[10px] uppercase tracking-wider text-brand-yellow opacity-0 transition group-hover:opacity-100">
-                    Ver ficha <ArrowUpRight size={12} />
-                  </span>
-                </div>
-              </div>
-            </motion.button>
+      <div className="container-wide space-y-5">
+        {featured && (
+          <Reveal delay={0.05}>
+            <ExperienceFichaCard
+              item={featured}
+              featured
+              onOpen={() => fichaCtx?.openFicha(featured.id)}
+            />
           </Reveal>
-        ))}
+        )}
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 experience-grid-balanced">
+          {rest.map((item, i) => (
+            <Reveal key={item.id} delay={0.05 * (i + 1)}>
+              <ExperienceFichaCard
+                item={item}
+                onOpen={() => fichaCtx?.openFicha(item.id)}
+              />
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

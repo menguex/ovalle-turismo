@@ -50,7 +50,7 @@ export const LIMARI_ENRICHMENT: Record<string, Partial<Ficha>> = {
     highlights: ["Quesos artesanales", "Premio FIA 2022", "Villaseca · Ovalle"],
   },
   "exp-qori": {
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG_6182-1-nvshyokbk7jwlgt6cxjv06r036mx1l69s0w8lo0pms.png",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG-20241220-WA0006.jpeg",
     description:
       "Aceite de oliva extra virgen gourmet del clima único del Limarí. Blend cuidadoso y extracción especializada en Ovalle, entre los aceites de oliva más reconocidos del valle.",
     email: "claudimoreno@qori.cl",
@@ -58,7 +58,7 @@ export const LIMARI_ENRICHMENT: Record<string, Partial<Ficha>> = {
     highlights: ["Extra virgen", "Producto gourmet local", "Degustación"],
   },
   "exp-waqar": {
-    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/slider-3-waqar.png",
+    image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/slider-3-balck-heron.png",
     description:
       "Pisco ultra premium de Pisquera Tulahuén, 100% uvas moscatel de terruño ancestral a los pies de los Andes. Destilado transparente, fino y delicado, bajo Denominación de Origen.",
     email: "CONTACTO@PISQUERATULAHUEN.CL",

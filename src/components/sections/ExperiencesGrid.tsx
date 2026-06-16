@@ -62,7 +62,8 @@ export function ExperiencesGrid() {
                   className="object-cover transition duration-700 ease-premium group-hover:scale-105"
                   sizes="(max-width:768px) 100vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-night/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-night/95 via-night/55 to-night/35" />
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(11,13,23,0.45)_0%,transparent_55%)]" />
                 <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2">
                   {item.badge && (
                     <motion.span
@@ -79,7 +80,7 @@ export function ExperiencesGrid() {
                 <div className="image-card-caption absolute inset-x-0 bottom-0">
                   <h3
                     className={cn(
-                      "image-card-title",
+                      "image-card-title text-pretty [overflow-wrap:normal] [word-break:normal]",
                       i === 0 ? "image-card-title--lg" : "image-card-title--sm line-clamp-2"
                     )}
                   >
@@ -87,13 +88,13 @@ export function ExperiencesGrid() {
                   </h3>
                   <p
                     className={cn(
-                      "mt-2 font-sans leading-relaxed text-sand/90",
+                      "mt-2 font-sans leading-relaxed tracking-normal text-sand/90 text-pretty [overflow-wrap:normal]",
                       i === 0 ? "line-clamp-3 text-sm sm:text-[0.9375rem]" : "line-clamp-2 text-xs sm:text-sm"
                     )}
                   >
                     {item.description}
                   </p>
-                  <span className="mt-3 inline-flex items-center gap-1.5 font-accent text-[10px] uppercase tracking-wider text-gold opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">
+                  <span className="mt-3 inline-flex items-center gap-1.5 font-accent text-[10px] uppercase tracking-[0.14em] text-gold transition duration-300 group-hover:gap-2">
                     Ver ficha
                     <ArrowUpRight size={12} />
                   </span>

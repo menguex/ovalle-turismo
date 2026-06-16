@@ -325,6 +325,12 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
     );
   }
 
+  /* Centra la última fila incompleta en grillas de 3 columnas */
+  .experience-grid-balanced > *:last-child:nth-child(3n + 1),
+  .experience-grid-balanced > *:nth-last-child(2):nth-child(3n + 1) {
+    @apply lg:col-start-2;
+  }
+
   .prose-valle {
     @apply max-w-prose space-y-5 font-sans text-body-lg leading-relaxed text-muted-fg;
   }

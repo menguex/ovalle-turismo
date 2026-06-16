@@ -1641,7 +1641,7 @@ const LIMARI_EXPERIENCES_BASE: readonly Ficha[] = [
   },
   {
     id: "exp-qori",
-    name: "Qori Aceite de Oliva Extra-Virgen",
+    name: "Qori · Aceite de oliva",
     type: "Gastronomía",
     category: "Experiencia",
     image: "https://www.ovalleturismo.cl/sitio/wp-content/uploads/2025/09/IMG-20241220-WA0006.jpeg",

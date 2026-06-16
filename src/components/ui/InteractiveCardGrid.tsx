@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import SiteImage from "@/components/ui/SiteImage";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Ficha } from "@/lib/types/ficha";
-import { fichaLabel } from "@/lib/types/ficha";
+import { ExperienceFichaCard } from "@/components/ui/ExperienceFichaCard";
 import { useFicha } from "@/components/providers/FichaProvider";
 import { cn } from "@/lib/utils";
 
@@ -15,10 +14,12 @@ export function InteractiveCardGrid({
   items,
   className,
   pageSize = DEFAULT_PAGE_SIZE,
+  featuredFirst = false,
 }: {
   items: readonly Ficha[];
   className?: string;
   pageSize?: number;
+  featuredFirst?: boolean;
 }) {
   const { openFicha } = useFicha();
   const reduced = useReducedMotion();
@@ -36,6 +37,8 @@ export function InteractiveCardGrid({
   );
 
   const hasMore = visibleCount < items.length;
+  const featured = featuredFirst && visibleItems.length > 0 ? visibleItems[0] : null;
+  const gridItems = featured ? visibleItems.slice(1) : visibleItems;
 
   if (items.length === 0) {
     return (
@@ -56,67 +59,34 @@ export function InteractiveCardGrid({
 
   return (
     <div className={cn("container-wide", className)}>
-      <div className="grid min-w-0 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {featured && (
+        <div className="mb-5">
+          <ExperienceFichaCard
+            item={featured}
+            featured
+            onOpen={() => openFicha(featured.id)}
+          />
+        </div>
+      )}
+
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 experience-grid-balanced">
         <AnimatePresence mode="sync">
-          {visibleItems.map((item, index) => {
-            const label = fichaLabel(item);
-            return (
-              <motion.div
-                key={item.id}
-                initial={reduced ? false : { opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduced ? undefined : { opacity: 0, y: 8 }}
-                transition={{
-                  duration: reduced ? 0 : 0.45,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: reduced ? 0 : Math.min(index * 0.05, 0.35),
-                }}
-                whileHover={reduced ? undefined : { y: -4 }}
-                whileTap={reduced ? undefined : { scale: 0.99 }}
-                className="min-w-0"
-              >
-                <button
-                  type="button"
-                  onClick={() => openFicha(item.id)}
-                  aria-label={`Ver ficha de ${label}`}
-                  className="group tech-card-frame pillar-card-shine flex w-full flex-col overflow-hidden text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40"
-                >
-                  <div className="relative isolate aspect-[4/3] w-full shrink-0 overflow-hidden bg-border/40">
-                    <SiteImage
-                      src={item.image}
-                      alt={label}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="pointer-events-none object-cover transition duration-700 ease-premium group-hover:scale-105"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/55 via-transparent to-transparent opacity-80 transition group-hover:opacity-100" />
-                    <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-                      {item.badge && (
-                        <span className="rounded-full bg-gold/90 px-2.5 py-1 font-accent text-[10px] uppercase tracking-wider text-night">
-                          {item.badge}
-                        </span>
-                      )}
-                    </div>
-                    <span className="absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-full bg-copper px-3 py-1.5 font-accent text-label-sm uppercase tracking-wider text-white shadow-sm transition duration-300 group-hover:gap-1.5">
-                      Ver ficha
-                      <ArrowUpRight size={12} />
-                    </span>
-                  </div>
-                  <div className="relative z-[1] flex flex-1 flex-col p-6">
-                    {item.type && <p className="eyebrow">{item.type}</p>}
-                    <h3 className="heading-md mt-1 text-balance transition-colors group-hover:text-brand-orange">
-                      {label}
-                    </h3>
-                    {item.description && (
-                      <p className="mt-2 line-clamp-3 text-body-sm leading-relaxed text-muted-fg">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </button>
-              </motion.div>
-            );
-          })}
+          {gridItems.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={reduced ? false : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduced ? undefined : { opacity: 0, y: 8 }}
+              transition={{
+                duration: reduced ? 0 : 0.45,
+                ease: [0.22, 1, 0.36, 1],
+                delay: reduced ? 0 : Math.min(index * 0.05, 0.35),
+              }}
+              className="min-w-0"
+            >
+              <ExperienceFichaCard item={item} onOpen={() => openFicha(item.id)} />
+            </motion.div>
+          ))}
         </AnimatePresence>
       </div>
 

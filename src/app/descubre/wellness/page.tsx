@@ -6,7 +6,7 @@ import { IconBadge } from "@/components/ui/IconBadge";
 import { PageIntro, PagePanel } from "@/components/ui/PagePanel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { HOME_SECTION_ICONS } from "@/lib/icons/page-icons";
-import { LIMARI_EXPERIENCES } from "@/lib/data/fichas";
+import { VALLES_EXPERIENCES } from "@/lib/data/fichas";
 import { IMAGES } from "@/lib/data/site";
 
 const wellnessBlocks = [
@@ -72,7 +72,7 @@ export default function WellnessPage() {
             description="Descubre los sabores, paisajes y tradiciones que dan vida al Valle del Limarí. Haz clic en cada experiencia para ver su ficha."
           />
         </div>
-        <InteractiveCardGrid items={LIMARI_EXPERIENCES} />
+        <InteractiveCardGrid items={VALLES_EXPERIENCES} featuredFirst />
       </section>
       <PlannerCTA />
     </>
