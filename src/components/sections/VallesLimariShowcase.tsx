@@ -13,7 +13,6 @@ import {
   Mountain,
   Sparkles,
   UtensilsCrossed,
-  Waves,
   Wine,
 } from "lucide-react";
 import { TechSectionShell } from "@/components/brand/TechSectionShell";
@@ -40,7 +39,7 @@ const TERRITORY_FLOW = [
   { icon: Mountain, label: "Cordillera", text: "Nieve, termas y valles transversales" },
   { icon: CloudFog, label: "Camanchaca", text: "Neblina oceánica que refresca el valle" },
   { icon: Wine, label: "Territorio", text: "Suelos calcáreos, viñas y pisco de origen" },
-  { icon: Waves, label: "Pacífico", text: "Mariscos, pescados y brisa del norte" },
+  { icon: Moon, label: "Cielos", text: "Horizontes abiertos y astroturismo excepcional" },
 ] as const;
 
 const ESSENCE = [
@@ -217,8 +216,8 @@ function VallesTerritoryFlow() {
             align="center"
             icon={Mountain}
             eyebrow="Geografía viva"
-            title="Del altiplano al mar en un solo valle"
-            description="La corriente de Humboldt, la camanchaca y los suelos calcáreos esculpen un ecosistema irrepetible."
+            title="Donde la tierra define el carácter del valle"
+            description="Suelos calcáreos, bruma que modera el clima y cielos limpios del norte chico configuran un territorio irrepetible: cuna del vino chileno, tradición pisquera y paisajes que invitan a quedarse."
             className="mx-auto mb-16 max-w-2xl text-center"
           />
         </Reveal>
