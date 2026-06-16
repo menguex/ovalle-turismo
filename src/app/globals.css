@@ -199,7 +199,7 @@ html[data-magicui-theme-vt="active"]::view-transition-group(root) {
   }
 
   .video-bg-dim-cinematic {
-    filter: brightness(0.28) saturate(0.62) contrast(1.12);
+    filter: brightness(0.52) saturate(0.84) contrast(1.05);
   }
 
   .scroll-ribbon {

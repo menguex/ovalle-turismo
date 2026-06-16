@@ -66,13 +66,12 @@ export function PlannerCTA() {
         poster={REGIONAL_VIDEOS.planificaValle.poster}
         alt={REGIONAL_VIDEOS.planificaValle.title}
         playbackRate={REGIONAL_VIDEOS.planificaValle.playbackRate}
-        videoClassName="video-bg-dim-cinematic transition-opacity duration-[1.6s] ease-out"
-        overlayClassName="bg-gradient-to-t from-black/92 via-black/78 to-black/70"
+        videoClassName="video-bg-dim-cinematic transition-opacity duration-[1.2s] ease-out"
+        overlayClassName="bg-gradient-to-t from-night/90 via-night/48 to-night/18"
         priority
       />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-black/50" aria-hidden />
       <div
-        className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_90%_80%_at_50%_50%,rgba(11,13,23,0.15),rgba(11,13,23,0.75))]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_120%_90%_at_50%_55%,transparent_35%,rgba(11,13,23,0.42)_100%)]"
         aria-hidden
       />
       <div className="container-wide relative z-10">
