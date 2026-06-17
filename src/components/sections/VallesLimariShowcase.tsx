@@ -1,7 +1,7 @@
 "use client";
 
 import SiteImage from "@/components/ui/SiteImage";
-import { ExperienceFichaCard } from "@/components/ui/ExperienceFichaCard";
+import { InteractiveCardGrid } from "@/components/ui/InteractiveCardGrid";
 import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -415,9 +415,6 @@ function VallesEssence() {
 }
 
 function VallesExperiences() {
-  const fichaCtx = useFichaOptional();
-  const [featured, ...rest] = VALLES_EXPERIENCES;
-
   return (
     <section className="section-alt py-20 lg:py-28">
       <div className="container-wide mb-12">
@@ -429,29 +426,7 @@ function VallesExperiences() {
           />
         </Reveal>
       </div>
-
-      <div className="container-wide space-y-5">
-        {featured && (
-          <Reveal delay={0.05}>
-            <ExperienceFichaCard
-              item={featured}
-              featured
-              onOpen={() => fichaCtx?.openFicha(featured.id)}
-            />
-          </Reveal>
-        )}
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 experience-grid-balanced">
-          {rest.map((item, i) => (
-            <Reveal key={item.id} delay={0.05 * (i + 1)}>
-              <ExperienceFichaCard
-                item={item}
-                onOpen={() => fichaCtx?.openFicha(item.id)}
-              />
-            </Reveal>
-          ))}
-        </div>
-      </div>
+      <InteractiveCardGrid items={VALLES_EXPERIENCES} featuredFirst pageSize={0} />
     </section>
   );
 }
