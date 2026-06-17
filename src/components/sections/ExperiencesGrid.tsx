@@ -66,15 +66,11 @@ export function ExperiencesGrid() {
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(11,13,23,0.45)_0%,transparent_55%)]" />
                 <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2">
                   {item.badge && (
-                    <motion.span
+                    <span
                       className="rounded-full bg-gold/90 px-2.5 py-1 font-accent text-[10px] uppercase tracking-wider text-night shadow-sm"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.2 }}
                     >
                       {item.badge}
-                    </motion.span>
+                    </span>
                   )}
                 </div>
                 <div className="image-card-caption absolute inset-x-0 bottom-0">

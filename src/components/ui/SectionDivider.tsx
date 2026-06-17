@@ -1,17 +1,19 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { useRevealVisible } from "@/lib/use-reveal-visible";
 
 export function SectionDivider() {
   const reduced = useReducedMotion();
+  const { ref, visible } = useRevealVisible(0.5);
 
   return (
     <motion.div
+      ref={ref}
       className="section-divider"
       aria-hidden
       initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true, amount: 0.5 }}
+      animate={{ scaleX: visible || reduced ? 1 : 0 }}
       transition={
         reduced
           ? { duration: 0 }

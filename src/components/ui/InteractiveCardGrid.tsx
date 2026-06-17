@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Ficha } from "@/lib/types/ficha";
 import { ExperienceFichaCard } from "@/components/ui/ExperienceFichaCard";
 import { useFicha } from "@/components/providers/FichaProvider";
@@ -70,24 +70,21 @@ export function InteractiveCardGrid({
       )}
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 experience-grid-balanced">
-        <AnimatePresence mode="sync">
-          {gridItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={reduced ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduced ? undefined : { opacity: 0, y: 8 }}
-              transition={{
-                duration: reduced ? 0 : 0.45,
-                ease: [0.22, 1, 0.36, 1],
-                delay: reduced ? 0 : Math.min(index * 0.05, 0.35),
-              }}
-              className="min-w-0"
-            >
-              <ExperienceFichaCard item={item} onOpen={() => openFicha(item.id)} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {gridItems.map((item, index) => (
+          <motion.div
+            key={item.id}
+            initial={reduced ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reduced ? 0 : 0.45,
+              ease: [0.22, 1, 0.36, 1],
+              delay: reduced ? 0 : Math.min(index * 0.05, 0.35),
+            }}
+            className="min-w-0"
+          >
+            <ExperienceFichaCard item={item} onOpen={() => openFicha(item.id)} />
+          </motion.div>
+        ))}
       </div>
 
       {hasMore && (

@@ -2,7 +2,6 @@
 
 import SiteImage from "@/components/ui/SiteImage";
 import { ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
 import type { Ficha } from "@/lib/types/ficha";
 import { fichaLabel } from "@/lib/types/ficha";
 import { cn } from "@/lib/utils";
@@ -20,18 +19,15 @@ export function ExperienceFichaCard({
   featured = false,
   className,
 }: ExperienceFichaCardProps) {
-  const reduced = useReducedMotion();
   const label = fichaLabel(item);
 
   return (
-    <motion.button
+    <button
       type="button"
-      whileHover={reduced ? undefined : { y: -4 }}
-      whileTap={reduced ? undefined : { scale: 0.99 }}
       onClick={onOpen}
       aria-label={`Ver ficha de ${label}`}
       className={cn(
-        "group tech-card-frame pillar-card-shine relative w-full overflow-hidden text-left card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40",
+        "group tech-card-frame pillar-card-shine relative w-full overflow-hidden text-left card-hover transition duration-300 hover:-translate-y-1 active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-copper/40",
         className
       )}
     >
@@ -82,6 +78,6 @@ export function ExperienceFichaCard({
           </span>
         </div>
       </div>
-    </motion.button>
+    </button>
   );
 }

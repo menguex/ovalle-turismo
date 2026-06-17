@@ -77,10 +77,9 @@ export function AstroSection() {
           </Stagger>
           <motion.div
             className="mt-10 flex flex-wrap gap-3"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: reduced ? 0 : 0.4, duration: 0.5 }}
           >
             <MagneticWrapper strength={0.25}>
               <Button href="/descubre/astroturismo">Explorar astroturismo</Button>

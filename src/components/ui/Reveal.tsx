@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useRevealVisible } from "@/lib/use-reveal-visible";
 
 type RevealProps = {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export function Reveal({
   amount = 0.15,
 }: RevealProps) {
   const reduced = useReducedMotion();
+  const { ref, visible } = useRevealVisible(amount);
 
   const offsets = {
     up: { y: 28, x: 0 },
@@ -36,10 +38,14 @@ export function Reveal({
 
   return (
     <motion.div
+      ref={ref}
       className={cn(className)}
       initial={{ opacity: 0, x: offset.x, y: offset.y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount }}
+      animate={
+        visible
+          ? { opacity: 1, x: 0, y: 0 }
+          : { opacity: 0, x: offset.x, y: offset.y }
+      }
       transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -57,6 +63,7 @@ export function Stagger({
   stagger?: number;
 }) {
   const reduced = useReducedMotion();
+  const { ref, visible } = useRevealVisible(0.1);
 
   if (reduced) {
     return <div className={className}>{children}</div>;
@@ -64,10 +71,10 @@ export function Stagger({
 
   return (
     <motion.div
+      ref={ref}
       className={className}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
+      animate={visible ? "visible" : "hidden"}
       variants={{
         hidden: {},
         visible: { transition: { staggerChildren: stagger } },
